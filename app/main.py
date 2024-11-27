@@ -1,15 +1,18 @@
 import tkinter as tk
+from equipment import load_config
+
+items = load_config()
+amps = []
 
 root = tk.Tk()
 root.title("Amplifiers' switcher")
 root.geometry("600x600")
 
-listbox = tk.Listbox(root)
-elements = ["el1", "el2", "el3"]
-listbox.pack(fill=tk.BOTH, expand=True)
+for item in items:
+    amps.append(item.name)
 
-for element in elements:
-    amplifier = tk.Radiobutton(text=element, value=element)
-    amplifier.pack()
+for amp in amps:
+    label = tk.Label(root, text=amp)
+    label.pack(anchor="w", padx=10, pady=10)
 
 root.mainloop()
