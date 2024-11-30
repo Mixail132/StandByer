@@ -1,7 +1,8 @@
 import requests
+
+from configs import read_config
 from entities import AmplifierConfig
 from payloads import get_payload
-from configs import read_config
 
 
 def check_state() -> list[AmplifierConfig]:
@@ -11,11 +12,14 @@ def check_state() -> list[AmplifierConfig]:
     amplifiers = read_config()
     payload = get_payload(action="READ")
     states = []
+
     for amplifier in amplifiers:
         url = f"http://{amplifier.ip}/am"
         headers = {"Content-Type": "application/json"}
+
         amplifier.state = -1
         response = requests.post(url, headers=headers, json=payload)
+
         if response.ok:
             data = response.json()
             amplifier.state = data["payload"]["action"]["values"][0]["data"]
@@ -32,13 +36,17 @@ def set_state(
     Sets the amplifiers' standby mode.
     :param amplifier_ip: the amplifier's IP to be changed
     :param standby_mode: True - to set standby
-    :return:
+    :return: the command result:
+        True, False - the command succeed, the state has changed.
+        None - the command is unsuccessful,  amplifier is unreached.
     """
     payload = get_payload(action="WRITE", standby_mode=standby_mode)
     url = f"http://{amplifier_ip}/am"
     headers = {"Content-Type": "application/json"}
-    response = requests.post(url, headers=headers, json=payload)
+
     command_status: bool | None = None
+    response = requests.post(url, headers=headers, json=payload)
+
     if response.ok:
         data = response.json()
         command_status = data["payload"]["action"]["values"][0]["data"]["boolValue"]
