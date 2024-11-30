@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from configs import read_config
+from actions import check_state
 
 amps = read_config()
 
@@ -12,20 +13,21 @@ selected_values = {}
 
 for num, amp in enumerate(amps, 1):
 
-    number = ttk.Label(root, text=num)
-    number.grid(row=num, column=0, padx=5, pady=5, sticky="w")
+    number_label = ttk.Label(root, text=num)
+    number_label.grid(row=num, column=0, padx=5, pady=5, sticky="w")
 
     state_image = tk.PhotoImage(file="../img/green.png")
-    state = ttk.Label(root, image=state_image)
-    state.grid(row=num, column=1, padx=5, pady=5, sticky="w")
+    state_label = ttk.Label(root, image=state_image)
+    state_label.grid(row=num, column=1, padx=5, pady=5, sticky="w")
 
-    label = ttk.Label(root, text=amp.type)
-    label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
+    type_label = ttk.Label(root, text=amp.type)
+    type_label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
 
-    label = ttk.Label(root, text=amp.zone)
-    label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
+    zone_label = ttk.Label(root, text=amp.zone)
+    zone_label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
 
     var = tk.StringVar(value="on")
+    selected_values[amp.type] = var  # ???
     on_button = ttk.Radiobutton(root, text="on", value="on", variable=var)
     on_button.grid(row=num, column=4, padx=5, pady=5, sticky="w")
 
