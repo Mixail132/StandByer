@@ -1,34 +1,14 @@
 import requests
 from entities import AmplifierConfig
-from environs import Env
 from payloads import get_payload
+from configs import read_config
 
 
-def read_config() -> list[AmplifierConfig]:
-    """
-    Reads the amplifiers' descriptions from the .env file.
-    """
-    env: Env = Env()
-    env.read_env(".env")
-    amplifiers = []
-
-    for num in range(1, 6):
-        amplifier = AmplifierConfig(
-            type=env.str(f"A{num}_TYPE"),
-            ip=env.str(f"A{num}_IP"),
-            zone=env.str(f"{num}_ZONE"),
-            place=env.str(f"{num}_PLACE")
-        )
-        amplifiers.append(amplifier)
-
-    return amplifiers
-
-
-def check_state(self) -> list[AmplifierConfig]:
+def check_state() -> list[AmplifierConfig]:
     """
     Checks the amplifiers' current state.
     """
-    amplifiers = self.read_config()
+    amplifiers = read_config()
     payload = get_payload(action="READ")
     states = []
     for amplifier in amplifiers:
