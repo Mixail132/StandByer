@@ -22,7 +22,7 @@ for num in range(1, 6):
     label = ttk.Label(root, text="AL1604D")
     label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
 
-    label = ttk.Label(root, text="Каминный зал")
+    label = ttk.Label(root, text="Fireplace room")
     label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
 
     on_button = ttk.Radiobutton(root, text="on", value="on")
