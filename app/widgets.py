@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from configs import read_config
 
-amps = []
+amps = read_config()
 
 root = tk.Tk()
 root.title("Amplifiers' switcher")
@@ -9,7 +10,7 @@ root.geometry("750x200")
 
 selected_values = {}
 
-for num in range(1, 6):
+for num, amp in enumerate(amps, 1):
 
     number = ttk.Label(root, text=num)
     number.grid(row=num, column=0, padx=5, pady=5, sticky="w")
@@ -18,16 +19,17 @@ for num in range(1, 6):
     state = ttk.Label(root, image=state_image)
     state.grid(row=num, column=1, padx=5, pady=5, sticky="w")
 
-    label = ttk.Label(root, text="AL1604D")
+    label = ttk.Label(root, text=amp.type)
     label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
 
-    label = ttk.Label(root, text="Каминный зал")
+    label = ttk.Label(root, text=amp.zone)
     label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
 
-    on_button = ttk.Radiobutton(root, text="on", value="on")
+    var = tk.StringVar(value="on")
+    on_button = ttk.Radiobutton(root, text="on", value="on", variable=var)
     on_button.grid(row=num, column=4, padx=5, pady=5, sticky="w")
 
-    off_button = ttk.Radiobutton(root, text="off", value="off")
+    off_button = ttk.Radiobutton(root, text="off", value="off", variable=var)
     off_button.grid(row=num, column=5, padx=5, pady=5, sticky="w")
 
     ok_button = ttk.Button(root, text="ok")
