@@ -4,8 +4,10 @@ from dataclasses import dataclass
 @dataclass
 class AmplifierConfig:
     ip_address: str
-    name: str
- 
+    zone: str
+    type: str
+    place: str
+
 
 @dataclass
 class AmplifierState:
