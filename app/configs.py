@@ -13,8 +13,8 @@ def read_config() -> list[AmplifierConfig]:
         amplifier = AmplifierConfig(
             type=env.str(f"A{num}_TYPE"),
             ip=env.str(f"A{num}_IP"),
-            zone=env.str(f"{num}_ZONE"),
-            place=env.str(f"{num}_PLACE")
+            zone=env.str(f"A{num}_ZONE"),
+            place=env.str(f"A{num}_PLACE")
         )
         amplifiers.append(amplifier)
 
