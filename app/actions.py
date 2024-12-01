@@ -2,11 +2,11 @@ import requests
 import random
 
 from configs import read_config
-from entities import AmplifierConfig
+from entities import DeviceConfig
 from payloads import get_payload
 
 
-def check_state() -> list[AmplifierConfig]:
+def check_state() -> list[DeviceConfig]:
     """
     Checks the amplifiers' current state.
     """
@@ -55,7 +55,7 @@ def set_state(
     return command_status
 
 
-def get_mock_state() -> list[AmplifierConfig]:
+def get_mock_state() -> list[DeviceConfig]:
     amplifiers = read_config()
     states = []
 
@@ -70,7 +70,7 @@ def get_mock_state() -> list[AmplifierConfig]:
     return states
 
 
-def set_state_mark(devices: list[AmplifierConfig]) -> list[AmplifierConfig]:
+def set_state_mark(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     """
     Sets the mark depending on the device state.
     """
