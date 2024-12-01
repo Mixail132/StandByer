@@ -1,4 +1,5 @@
 import requests
+import random
 
 from configs import read_config
 from entities import AmplifierConfig
@@ -52,3 +53,17 @@ def set_state(
         command_status = data["payload"]["action"]["values"][0]["data"]["boolValue"]
 
     return command_status
+
+
+def get_mock_state() -> list[AmplifierConfig]:
+    amplifiers = read_config()
+    states = []
+
+    for amplifier in amplifiers:
+
+        amplifier.state = -1
+
+        amplifier.state = random.choice([-1, 1, 0])
+        states.append(amplifier)
+
+    return states
