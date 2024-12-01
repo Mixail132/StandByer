@@ -78,8 +78,11 @@ def set_state_mark(devices: list[AmplifierConfig]) -> list[AmplifierConfig]:
     for device in devices:
 
         if device.state == 0:
-            device.mark = "../img/green.png"
-        elif device.state == 1:
             device.mark = "../img/red.png"
+            device.standby = "on"
+
+        elif device.state == 1:
+            device.mark = "../img/green.png"
+            device.standby = "off"
 
     return devices
