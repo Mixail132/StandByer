@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from configs import read_config
-from actions import check_state
+from actions import get_mock_state
 
-amps = read_config()
+# amps = read_config()
+amps = get_mock_state()
 
 root = tk.Tk()
 root.title("Amplifiers' switcher")
@@ -16,7 +17,7 @@ for num, amp in enumerate(amps, 1):
     number_label = ttk.Label(root, text=num)
     number_label.grid(row=num, column=0, padx=5, pady=5, sticky="w")
 
-    state_image = tk.PhotoImage(file="../img/green.png")
+    state_image = tk.PhotoImage(file=amp.mark)
     state_label = ttk.Label(root, image=state_image)
     state_label.grid(row=num, column=1, padx=5, pady=5, sticky="w")
 
@@ -26,7 +27,7 @@ for num, amp in enumerate(amps, 1):
     zone_label = ttk.Label(root, text=amp.zone)
     zone_label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
 
-    var = tk.StringVar(value="on")
+    var = tk.StringVar(value=amp.standby)
     selected_values[amp.type] = var  # ???
     on_button = ttk.Radiobutton(root, text="on", value="on", variable=var)
     on_button.grid(row=num, column=4, padx=5, pady=5, sticky="w")

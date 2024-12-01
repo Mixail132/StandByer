@@ -1,4 +1,5 @@
 import requests
+import random
 
 from configs import read_config
 from entities import AmplifierConfig
@@ -52,3 +53,36 @@ def set_state(
         command_status = data["payload"]["action"]["values"][0]["data"]["boolValue"]
 
     return command_status
+
+
+def get_mock_state() -> list[AmplifierConfig]:
+    amplifiers = read_config()
+    states = []
+
+    for amplifier in amplifiers:
+
+        amplifier.state = -1
+
+        amplifier.state = random.choice([-1, 1, 0])
+        states.append(amplifier)
+        states = set_state_mark(states)
+
+    return states
+
+
+def set_state_mark(devices: list[AmplifierConfig]) -> list[AmplifierConfig]:
+    """
+    Sets the mark depending on the device state.
+    """
+
+    for device in devices:
+
+        if device.state == 0:
+            device.mark = "../img/red.png"
+            device.standby = "on"
+
+        elif device.state == 1:
+            device.mark = "../img/green.png"
+            device.standby = "off"
+
+    return devices
