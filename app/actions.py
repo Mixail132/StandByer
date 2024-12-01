@@ -65,5 +65,21 @@ def get_mock_state() -> list[AmplifierConfig]:
 
         amplifier.state = random.choice([-1, 1, 0])
         states.append(amplifier)
+        states = set_state_mark(states)
 
     return states
+
+
+def set_state_mark(devices: list[AmplifierConfig]) -> list[AmplifierConfig]:
+    """
+    Sets the mark depending on the device state.
+    """
+
+    for device in devices:
+
+        if device.state == 0:
+            device.mark = "../img/green.png"
+        elif device.state == 1:
+            device.mark = "../img/red.png"
+
+    return devices
