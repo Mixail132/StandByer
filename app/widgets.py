@@ -4,32 +4,33 @@ from actions import get_mock_state
 from configs import read_description
 
 devices = get_mock_state()
+description = read_description()
 
 root = tk.Tk()
-root.title("Amplifiers' switcher")
+root.title(description.header)
 root.geometry("750x200")
 
 selected_values = {}
 progress_bars = {}
 
 
-def get_command(amp_ip: str) -> None:
+def get_command(dev_ip: str) -> None:
     """
     Gets the radiobutton state and a command from `OK` button.
-    :param amp_ip: the device ip address.
+    :param dev_ip: the device ip address.
     """
-    selected_value = selected_values[amp_ip].get()
-    progress_bars[amp_ip].start()
-    root.after(6260, lambda: send_command(amp_ip, selected_value))
+    selected_value = selected_values[dev_ip].get()
+    progress_bars[dev_ip].start()
+    root.after(6260, lambda: send_command(dev_ip, selected_value))
 
 
-def send_command(amp_ip: str, selected_value: str) -> None:
+def send_command(dev_ip: str, selected_value: str) -> None:
     """
     Sends the given command to a device.
-    :param amp_ip: the device ip address.
+    :param dev_ip: the device ip address.
     :param selected_value: the value to be set in the command.
     """
-    progress_bars[amp_ip].stop()
+    progress_bars[dev_ip].stop()
     print(f"{device.ip} set standby: {selected_value}")
 
 
