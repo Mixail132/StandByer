@@ -18,6 +18,7 @@ for num, amp in enumerate(amps, 1):
 
     state_image = tk.PhotoImage(file="../img/green.png")
     state_label = ttk.Label(root, image=state_image)
+    state_label.image = state_image
     state_label.grid(row=num, column=1, padx=5, pady=5, sticky="w")
 
     type_label = ttk.Label(root, text=amp.type)
