@@ -8,4 +8,5 @@ class AmplifierConfig:
     type: str
     zone: str
     mark: str = "../img/grey.png"
+    standby: str | None = None
     state: int = -1
