@@ -28,7 +28,7 @@ for num, amp in enumerate(amps, 1):
     zone_label = ttk.Label(root, text=amp.zone)
     zone_label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
 
-    var = tk.StringVar(value="on")
+    var = tk.StringVar(value=amp.standby)
     selected_values[amp.type] = var  # ???
     on_button = ttk.Radiobutton(root, text="on", value="on", variable=var)
     on_button.grid(row=num, column=4, padx=5, pady=5, sticky="w")
