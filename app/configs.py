@@ -1,21 +1,39 @@
-from entities import AmplifierConfig
+from entities import DeviceConfig, DeviceDescription
 from environs import Env
 
-def read_config() -> list[AmplifierConfig]:
+
+def read_config() -> list[DeviceConfig]:
     """
-    Reads the amplifiers' descriptions from the .env file.
+    Reads the devices' configs from the .env file.
     """
     env: Env = Env()
     env.read_env(".env")
-    amplifiers = []
+    devices = []
 
     for num in range(1, 6):
-        amplifier = AmplifierConfig(
+        device = DeviceConfig(
             type=env.str(f"A{num}_TYPE"),
             ip=env.str(f"A{num}_IP"),
             zone=env.str(f"A{num}_ZONE"),
             place=env.str(f"A{num}_PLACE")
         )
-        amplifiers.append(amplifier)
+        devices.append(device)
 
-    return amplifiers
+    return devices
+
+
+def read_description() -> DeviceDescription:
+    """
+    Reads the devices' descriptions from the .env file.
+    """
+    env: Env = Env()
+    env.read_env(".env")
+    descriptions = DeviceDescription(
+        allocation=env.str("ALLOCATION"),
+        header=env.str("HEADER"),
+        usage=env.str("USAGE"),
+        type=env.str("TYPE"),
+        state=env.str("STATE"),
+    )
+
+    return descriptions

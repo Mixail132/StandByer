@@ -2,47 +2,47 @@ import requests
 import random
 
 from configs import read_config
-from entities import AmplifierConfig
+from entities import DeviceConfig
 from payloads import get_payload
 
 
-def check_state() -> list[AmplifierConfig]:
+def check_state() -> list[DeviceConfig]:
     """
-    Checks the amplifiers' current state.
+    Checks the devices' current state.
     """
-    amplifiers = read_config()
+    devices = read_config()
     payload = get_payload(action="READ")
     states = []
 
-    for amplifier in amplifiers:
-        url = f"http://{amplifier.ip}/am"
+    for device in devices:
+        url = f"http://{device.ip}/am"
         headers = {"Content-Type": "application/json"}
 
-        amplifier.state = -1
+        device.state = -1
         response = requests.post(url, headers=headers, json=payload)
 
         if response.ok:
             data = response.json()
-            amplifier.state = data["payload"]["action"]["values"][0]["data"]
-        states.append(amplifier)
+            device.state = data["payload"]["action"]["values"][0]["data"]
+        states.append(device)
 
     return states
 
 
 def set_state(
-        amplifier_ip: str,
+        device_ip: str,
         standby_mode: bool = True,
 ) -> bool | None:
     """
-    Sets the amplifiers' standby mode.
-    :param amplifier_ip: the amplifier's IP to be changed
+    Sets the devices' standby mode.
+    :param device_ip: the device's IP to be changed
     :param standby_mode: True - to set standby
     :return: the command result:
         True, False - the command succeed, the state has changed.
-        None - the command is unsuccessful,  amplifier is unreached.
+        None - the command is unsuccessful, the device is unreached.
     """
     payload = get_payload(action="WRITE", standby_mode=standby_mode)
-    url = f"http://{amplifier_ip}/am"
+    url = f"http://{device_ip}/am"
     headers = {"Content-Type": "application/json"}
 
     command_status: bool | None = None
@@ -55,22 +55,22 @@ def set_state(
     return command_status
 
 
-def get_mock_state() -> list[AmplifierConfig]:
-    amplifiers = read_config()
+def get_mock_state() -> list[DeviceConfig]:
+    devices = read_config()
     states = []
 
-    for amplifier in amplifiers:
+    for device in devices:
 
-        amplifier.state = -1
+        device.state = -1
 
-        amplifier.state = random.choice([-1, 1, 0])
-        states.append(amplifier)
+        device.state = random.choice([-1, 1, 0])
+        states.append(device)
         states = set_state_mark(states)
 
     return states
 
 
-def set_state_mark(devices: list[AmplifierConfig]) -> list[AmplifierConfig]:
+def set_state_mark(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     """
     Sets the mark depending on the device state.
     """
