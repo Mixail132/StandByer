@@ -3,12 +3,13 @@ from dataclasses import dataclass
 
 @dataclass
 class DeviceConfig:
-    ip: str
-    place: str
-    type: str
-    zone: str
+    ip: str = ""
+    place: str = ""
+    type: str = ""
+    zone: str = ""
     description: str = ""
     mark: str = "../img/grey.png"
+    name: str = ""
     standby: str | None = None
     state: int = -1
 

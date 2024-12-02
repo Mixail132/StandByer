@@ -15,7 +15,8 @@ def read_config() -> list[DeviceConfig]:
             type=env.str(f"A{num}_TYPE"),
             ip=env.str(f"A{num}_IP"),
             zone=env.str(f"A{num}_ZONE"),
-            place=env.str(f"A{num}_PLACE")
+            place=env.str(f"A{num}_PLACE"),
+            name=env.str(f"A{num}_NAME"),
         )
         devices.append(device)
 

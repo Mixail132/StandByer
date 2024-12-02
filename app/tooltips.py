@@ -53,12 +53,13 @@ def get_tooltip(
 
     for device in devices:
         device.description = f"""
-        {title.description}\n
-        {title.type}: {device.type}\n
-        {title.zone}: {device.zone}\n
-        {title.ip}: {device.ip}\n
-        {title.place}: {device.place}\n
-        {title.state}: {device.state}
+        {title.description}:
+        {title.name}:  {device.name}
+        {title.type}:  {device.type}
+        {title.zone}:  {device.zone}\n
+        {title.ip}:  {device.ip}\n
+        {title.place}:  {device.place}\n
+        {title.state}:  {device.state}
         """
         descriptions.append(device)
 
