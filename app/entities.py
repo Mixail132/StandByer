@@ -7,6 +7,7 @@ class DeviceConfig:
     place: str
     type: str
     zone: str
+    description: str = ""
     mark: str = "../img/grey.png"
     standby: str | None = None
     state: int = -1
@@ -14,9 +15,12 @@ class DeviceConfig:
 
 @dataclass
 class CommonTitles:
-    allocation: str
+    description: str
     header: str
-    usage: str
-    type: str
+    ip: str
+    name: str
+    place: str
     state: str
+    type: str
+    zone: str
 
