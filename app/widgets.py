@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from actions import get_mock_state
 from configs import read_description
+from tooltips import ToolTip
 
 devices = get_mock_state()
 description = read_description()
@@ -60,6 +61,7 @@ for num, device in enumerate(devices, 1):
 
     ok_button = ttk.Button(root, text="ok", command=lambda ip=device.ip: get_command(ip))
     ok_button.grid(row=num, column=6, padx=40, pady=5, sticky="w")
+    ToolTip(ok_button, "text")
 
     progress_bar = ttk.Progressbar(root, orient="horizontal", length="100")
     progress_bar.grid(row=num, column=7, padx=5, pady=5, sticky="w")
