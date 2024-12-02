@@ -29,11 +29,14 @@ def read_description() -> CommonTitles:
     env: Env = Env()
     env.read_env(".env")
     descriptions = CommonTitles(
-        allocation=env.str("ALLOCATION"),
+        description=env.str("DESCRIPTION"),
         header=env.str("HEADER"),
-        usage=env.str("USAGE"),
+        ip=env.str("IP"),
+        name=env.str("NAME"),
+        place=env.str("PLACE"),
         type=env.str("TYPE"),
         state=env.str("STATE"),
+        zone=env.str("ZONE"),
     )
 
     return descriptions
