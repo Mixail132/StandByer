@@ -3,6 +3,7 @@ from entities import DeviceConfig, CommonTitles
 from configs import read_description
 import tkinter as tk
 
+
 class ToolTip:
     """
     Handles a pop-up window to a widget.
@@ -21,8 +22,10 @@ class ToolTip:
     def show_tooltip(self, event):
         """Shows the pop-up window."""
         x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 25
+        padding = 15
+        x += self.widget.winfo_rootx() + padding
+        y += self.widget.winfo_rooty() + padding
+
         self.tooltip_window = tw = tk.Toplevel(self.widget)
         tw.wm_overrideredirect(True)
         tw.wm_geometry(f"+{x}+{y}")
@@ -35,7 +38,7 @@ class ToolTip:
             borderwidth=1,
             font=("tahoma", "8", "normal")
         )
-        label.pack(ipadx=1)
+        label.pack(ipadx=padding, ipady=padding)
 
     def hide_tooltip(self, event):
         """Hides thr pop-up window."""
