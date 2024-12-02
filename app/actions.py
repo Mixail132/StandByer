@@ -86,3 +86,6 @@ def set_state_mark(devices: list[DeviceConfig]) -> list[DeviceConfig]:
             device.standby = "off"
 
     return devices
+
+def get_description(device):
+

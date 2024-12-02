@@ -1,4 +1,4 @@
-from entities import DeviceConfig, DeviceDescription
+from entities import DeviceConfig, CommonTitles
 from environs import Env
 
 
@@ -22,13 +22,13 @@ def read_config() -> list[DeviceConfig]:
     return devices
 
 
-def read_description() -> DeviceDescription:
+def read_description() -> CommonTitles:
     """
     Reads the devices' descriptions from the .env file.
     """
     env: Env = Env()
     env.read_env(".env")
-    descriptions = DeviceDescription(
+    descriptions = CommonTitles(
         allocation=env.str("ALLOCATION"),
         header=env.str("HEADER"),
         usage=env.str("USAGE"),

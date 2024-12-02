@@ -13,7 +13,7 @@ class DeviceConfig:
 
 
 @dataclass
-class DeviceDescription:
+class CommonTitles:
     allocation: str
     header: str
     usage: str
