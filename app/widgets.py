@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+
 from actions import get_mock_state
 from configs import read_description
-from tooltips import ToolTip
+from tooltips import ToolTip, get_tooltip
 
 devices = get_mock_state()
+devices = get_tooltip(devices)
 description = read_description()
 
 root = tk.Tk()
@@ -47,6 +49,7 @@ for num, device in enumerate(devices, 1):
 
     type_label = ttk.Label(root, text=device.type)
     type_label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
+    ToolTip(type_label, device.description)
 
     zone_label = ttk.Label(root, text=device.zone)
     zone_label.grid(row=num, column=3, padx=30, pady=5, sticky="w")
@@ -61,7 +64,6 @@ for num, device in enumerate(devices, 1):
 
     ok_button = ttk.Button(root, text="ok", command=lambda ip=device.ip: get_command(ip))
     ok_button.grid(row=num, column=6, padx=40, pady=5, sticky="w")
-    ToolTip(ok_button, "text")
 
     progress_bar = ttk.Progressbar(root, orient="horizontal", length="100")
     progress_bar.grid(row=num, column=7, padx=5, pady=5, sticky="w")
