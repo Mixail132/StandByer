@@ -1,4 +1,6 @@
 """Widgets' pop-up windows handling."""
+from entities import DeviceConfig, CommonTitles
+from configs import read_description
 import tkinter as tk
 
 class ToolTip:
@@ -40,3 +42,24 @@ class ToolTip:
         if self.tooltip_window:
             self.tooltip_window.destroy()
             self.tooltip_window = None
+
+
+def get_tooltip(
+        devices: list[DeviceConfig],
+) -> list[DeviceConfig]:
+    """Combines the pop-up text."""
+    descriptions = []
+    title: CommonTitles = read_description()
+
+    for device in devices:
+        device.description = f"""
+        {title.description}\n
+        {title.type}: {device.type}\n
+        {title.zone}: {device.zone}\n
+        {title.ip}: {device.ip}\n
+        {title.place}: {device.place}\n
+        {title.state}: {device.state}
+        """
+        descriptions.append(device)
+
+    return descriptions
