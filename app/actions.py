@@ -6,11 +6,10 @@ from entities import DeviceConfig
 from payloads import get_payload
 
 
-def check_state() -> list[DeviceConfig]:
+def check_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     """
     Checks the devices' current state.
     """
-    devices = read_config()
     payload = get_payload(action="READ")
     states = []
 
@@ -87,5 +86,5 @@ def set_state_mark(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
     return devices
 
-def get_description(device):
+
 
