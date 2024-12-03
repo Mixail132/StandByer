@@ -62,11 +62,10 @@ def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
     for device in devices:
 
-        device.state = -1
-
-        device.state = random.choice([-1, 1, 0])
+        random_state = random.choice([-1, 1, 0])
+        device.state = random_state
+        device = set_state_mark(device)
         states.append(device)
-        set_state_mark(device)
 
     return states
 
@@ -85,6 +84,4 @@ def set_state_mark(device: DeviceConfig) -> DeviceConfig:
         device.standby = "off"
 
     return device
-
-
 
