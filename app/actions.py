@@ -1,7 +1,6 @@
 import requests
 import random
 
-from configs import read_config
 from entities import DeviceConfig
 from payloads import get_payload
 
@@ -28,7 +27,7 @@ def check_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     return states
 
 
-def set_state(
+def check_state(
         device_ip: str,
         standby_mode: bool = True,
 ) -> bool | None:
@@ -54,7 +53,7 @@ def set_state(
     return command_status
 
 
-def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     """
     Sets the fake states of the devices for tests.
     """
@@ -64,13 +63,13 @@ def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
         random_state = random.choice([-1, 1, 0])
         device.state = random_state
-        device = set_state_mark(device)
+        device = set_state(device)
         states.append(device)
 
     return states
 
 
-def set_state_mark(device: DeviceConfig) -> DeviceConfig:
+def set_state(device: DeviceConfig) -> DeviceConfig:
     """
     Sets the mark depending on the device state.
     """
@@ -84,4 +83,3 @@ def set_state_mark(device: DeviceConfig) -> DeviceConfig:
         device.standby = "off"
 
     return device
-
