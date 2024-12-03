@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+
 from actions import get_mock_state
 from configs import read_description
+from tooltips import ToolTip, get_tooltip
 
 devices = get_mock_state()
+devices = get_tooltip(devices)
 description = read_description()
 
 root = tk.Tk()
@@ -46,6 +49,7 @@ for num, device in enumerate(devices, 1):
 
     type_label = ttk.Label(root, text=device.type)
     type_label.grid(row=num, column=2, padx=5, pady=5, sticky="w")
+    ToolTip(type_label, device.description)
 
     zone_label = ttk.Label(root, text=device.zone)
     zone_label.grid(row=num, column=3, padx=30, pady=5, sticky="w")

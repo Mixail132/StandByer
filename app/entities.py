@@ -3,20 +3,25 @@ from dataclasses import dataclass
 
 @dataclass
 class DeviceConfig:
-    ip: str
-    place: str
-    type: str
-    zone: str
+    ip: str = ""
+    place: str = ""
+    type: str = ""
+    zone: str = ""
+    description: str = ""
     mark: str = "../img/grey.png"
+    name: str = ""
     standby: str | None = None
     state: int = -1
 
 
 @dataclass
-class DeviceDescription:
-    allocation: str
+class CommonTitles:
+    description: str
     header: str
-    usage: str
-    type: str
+    ip: str
+    name: str
+    place: str
     state: str
+    type: str
+    zone: str
 
