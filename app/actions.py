@@ -54,8 +54,11 @@ def set_state(
     return command_status
 
 
-def get_mock_state() -> list[DeviceConfig]:
-    devices = read_config()
+def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+    """
+    Sets the fake states of the devices for tests.
+    """
+    # devices = read_config()
     states = []
 
     for device in devices:
