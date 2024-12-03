@@ -51,7 +51,6 @@ def get_tooltip(
         devices: list[DeviceConfig],
 ) -> list[DeviceConfig]:
     """Combines the pop-up text."""
-    descriptions = []
     title: CommonTitles = read_description()
 
     for device in devices:
@@ -64,6 +63,5 @@ def get_tooltip(
         •  {title.place}:  {device.place}
         •  {title.state}:             {device.state}
         """
-        descriptions.append(device)
 
-    return descriptions
+    return devices
