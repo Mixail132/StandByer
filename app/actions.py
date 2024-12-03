@@ -58,7 +58,6 @@ def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
     """
     Sets the fake states of the devices for tests.
     """
-    # devices = read_config()
     states = []
 
     for device in devices:
@@ -67,27 +66,25 @@ def get_mock_state(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
         device.state = random.choice([-1, 1, 0])
         states.append(device)
-        states = set_state_mark(states)
+        set_state_mark(device)
 
     return states
 
 
-def set_state_mark(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def set_state_mark(device: DeviceConfig) -> DeviceConfig:
     """
     Sets the mark depending on the device state.
     """
 
-    for device in devices:
+    if device.state == 0:
+        device.mark = "../img/red.png"
+        device.standby = "on"
 
-        if device.state == 0:
-            device.mark = "../img/red.png"
-            device.standby = "on"
+    elif device.state == 1:
+        device.mark = "../img/green.png"
+        device.standby = "off"
 
-        elif device.state == 1:
-            device.mark = "../img/green.png"
-            device.standby = "off"
-
-    return devices
+    return device
 
 
 
