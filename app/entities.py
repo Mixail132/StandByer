@@ -24,4 +24,7 @@ class CommonTitles:
     state: str
     type: str
     zone: str
+    on: str
+    out: str
+    standby: str
 

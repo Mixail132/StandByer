@@ -38,6 +38,9 @@ def read_description() -> CommonTitles:
         type=env.str("TYPE"),
         state=env.str("STATE"),
         zone=env.str("ZONE"),
+        on=env.str("ON"),
+        out=env.str("OUT"),
+        standby=env.str("STANDBY"),
     )
 
     return descriptions
