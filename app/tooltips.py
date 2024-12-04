@@ -53,15 +53,17 @@ def get_tooltip(
     """Combines the pop-up text."""
     title: CommonTitles = read_description()
 
+    states = {0: title.on, 1:title.standby, -1: title.out}
+
     for device in devices:
         device.description = f"""
         {title.description}:
         •  {title.name}:      {device.name}
         •  {title.type}:                         {device.type}
-        •  {title.zone}:      {device.zone}
+        •  {title.zone}:                       {device.zone}
         •  {title.ip}:                {device.ip}
-        •  {title.place}:  {device.place}
-        •  {title.state}:             {device.state}
+        •  {title.place}:      {device.place}
+        •  {title.state}:             {states[device.state]}
         """
 
     return devices
