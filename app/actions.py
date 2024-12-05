@@ -63,13 +63,13 @@ def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
         random_state = random.choice([-1, 1, 0])
         device.state = random_state
-        device = set_state(device)
+        device = set_statemarks(device)
         states.append(device)
 
     return states
 
 
-def set_state(device: DeviceConfig) -> DeviceConfig:
+def set_statemarks(device: DeviceConfig) -> DeviceConfig:
     """
     Sets the mark depending on the device state.
     """
