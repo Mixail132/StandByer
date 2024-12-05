@@ -2,7 +2,7 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import get_mock_states, set_state
+from actions import get_mock_states, set_statemarks
 from configs import (read_config,
                      read_description,
                      CommonTitles,
@@ -58,14 +58,20 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
 
     if unit.standby != selected_value:
         unit.state = all_states[selected_value]
-        set_state(unit)
-        print(f"{unit.ip} set standby: {selected_value}")
-        new_mark = unit.mark
-        new_image = tk.PhotoImage(file=new_mark)
-        state_labels[unit_ip].config(image=new_image)
-        state_images[unit_ip] = new_image
-        get_tooltip([unit])
-        tooltips[unit_ip].text = unit.description
+        change_state(unit)
+
+
+def change_state(unit):
+
+    set_statemarks(unit)
+    unit_ip: str = unit.ip
+    new_mark = unit.mark
+    new_image = tk.PhotoImage(file=new_mark)
+    state_labels[unit_ip].config(image=new_image)
+    state_images[unit_ip] = new_image
+
+    get_tooltip([unit])
+    tooltips[unit_ip].text = unit.description
 
 
 devices = update_states()
