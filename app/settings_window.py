@@ -9,6 +9,12 @@ from configs import read_config
 devices: list[DeviceConfig] = read_config()
 description: CommonTitles = read_description()
 
+device_ips = {}
+device_names = {}
+device_types = {}
+device_places = {}
+device_zones = {}
+
 
 def settings_window(root):
 
@@ -39,22 +45,32 @@ def settings_window(root):
         name_label = ttk.Entry(settings, width=28)
         name_label.insert(0, device.name)
         name_label.grid(row=device.id, column=1, padx=5, pady=10, sticky="w")
+        new_name = name_label.get()
+        device_names[device.id] = new_name
 
         type_label = ttk.Entry(settings, width=15)
         type_label.insert(0, device.type)
         type_label.grid(row=device.id, column=2, padx=5, pady=10, sticky="w")
+        new_type = type_label.get()
+        device_types[device.id] = new_type
 
         zone_label = ttk.Entry(settings, width=20)
         zone_label.insert(0, device.zone)
         zone_label.grid(row=device.id, column=3, padx=5, pady=10, sticky="w")
+        new_zone = zone_label.get()
+        device_zones[device.id] = new_zone
 
         ip_label = ttk.Entry(settings, width=15)
         ip_label.insert(0, device.ip)
         ip_label.grid(row=device.id, column=4, padx=5, pady=10, sticky="w")
+        new_ip = ip_label.get()
+        device_ips[device.id] = new_ip
 
         place_label = ttk.Entry(settings, width=14)
         place_label.insert(0, device.place)
         place_label.grid(row=device.id, column=5, padx=5, pady=10, sticky="w")
+        new_place=place_label.get()
+        device_places[device.id] = new_place
 
     apply_button = ttk.Button(
         settings,
