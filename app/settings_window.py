@@ -13,7 +13,7 @@ def settings_window(root):
 
     settings = tk.Toplevel(root)
     settings.title("Settings")
-    settings.geometry("800x320")
+    settings.geometry("680x320")
 
     name_label = ttk.Label(settings, text=description.name)
     name_label.grid(row=1, column=1, padx=5, pady=10, sticky="w")
@@ -51,12 +51,12 @@ def settings_window(root):
         ip_label.insert(0, device.ip)
         ip_label.grid(row=number, column=4, padx=5, pady=10, sticky="w")
 
-        place_label = ttk.Entry(settings, width=12)
+        place_label = ttk.Entry(settings, width=14)
         place_label.insert(0, device.place)
         place_label.grid(row=number, column=5, padx=5, pady=10, sticky="w")
 
-    apply_button = ttk.Button(settings, text="Apply")
-    apply_button.grid(row=7, column=6, padx=10, pady=25, sticky="w")
+    apply_button = ttk.Button(settings, text="Save")
+    apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
 
