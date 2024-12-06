@@ -56,7 +56,10 @@ def settings_window(root):
         place_label.insert(0, device.place)
         place_label.grid(row=number, column=5, padx=5, pady=10, sticky="w")
 
-    apply_button = ttk.Button(settings, text="Save")
+    apply_button = ttk.Button(
+        settings,
+        text="Save",
+    )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()

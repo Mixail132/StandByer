@@ -3,15 +3,16 @@ from dataclasses import dataclass
 
 @dataclass
 class DeviceConfig:
-    ip: str = ""
-    place: str = ""
-    type: str = ""
-    zone: str = ""
     description: str = ""
+    id: int | None = None
+    ip: str = ""
     mark: str = "../img/grey.png"
     name: str = ""
+    place: str = ""
     standby: str | None = None
     state: int = -1
+    type: str = ""
+    zone: str = ""
 
 
 @dataclass
@@ -20,11 +21,10 @@ class CommonTitles:
     header: str
     ip: str
     name: str
+    on: str
+    out: str
     place: str
+    standby: str
     state: str
     type: str
     zone: str
-    on: str
-    out: str
-    standby: str
-
