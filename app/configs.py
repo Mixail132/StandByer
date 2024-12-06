@@ -12,6 +12,7 @@ def read_config() -> list[DeviceConfig]:
 
     for num in range(1, 6):
         device = DeviceConfig(
+            id=num,
             ip=env.str(f"A{num}_IP"),
             name=env.str(f"A{num}_NAME"),
             place=env.str(f"A{num}_PLACE"),

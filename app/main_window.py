@@ -38,9 +38,9 @@ def get_command(unit: DeviceConfig) -> None:
     :param unit: the device configuration object.
     """
     if unit.standby:
-        unit_ip: str = unit.ip
-        selected_value = selected_values[unit_ip].get()
-        progress_bars[unit_ip].start()
+        unit_id: int = unit.id
+        selected_value = selected_values[unit_id].get()
+        progress_bars[unit_id].start()
         main.after(6220, lambda: send_command(unit, selected_value))
 
 
@@ -53,8 +53,8 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
     :param selected_value: the value to be set in the command.
     """
     all_states = {"on": 0, "off": 1, "out": None}
-    unit_ip: str = unit.ip
-    progress_bars[unit_ip].stop()
+    unit_id: int = unit.id
+    progress_bars[unit_id].stop()
 
     if unit.standby != selected_value:
         unit.state = all_states[selected_value]
@@ -64,14 +64,14 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
 def change_state(unit):
 
     set_statemarks(unit)
-    unit_ip: str = unit.ip
+    unit_id: int = unit.id
     new_mark = unit.mark
     new_image = tk.PhotoImage(file=new_mark)
-    state_labels[unit_ip].config(image=new_image)
-    state_images[unit_ip] = new_image
+    state_labels[unit_id].config(image=new_image)
+    state_images[unit_id] = new_image
 
     get_tooltip([unit])
-    tooltips[unit_ip].text = unit.description
+    tooltips[unit_id].text = unit.description
 
 
 def main_window():
@@ -86,19 +86,19 @@ def main_window():
         state_label = ttk.Label(main, image=state_image)
         state_label.image = state_image
         state_label.grid(row=number, column=1, padx=5, pady=5, sticky="w")
-        state_labels[device.ip] = state_label
-        state_images[device.ip] = state_image
+        state_labels[device.id] = state_label
+        state_images[device.id] = state_image
 
         type_label = ttk.Label(main, text=device.type)
         type_label.grid(row=number, column=2, padx=5, pady=5, sticky="w")
         tooltip = ToolTip(type_label, device.description)
-        tooltips[device.ip] = tooltip
+        tooltips[device.id] = tooltip
 
         zone_label = ttk.Label(main, text=device.zone)
         zone_label.grid(row=number, column=3, padx=30, pady=5, sticky="w")
 
         var = tk.StringVar(value=device.standby)
-        selected_values[device.ip] = var
+        selected_values[device.id] = var
         on_button = ttk.Radiobutton(main, text="on", value="on", variable=var)
         on_button.grid(row=number, column=4, padx=5, pady=5, sticky="w")
 
@@ -114,7 +114,7 @@ def main_window():
 
         progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
         progress_bar.grid(row=number, column=7, padx=5, pady=5, sticky="w")
-        progress_bars[device.ip] = progress_bar
+        progress_bars[device.id] = progress_bar
 
     update_states()
 
