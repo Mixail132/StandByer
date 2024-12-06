@@ -9,6 +9,7 @@ from configs import read_config
 devices: list[DeviceConfig] = read_config()
 description: CommonTitles = read_description()
 
+
 def settings_window(root):
 
     settings = tk.Toplevel(root)
