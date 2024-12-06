@@ -1,17 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
-
 from entities import CommonTitles
 from configs import read_description
-
-settings = tk.Tk()
-settings.title("Settings")
-settings.geometry("800x320")
 
 description: CommonTitles = read_description()
 
 
-def settings_window():
+def settings_window(root):
+
+    settings = tk.Toplevel(root)
+    settings.title("Settings")
+    settings.geometry("800x320")
 
     name_label = ttk.Label(settings, text=description.name)
     name_label.grid(row=1, column=1, padx=5, pady=10, sticky="w")
@@ -48,6 +47,3 @@ def settings_window():
     apply_button.grid(row=7, column=6, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
-
-
-settings_window()

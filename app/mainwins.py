@@ -8,14 +8,14 @@ from configs import (read_config,
                      CommonTitles,
                      DeviceConfig)
 from tooltips import ToolTip, get_tooltip
+from setwins import settings_window
 
 description: CommonTitles = read_description()
 
 root = tk.Tk()
-
-
 root.title(description.header)
 root.geometry("750x240")
+
 
 progress_bars = {}
 selected_values = {}
@@ -118,7 +118,10 @@ def main_window():
 
     update_states()
 
-    settings_button = ttk.Button(root, text="Settings")
+    settings_button = ttk.Button(
+        root,
+        text="Settings",
+        command=lambda main=root: settings_window(root))
     settings_button.grid(row=6, column=8, padx=35, pady=25, sticky="w")
 
     root.mainloop()
