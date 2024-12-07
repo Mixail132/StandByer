@@ -22,6 +22,8 @@ selected_values = {}
 state_images = {}
 state_labels = {}
 tooltips = {}
+on_buttons = {}
+off_buttons = {}
 
 
 def update_states() -> list[DeviceConfig]:
@@ -43,9 +45,15 @@ def update_states() -> list[DeviceConfig]:
             new_image = tk.PhotoImage(file=new_mark)
             state_labels[unit_id].config(image=new_image)
             state_images[unit_id] = new_image
+
             tooltips[unit_id].text = device.description
 
-    main.after(5000, update_states)
+            var = tk.StringVar(value=device.standby)
+            selected_values[unit_id] = var
+            on_buttons[unit_id].config(variable=var)
+            off_buttons[unit_id].config(variable=var)
+
+    main.after(50000, update_states)
     return _devices
 
 
@@ -80,10 +88,10 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
 
 def change_state(unit) -> None:
     """
-    Changes the color of the circle mark when sending a command
-    to change the device's state.
-    Change a pop-up description text when sending a command
-    to change the device's state.
+    Changes the color of the circle mark when sending
+    a command to change the device's state.
+    Change a pop-up description text when sending
+    a command to change the device's state.
     """
     set_statemarks(unit)
     unit_id: int = unit.id
@@ -126,9 +134,11 @@ def main_window() -> None:
         selected_values[device.id] = var
         on_button = ttk.Radiobutton(main, text="on", value="on", variable=var)
         on_button.grid(row=device.id, column=4, padx=5, pady=5, sticky="w")
+        on_buttons[device.id] = on_button
 
         off_button = ttk.Radiobutton(main, text="off", value="off", variable=var)
         off_button.grid(row=device.id, column=5, padx=5, pady=5, sticky="w")
+        off_buttons[device.id] = off_button
 
         ok_button = ttk.Button(
             main,
