@@ -1,9 +1,13 @@
 import ipaddress
 import tkinter as tk
 from tkinter import ttk
-from entities import CommonTitles, DeviceConfig
+
+from entities import CommonTitles
+from entities import DeviceConfig
+
 from configs import read_description
 from configs import read_config
+from configs import save_config
 
 
 devices: list[DeviceConfig] = read_config()
@@ -45,40 +49,49 @@ def settings_window(root):
         name_label = ttk.Entry(settings, width=28)
         name_label.insert(0, device.name)
         name_label.grid(row=device.id, column=1, padx=5, pady=10, sticky="w")
-        new_name = name_label.get()
-        device_names[device.id] = new_name
+        device_names[device.id] = name_label
 
         type_label = ttk.Entry(settings, width=15)
         type_label.insert(0, device.type)
         type_label.grid(row=device.id, column=2, padx=5, pady=10, sticky="w")
-        new_type = type_label.get()
-        device_types[device.id] = new_type
+        device_types[device.id] = type_label
 
         zone_label = ttk.Entry(settings, width=20)
         zone_label.insert(0, device.zone)
         zone_label.grid(row=device.id, column=3, padx=5, pady=10, sticky="w")
-        new_zone = zone_label.get()
-        device_zones[device.id] = new_zone
+        device_zones[device.id] = zone_label
 
         ip_label = ttk.Entry(settings, width=15)
         ip_label.insert(0, device.ip)
         ip_label.grid(row=device.id, column=4, padx=5, pady=10, sticky="w")
-        new_ip = ip_label.get()
-        device_ips[device.id] = new_ip
+        device_ips[device.id] = ip_label
 
         place_label = ttk.Entry(settings, width=14)
         place_label.insert(0, device.place)
         place_label.grid(row=device.id, column=5, padx=5, pady=10, sticky="w")
-        new_place=place_label.get()
-        device_places[device.id] = new_place
+        device_places[device.id] = place_label
 
     apply_button = ttk.Button(
         settings,
         text="Save",
+        command=save_settings,
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
+
+
+def save_settings():
+
+    for device in devices:
+
+        device.name = device_names[device.id].get()
+        device.type = device_types[device.id].get()
+        device.zone = device_zones[device.id].get()
+        device.ip = device_ips[device.id].get()
+        device.place = device_places[device.id].get()
+
+    save_config(devices)
 
 
 def validate_ip(host):
