@@ -25,6 +25,13 @@ tooltips = {}
 
 
 def update_states() -> list[DeviceConfig]:
+    """
+    Get initial devices descriptions.
+    Get the devices' fake states.
+    Get the devices' pop-up descriptions.
+    Update the devices' states periodically.
+    Return the list of devices' objects.
+    """
     dev_initials: list[DeviceConfig] = read_config()
     dev_states: list[DeviceConfig] = get_mock_states(dev_initials)
     _devices: list[DeviceConfig] = get_tooltip(dev_states)
@@ -49,7 +56,7 @@ def get_command(unit: DeviceConfig) -> None:
     """
     if unit.standby:
         unit_id: int = unit.id
-        selected_value = selected_values[unit_id].get()
+        selected_value: str | None = selected_values[unit_id].get()
         progress_bars[unit_id].start()
         main.after(6220, lambda: send_command(unit, selected_value))
 
@@ -71,8 +78,13 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
         change_state(unit)
 
 
-def change_state(unit):
-
+def change_state(unit) -> None:
+    """
+    Changes the color of the circle mark when sending a command
+    to change the device's state.
+    Change a pop-up description text when sending a command
+    to change the device's state.
+    """
     set_statemarks(unit)
     unit_id: int = unit.id
     new_mark = unit.mark
@@ -84,7 +96,10 @@ def change_state(unit):
     tooltips[unit_id].text = unit.description
 
 
-def main_window():
+def main_window() -> None:
+    """
+    Creates a main window and it's widgets.
+    """
     devices = update_states()
 
     for device in devices:
