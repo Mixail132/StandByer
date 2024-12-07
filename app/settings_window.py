@@ -74,14 +74,14 @@ def settings_window(root):
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=save_settings,
+        command=lambda _settings=settings: save_settings(_settings),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
 
 
-def save_settings():
+def save_settings(settings: tk.Toplevel) -> None:
     """
     Gets the settings from the form,
     Calls the function to save the settings to the ".env" file.
@@ -101,12 +101,15 @@ def save_settings():
 
     save_config(devices)
 
+    settings.destroy()
 
-def validate_ip(host):
+
+def validate_ip(host: str) -> bool:
 
     try:
         is_valid = ipaddress.ip_address(host)
         ip_is_valid = bool(is_valid)
+
     except ValueError:
         ip_is_valid = False
 
