@@ -22,13 +22,38 @@ selected_values = {}
 state_images = {}
 state_labels = {}
 tooltips = {}
+on_buttons = {}
+off_buttons = {}
 
 
 def update_states() -> list[DeviceConfig]:
+    """
+    Get initial devices descriptions.
+    Get the devices' fake states.
+    Get the devices' pop-up descriptions.
+    Update the devices' states periodically.
+    Return the list of devices' objects.
+    """
     dev_initials: list[DeviceConfig] = read_config()
     dev_states: list[DeviceConfig] = get_mock_states(dev_initials)
     _devices: list[DeviceConfig] = get_tooltip(dev_states)
-    main.after(1000, update_states)
+
+    for device in _devices:
+        unit_id = device.id
+        if unit_id in state_labels:
+            new_mark = device.mark
+            new_image = tk.PhotoImage(file=new_mark)
+            state_labels[unit_id].config(image=new_image)
+            state_images[unit_id] = new_image
+
+            tooltips[unit_id].text = device.description
+
+            var = tk.StringVar(value=device.standby)
+            selected_values[unit_id] = var
+            on_buttons[unit_id].config(variable=var)
+            off_buttons[unit_id].config(variable=var)
+
+    main.after(50000, update_states)
     return _devices
 
 
@@ -39,7 +64,7 @@ def get_command(unit: DeviceConfig) -> None:
     """
     if unit.standby:
         unit_id: int = unit.id
-        selected_value = selected_values[unit_id].get()
+        selected_value: str | None = selected_values[unit_id].get()
         progress_bars[unit_id].start()
         main.after(6220, lambda: send_command(unit, selected_value))
 
@@ -61,8 +86,13 @@ def send_command(unit: DeviceConfig, selected_value: str) -> None:
         change_state(unit)
 
 
-def change_state(unit):
-
+def change_state(unit) -> None:
+    """
+    Changes the color of the circle mark when sending
+    a command to change the device's state.
+    Change a pop-up description text when sending
+    a command to change the device's state.
+    """
     set_statemarks(unit)
     unit_id: int = unit.id
     new_mark = unit.mark
@@ -74,7 +104,10 @@ def change_state(unit):
     tooltips[unit_id].text = unit.description
 
 
-def main_window():
+def main_window() -> None:
+    """
+    Creates a main window and it's widgets.
+    """
     devices = update_states()
 
     for device in devices:
@@ -101,9 +134,11 @@ def main_window():
         selected_values[device.id] = var
         on_button = ttk.Radiobutton(main, text="on", value="on", variable=var)
         on_button.grid(row=device.id, column=4, padx=5, pady=5, sticky="w")
+        on_buttons[device.id] = on_button
 
         off_button = ttk.Radiobutton(main, text="off", value="off", variable=var)
         off_button.grid(row=device.id, column=5, padx=5, pady=5, sticky="w")
+        off_buttons[device.id] = off_button
 
         ok_button = ttk.Button(
             main,
