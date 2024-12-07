@@ -45,3 +45,50 @@ def read_description() -> CommonTitles:
     )
 
     return descriptions
+
+
+def save_config(devices: list[DeviceConfig]) -> None:
+    """
+    Saves the given devises' parameters to the environment file.
+    """
+    var_file = ".env"
+    file = open(var_file, "r")
+    lines = file.readlines()
+    output_lines = []
+    for line in lines:
+
+        output_line = line
+
+        for device in devices:
+
+            device_name = f"A{device.id}_NAME"
+            device_place = f"A{device.id}_PLACE"
+            device_zone = f"A{device.id}_ZONE"
+            device_ip = f"A{device.id}_IP"
+            device_type = f"A{device.id}_TYPE"
+
+            if line.startswith(device_name):
+                output_line = f"{device_name}={device.name}\n"
+                continue
+            elif line.startswith(device_place):
+                output_line = f"{device_place}={device.place}\n"
+                continue
+            elif line.startswith(device_zone):
+                output_line = f"{device_zone}={device.zone}\n"
+                continue
+            elif line.startswith(device_ip):
+                output_line = f"{device_ip}={device.ip}\n"
+                continue
+            elif line.startswith(device_type):
+                output_line = f"{device_type}={device.type}\n"
+                continue
+
+        output_lines.append(output_line)
+    output_text = "".join(output_lines)
+
+    file.close()
+
+    file = open(var_file, "w")
+    file.write(output_text)
+
+    file.close()
