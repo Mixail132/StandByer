@@ -30,11 +30,11 @@ def update_states():
             new_image = tk.PhotoImage(file=new_mark)
             state_labels[unit_ip].config(image=new_image)
             state_images[unit_ip] = new_image
-            type_labels[unit_ip].config(text=device.type)  # Обновляем type_labels
+            # type_labels[unit_ip].config(text=device.type)  # Обновляем type_labels
             tooltips[unit_ip].text = device.description
             # print(f"Updated device {unit_ip}: {device.description}")
 
-    root.after(1000, update_states)
+    root.after(5000, update_states)
     return _devices
 
 

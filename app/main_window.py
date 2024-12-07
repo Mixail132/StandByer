@@ -28,7 +28,17 @@ def update_states() -> list[DeviceConfig]:
     dev_initials: list[DeviceConfig] = read_config()
     dev_states: list[DeviceConfig] = get_mock_states(dev_initials)
     _devices: list[DeviceConfig] = get_tooltip(dev_states)
-    main.after(1000, update_states)
+
+    for device in _devices:
+        unit_id = device.id
+        if unit_id in state_labels:
+            new_mark = device.mark
+            new_image = tk.PhotoImage(file=new_mark)
+            state_labels[unit_id].config(image=new_image)
+            state_images[unit_id] = new_image
+            tooltips[unit_id].text = device.description
+
+    main.after(5000, update_states)
     return _devices
 
 
