@@ -82,14 +82,22 @@ def settings_window(root):
 
 
 def save_settings():
+    """
+    Gets the settings from the form,
+    Calls the function to save the settings to the ".env" file.
+    """
 
     for device in devices:
 
         device.name = device_names[device.id].get()
         device.type = device_types[device.id].get()
         device.zone = device_zones[device.id].get()
-        device.ip = device_ips[device.id].get()
+        device_ip = device_ips[device.id].get()
         device.place = device_places[device.id].get()
+
+        ip_is_valid = validate_ip(device_ip)
+        if ip_is_valid:
+            device.ip = device_ip
 
     save_config(devices)
 
