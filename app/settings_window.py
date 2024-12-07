@@ -1,6 +1,7 @@
 import ipaddress
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 from entities import CommonTitles
 from entities import DeviceConfig
@@ -92,19 +93,23 @@ def save_settings(settings: tk.Toplevel) -> None:
         device.name = device_names[device.id].get()
         device.type = device_types[device.id].get()
         device.zone = device_zones[device.id].get()
-        device_ip = device_ips[device.id].get()
+        device.ip = device_ips[device.id].get()
         device.place = device_places[device.id].get()
 
-        ip_is_valid = validate_ip(device_ip)
-        if ip_is_valid:
-            device.ip = device_ip
-
-    save_config(devices)
-
-    settings.destroy()
+    for device in devices:
+        ip_is_valid = validate_ip(device.ip)
+        if not ip_is_valid:
+            messagebox.showerror("Error", "Bad IP address!")
+            break
+    else:
+        save_config(devices)
+        settings.destroy()
 
 
 def validate_ip(host: str) -> bool:
+    """
+    Checks whether the given ip address is valid.
+    """
 
     try:
         is_valid = ipaddress.ip_address(host)
