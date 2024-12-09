@@ -24,29 +24,40 @@ on_buttons = {}
 off_buttons = {}
 
 
-def set_mark(devices: list[Device]):
-
-    for device in devices:
-        device_id = device.id
-        if device_id in state_labels:
-            new_mark = device.mark
-            new_image = tk.PhotoImage(file=new_mark)
-            state_labels[device_id].config(image=new_image)
-            state_images[device_id] = new_image
-
-            tooltips[device_id].text = device.description
-
-            var = tk.StringVar(value=device.standby)
-            selected_values[device_id] = var
-            on_buttons[device_id].config(variable=var)
-            off_buttons[device_id].config(variable=var)
-
-    return devices
+# def set_mark(devices: list[Device]) -> list[Device]:
+#     """
+#     Change the color of a circle mark.
+#     Change the device pop-up description.
+#     Change the 'on' radiobutton state.
+#     Change the 'off' radiobutton state.
+#
+#     """
+#     for device in devices:
+#
+#         device_id = device.id
+#
+#         if device_id in state_labels:
+#
+#             new_mark = device.mark
+#             new_image = tk.PhotoImage(file=new_mark)
+#
+#             state_labels[device_id].config(image=new_image)
+#             state_images[device_id] = new_image
+#
+#             tooltips[device_id].text = device.description
+#
+#             var = tk.StringVar(value=device.standby)
+#             selected_values[device_id] = var
+#
+#             on_buttons[device_id].config(variable=var)
+#             off_buttons[device_id].config(variable=var)
+#
+#     return devices
 
 
 def get_command(device: Device) -> None:
     """
-    Gets the radiobutton state and a command from `OK` button.
+    Get the radiobutton state and a command from `OK` button.
     :param device: the device configuration object.
     """
     if device.standby:
@@ -151,5 +162,5 @@ device_initials = read_config()
 device_states = set_random_state(device_initials)
 program_titles = read_description()
 device_tooltips = set_tooltip(device_states, program_titles)
-device_marks = set_mark(device_tooltips)
-main_window(device_marks)
+# device_marks = set_mark(device_tooltips)
+main_window(device_tooltips)
