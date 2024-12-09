@@ -58,6 +58,9 @@ off_buttons = {}
 def get_command(device: Device) -> None:
     """
     Get the radiobutton state and a command from `OK` button.
+    Start the progress bar.
+    Set the progress bar moving time.
+    Deny the commands if the device is unreached (standby is None)
     :param device: the device configuration object.
     """
     if device.standby:
