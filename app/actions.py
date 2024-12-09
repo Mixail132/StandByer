@@ -1,11 +1,11 @@
 import requests
 import random
 
-from entities import DeviceConfig
+from entities import Device
 from payloads import get_payload
 
 
-def check_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def check_states(devices: list[Device]) -> list[Device]:
     """
     Checks the devices' current state.
     """
@@ -53,9 +53,9 @@ def check_state(
     return command_status
 
 
-def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def set_random_state(devices: list[Device]) -> list[Device]:
     """
-    Sets the fake states of the devices for tests.
+    Sets the random states to the devices for initials.
     """
     states = []
 
@@ -63,13 +63,13 @@ def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
         random_state = random.choice([-1, 1, 0])
         device.state = random_state
-        device = set_statemarks(device)
+        device = set_state_mark(device)
         states.append(device)
 
     return states
 
 
-def set_statemarks(device: DeviceConfig) -> DeviceConfig:
+def set_state_mark(device: Device) -> Device:
     """
     Sets the mark depending on the device state.
     """

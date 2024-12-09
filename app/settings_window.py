@@ -3,16 +3,16 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from entities import CommonTitles
-from entities import DeviceConfig
+from entities import Description
+from entities import Device
 
 from configs import read_description
 from configs import read_config
 from configs import save_config
 
 
-devices: list[DeviceConfig] = read_config()
-description: CommonTitles = read_description()
+devices: list[Device] = read_config()
+description: Description = read_description()
 
 device_ips = {}
 device_names = {}
@@ -21,7 +21,7 @@ device_places = {}
 device_zones = {}
 
 
-def settings_window(root):
+def settings_window(root) -> None:
 
     settings = tk.Toplevel(root)
     settings.title("Settings")
@@ -85,6 +85,7 @@ def settings_window(root):
 def save_settings(settings: tk.Toplevel) -> None:
     """
     Gets the settings from the form,
+    Redefines the Device objects attribute with given values.
     Calls the function to save the settings to the ".env" file.
     """
 
