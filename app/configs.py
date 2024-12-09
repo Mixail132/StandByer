@@ -4,7 +4,7 @@ from environs import Env
 
 def read_config() -> list[Device]:
     """
-    Reads the devices' configs from the .env file.
+    Read the device configurations from the '.env' file.
     """
     env: Env = Env()
     env.read_env(".env")
@@ -26,7 +26,7 @@ def read_config() -> list[Device]:
 
 def read_description() -> Description:
     """
-    Reads the devices' descriptions from the .env file.
+    Read the program descriptions from the '.env' file.
     """
     env: Env = Env()
     env.read_env(".env")
@@ -48,7 +48,7 @@ def read_description() -> Description:
 
 def save_config(devices: list[Device]) -> None:
     """
-    Saves the given device parameters to the environment file.
+    Save the given device parameters to the '.env' file.
     """
     var_file = ".env"
     file = open(var_file, "r")

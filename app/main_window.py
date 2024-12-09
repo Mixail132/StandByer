@@ -69,8 +69,8 @@ def get_command(device: Device) -> None:
 
 def send_command(device: Device, selected_value: str) -> None:
     """
-    Sends the given command to a device.
-    Updates a color circle mark according to a new state
+    Send the given command to a device.
+    Update a color circle mark according to a new state
     of the device.
     :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
@@ -86,7 +86,7 @@ def send_command(device: Device, selected_value: str) -> None:
 
 def change_state(device: Device) -> None:
     """
-    Changes the color of the circle mark when sending
+    Change the color of the circle mark when sending
     a command to change the device's state.
     Change a pop-up description text when sending
     a command to change the device's state.
@@ -103,7 +103,7 @@ def change_state(device: Device) -> None:
 
 def main_window(devices) -> None:
     """
-    Creates a main window and it's widgets.
+    Create the main window and it's widgets.
     """
     for device in devices:
 

@@ -22,7 +22,9 @@ device_zones = {}
 
 
 def settings_window(root) -> None:
-
+    """
+    Create the settings window with it's widgets.
+    """
     settings = tk.Toplevel(root)
     settings.title("Settings")
     settings.geometry("680x320")
@@ -84,11 +86,10 @@ def settings_window(root) -> None:
 
 def save_settings(settings: tk.Toplevel) -> None:
     """
-    Gets the settings from the form,
+    Get the settings from the form,
     Redefines the Device objects attribute with given values.
-    Calls the function to save the settings to the ".env" file.
+    Call the function to save the settings to the ".env" file.
     """
-
     for device in devices:
 
         device.name = device_names[device.id].get()
@@ -109,9 +110,8 @@ def save_settings(settings: tk.Toplevel) -> None:
 
 def validate_ip(host: str) -> bool:
     """
-    Checks whether the given ip address is valid.
+    Check whether the given ip address is valid.
     """
-
     try:
         is_valid = ipaddress.ip_address(host)
         ip_is_valid = bool(is_valid)

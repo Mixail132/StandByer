@@ -7,7 +7,7 @@ from payloads import get_payload
 
 def check_states(devices: list[Device]) -> list[Device]:
     """
-    Checks the devices' current state.
+    Check the devices' current state.
     """
     payload = get_payload(action="READ")
     states = []
@@ -32,7 +32,7 @@ def check_state(
         standby_mode: bool = True,
 ) -> bool | None:
     """
-    Sets the devices' standby mode.
+    Set the devices' standby mode.
     :param device_ip: the device's IP to be changed
     :param standby_mode: True - to set standby
     :return: the command result:
@@ -55,7 +55,7 @@ def check_state(
 
 def set_random_state(devices: list[Device]) -> list[Device]:
     """
-    Sets the random states to the devices for initials.
+    Set the random states to the devices for initials.
     """
     states = []
 
@@ -71,9 +71,8 @@ def set_random_state(devices: list[Device]) -> list[Device]:
 
 def set_state_mark(device: Device) -> Device:
     """
-    Sets the mark depending on the device state.
+    Set the mark depending on the device state.
     """
-
     if device.state == 0:
         device.mark = "../img/red.png"
         device.standby = "on"
