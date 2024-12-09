@@ -31,7 +31,6 @@ def update_states() -> list[DeviceConfig]:
     Get initial devices descriptions.
     Get the devices' fake states.
     Get the devices' pop-up descriptions.
-    Update the devices' states periodically.
     Return the list of devices' objects.
     """
     dev_initials: list[DeviceConfig] = read_config()
@@ -53,7 +52,6 @@ def update_states() -> list[DeviceConfig]:
             on_buttons[unit_id].config(variable=var)
             off_buttons[unit_id].config(variable=var)
 
-    main.after(50000, update_states)
     return _devices
 
 
@@ -150,8 +148,6 @@ def main_window() -> None:
         progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
         progress_bar.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
         progress_bars[device.id] = progress_bar
-
-    update_states()
 
     settings_button = ttk.Button(
         main,
