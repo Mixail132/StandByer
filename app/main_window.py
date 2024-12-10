@@ -93,12 +93,12 @@ def launch_command(device: Device, selected_value: str) -> None:
     standby_modes = {"on": True, "off": False}
     standby_mode = standby_modes[selected_value]
 
-    if program_mode.debug is False:
+    if not program_mode.debug:
         command_result = set_real_state(device_ip, standby_mode)
         command_results = {"Unreached": -1, "Active": 0, "Standby": 1}
         device.state = command_results[command_result]
 
-    elif program_mode.debug is True:
+    elif program_mode.debug:
         all_states = {"on": 0, "off": 1, "out": None}
         device.state = all_states[selected_value]
 
@@ -112,12 +112,15 @@ def change_state(device: Device) -> None:
     Change a pop-up description text when sending
     a command to change the device's state.
     """
-    set_state_mark(device)
+    device = set_state_mark(device)
     device_id: int = device.id
+
     new_mark = device.mark
     new_image = tk.PhotoImage(file=new_mark)
+
     state_labels[device_id].config(image=new_image)
     state_images[device_id] = new_image
+
     set_tooltip([device], program_titles)
     tooltips[device_id].text = device.description
 
