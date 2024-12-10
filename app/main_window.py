@@ -19,7 +19,7 @@ from settings_window import settings_window
 
 main = tk.Tk()
 main.title("Device switcher")
-main.geometry("640x240")
+main.geometry("670x280")
 
 
 progress_bars = {}
@@ -135,10 +135,28 @@ def main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
+    name_header = ttk.Label(main, text=program_titles.state)
+    name_header.grid(row=0, column=1, padx=5, pady=10, sticky="w")
+
+    type_header = ttk.Label(main, text=program_titles.type)
+    type_header.grid(row=0, column=2, padx=5, pady=10, sticky="w")
+
+    zone_header = ttk.Label(main, text=program_titles.zone)
+    zone_header.grid(row=0, column=3, padx=30, pady=10, sticky="w")
+
+    command_header = ttk.Label(main, text="Command")
+    command_header.grid(row=0, column=4, columnspan=2, padx=5, pady=10, sticky="w")
+
+    place_header = ttk.Label(main, text="Set")
+    place_header.grid(row=0, column=6, padx=40, pady=10, sticky="w")
+
+    progress_header = ttk.Label(main, text="Progress")
+    progress_header.grid(row=0, column=7, padx=5, pady=10, sticky="w")
+
     for device in devices:
 
         id_label = ttk.Label(main, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=5, pady=5, sticky="w")
+        id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
 
         state_image = tk.PhotoImage(file=device.mark)
         state_label = ttk.Label(main, image=state_image)
