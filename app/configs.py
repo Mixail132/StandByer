@@ -31,12 +31,15 @@ def read_description() -> Description:
     env: Env = Env()
     env.read_env(".env")
     descriptions = Description(
+        command=env.str("COMMAND"),
         ip=env.str("IP"),
         description=env.str("DESCRIPTION"),
         name=env.str("NAME"),
         on=env.str("ON"),
         out=env.str("OUT"),
         place=env.str("PLACE"),
+        progress=env.str("PROGRESS"),
+        set=env.str("SET"),
         standby=env.str("STANDBY"),
         state=env.str("STATE"),
         type=env.str("TYPE"),

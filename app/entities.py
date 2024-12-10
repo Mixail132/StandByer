@@ -17,12 +17,15 @@ class Device:
 
 @dataclass
 class Description:
+    command: str
     description: str
     ip: str
     name: str
     on: str
     out: str
     place: str
+    progress: str
+    set: str
     standby: str
     state: str
     type: str
