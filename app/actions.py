@@ -1,13 +1,13 @@
 import requests
 import random
 
-from entities import DeviceConfig
+from entities import Device
 from payloads import get_payload
 
 
-def check_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def check_states(devices: list[Device]) -> list[Device]:
     """
-    Checks the devices' current state.
+    Check the devices' current state.
     """
     payload = get_payload(action="READ")
     states = []
@@ -32,7 +32,7 @@ def check_state(
         standby_mode: bool = True,
 ) -> bool | None:
     """
-    Sets the devices' standby mode.
+    Set the devices' standby mode.
     :param device_ip: the device's IP to be changed
     :param standby_mode: True - to set standby
     :return: the command result:
@@ -53,9 +53,9 @@ def check_state(
     return command_status
 
 
-def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
+def set_random_state(devices: list[Device]) -> list[Device]:
     """
-    Sets the fake states of the devices for tests.
+    Set the random states to the devices for initials.
     """
     states = []
 
@@ -63,17 +63,16 @@ def get_mock_states(devices: list[DeviceConfig]) -> list[DeviceConfig]:
 
         random_state = random.choice([-1, 1, 0])
         device.state = random_state
-        device = set_statemarks(device)
+        device = set_state_mark(device)
         states.append(device)
 
     return states
 
 
-def set_statemarks(device: DeviceConfig) -> DeviceConfig:
+def set_state_mark(device: Device) -> Device:
     """
-    Sets the mark depending on the device state.
+    Set the mark depending on the device state.
     """
-
     if device.state == 0:
         device.mark = "../img/red.png"
         device.standby = "on"

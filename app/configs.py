@@ -1,17 +1,17 @@
-from entities import DeviceConfig, CommonTitles
+from entities import Device, Description
 from environs import Env
 
 
-def read_config() -> list[DeviceConfig]:
+def read_config() -> list[Device]:
     """
-    Reads the devices' configs from the .env file.
+    Read the device configurations from the '.env' file.
     """
     env: Env = Env()
     env.read_env(".env")
     devices = []
 
     for num in range(1, 6):
-        device = DeviceConfig(
+        device = Device(
             id=num,
             ip=env.str(f"A{num}_IP"),
             name=env.str(f"A{num}_NAME"),
@@ -24,16 +24,15 @@ def read_config() -> list[DeviceConfig]:
     return devices
 
 
-def read_description() -> CommonTitles:
+def read_description() -> Description:
     """
-    Reads the devices' descriptions from the .env file.
+    Read the program descriptions from the '.env' file.
     """
     env: Env = Env()
     env.read_env(".env")
-    descriptions = CommonTitles(
+    descriptions = Description(
         ip=env.str("IP"),
         description=env.str("DESCRIPTION"),
-        header=env.str("HEADER"),
         name=env.str("NAME"),
         on=env.str("ON"),
         out=env.str("OUT"),
@@ -47,9 +46,9 @@ def read_description() -> CommonTitles:
     return descriptions
 
 
-def save_config(devices: list[DeviceConfig]) -> None:
+def save_config(devices: list[Device]) -> None:
     """
-    Saves the given devises' parameters to the environment file.
+    Save the given device parameters to the '.env' file.
     """
     var_file = ".env"
     file = open(var_file, "r")

@@ -3,16 +3,16 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from entities import CommonTitles
-from entities import DeviceConfig
+from entities import Description
+from entities import Device
 
 from configs import read_description
 from configs import read_config
 from configs import save_config
 
 
-devices: list[DeviceConfig] = read_config()
-description: CommonTitles = read_description()
+devices: list[Device] = read_config()
+description: Description = read_description()
 
 device_ips = {}
 device_names = {}
@@ -21,8 +21,10 @@ device_places = {}
 device_zones = {}
 
 
-def settings_window(root):
-
+def settings_window(root) -> None:
+    """
+    Create the settings window with it's widgets.
+    """
     settings = tk.Toplevel(root)
     settings.title("Settings")
     settings.geometry("680x320")
@@ -75,7 +77,7 @@ def settings_window(root):
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda _settings=settings: save_settings(_settings),
+        command=lambda: save_settings(settings),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
@@ -84,10 +86,10 @@ def settings_window(root):
 
 def save_settings(settings: tk.Toplevel) -> None:
     """
-    Gets the settings from the form,
-    Calls the function to save the settings to the ".env" file.
+    Get the settings from the form,
+    Redefines the Device objects attribute with given values.
+    Call the function to save the settings to the ".env" file.
     """
-
     for device in devices:
 
         device.name = device_names[device.id].get()
@@ -108,9 +110,8 @@ def save_settings(settings: tk.Toplevel) -> None:
 
 def validate_ip(host: str) -> bool:
     """
-    Checks whether the given ip address is valid.
+    Check whether the given ip address is valid.
     """
-
     try:
         is_valid = ipaddress.ip_address(host)
         ip_is_valid = bool(is_valid)

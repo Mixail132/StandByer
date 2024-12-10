@@ -2,18 +2,16 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import get_mock_states, set_statemarks
+from actions import set_random_state, set_state_mark
 from configs import (read_config,
                      read_description,
-                     CommonTitles,
-                     DeviceConfig)
-from tooltips import ToolTip, get_tooltip
+                     Device)
+from tooltips import ToolTip, set_tooltip
 from settings_window import settings_window
 
-description: CommonTitles = read_description()
 
 main = tk.Tk()
-main.title(description.header)
+main.title("Device switcher")
 main.geometry("640x240")
 
 
@@ -26,88 +24,90 @@ on_buttons = {}
 off_buttons = {}
 
 
-def update_states() -> list[DeviceConfig]:
+# def set_mark(devices: list[Device]) -> list[Device]:
+#     """
+#     Change the color of a circle mark.
+#     Change the device pop-up description.
+#     Change the 'on' radiobutton state.
+#     Change the 'off' radiobutton state.
+#
+#     """
+#     for device in devices:
+#
+#         device_id = device.id
+#
+#         if device_id in state_labels:
+#
+#             new_mark = device.mark
+#             new_image = tk.PhotoImage(file=new_mark)
+#
+#             state_labels[device_id].config(image=new_image)
+#             state_images[device_id] = new_image
+#
+#             tooltips[device_id].text = device.description
+#
+#             var = tk.StringVar(value=device.standby)
+#             selected_values[device_id] = var
+#
+#             on_buttons[device_id].config(variable=var)
+#             off_buttons[device_id].config(variable=var)
+#
+#     return devices
+
+
+def get_command(device: Device) -> None:
     """
-    Get initial devices descriptions.
-    Get the devices' fake states.
-    Get the devices' pop-up descriptions.
-    Return the list of devices' objects.
+    Get the radiobutton state and a command from `OK` button.
+    Start the progress bar.
+    Set the progress bar moving time.
+    Deny the commands if the device is unreached (standby is None)
+    :param device: the device configuration object.
     """
-    dev_initials: list[DeviceConfig] = read_config()
-    dev_states: list[DeviceConfig] = get_mock_states(dev_initials)
-    _devices: list[DeviceConfig] = get_tooltip(dev_states)
-
-    for device in _devices:
-        unit_id = device.id
-        if unit_id in state_labels:
-            new_mark = device.mark
-            new_image = tk.PhotoImage(file=new_mark)
-            state_labels[unit_id].config(image=new_image)
-            state_images[unit_id] = new_image
-
-            tooltips[unit_id].text = device.description
-
-            var = tk.StringVar(value=device.standby)
-            selected_values[unit_id] = var
-            on_buttons[unit_id].config(variable=var)
-            off_buttons[unit_id].config(variable=var)
-
-    return _devices
+    if device.standby:
+        device_id: int = device.id
+        selected_value: str | None = selected_values[device_id].get()
+        progress_bars[device_id].start()
+        main.after(6220, lambda: send_command(device, selected_value))
 
 
-def get_command(unit: DeviceConfig) -> None:
+def send_command(device: Device, selected_value: str) -> None:
     """
-    Gets the radiobutton state and a command from `OK` button.
-    :param unit: the device configuration object.
-    """
-    if unit.standby:
-        unit_id: int = unit.id
-        selected_value: str | None = selected_values[unit_id].get()
-        progress_bars[unit_id].start()
-        main.after(6220, lambda: send_command(unit, selected_value))
-
-
-def send_command(unit: DeviceConfig, selected_value: str) -> None:
-    """
-    Sends the given command to a device.
-    Updates a color circle mark according to a new state
+    Send the given command to a device.
+    Update a color circle mark according to a new state
     of the device.
-    :param unit: the device configuration object.
+    :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
     """
     all_states = {"on": 0, "off": 1, "out": None}
-    unit_id: int = unit.id
-    progress_bars[unit_id].stop()
+    device_id: int = device.id
+    progress_bars[device_id].stop()
 
-    if unit.standby != selected_value:
-        unit.state = all_states[selected_value]
-        change_state(unit)
+    if device.standby != selected_value:
+        device.state = all_states[selected_value]
+        change_state(device)
 
 
-def change_state(unit) -> None:
+def change_state(device: Device) -> None:
     """
-    Changes the color of the circle mark when sending
+    Change the color of the circle mark when sending
     a command to change the device's state.
     Change a pop-up description text when sending
     a command to change the device's state.
     """
-    set_statemarks(unit)
-    unit_id: int = unit.id
-    new_mark = unit.mark
+    set_state_mark(device)
+    device_id: int = device.id
+    new_mark = device.mark
     new_image = tk.PhotoImage(file=new_mark)
-    state_labels[unit_id].config(image=new_image)
-    state_images[unit_id] = new_image
+    state_labels[device_id].config(image=new_image)
+    state_images[device_id] = new_image
+    set_tooltip([device], program_titles)
+    tooltips[device_id].text = device.description
 
-    get_tooltip([unit])
-    tooltips[unit_id].text = unit.description
 
-
-def main_window() -> None:
+def main_window(devices) -> None:
     """
-    Creates a main window and it's widgets.
+    Create the main window and it's widgets.
     """
-    devices = update_states()
-
     for device in devices:
 
         id_label = ttk.Label(main, text=device.id)
@@ -117,11 +117,13 @@ def main_window() -> None:
         state_label = ttk.Label(main, image=state_image)
         state_label.image = state_image
         state_label.grid(row=device.id, column=1, padx=5, pady=5, sticky="w")
+
         state_labels[device.id] = state_label
         state_images[device.id] = state_image
 
         type_label = ttk.Label(main, text=device.type)
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
+
         tooltip = ToolTip(type_label, device.description)
         tooltips[device.id] = tooltip
 
@@ -152,11 +154,16 @@ def main_window() -> None:
     settings_button = ttk.Button(
         main,
         text="Settings",
-        command=lambda root=main: settings_window(root)
+        command=lambda: settings_window(main)
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
     main.mainloop()
 
 
-main_window()
+device_initials = read_config()
+device_states = set_random_state(device_initials)
+program_titles = read_description()
+device_tooltips = set_tooltip(device_states, program_titles)
+# device_marks = set_mark(device_tooltips)
+main_window(device_tooltips)

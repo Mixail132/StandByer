@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class DeviceConfig:
+class Device:
     description: str = ""
     id: int | None = None
     ip: str = ""
@@ -16,9 +16,8 @@ class DeviceConfig:
 
 
 @dataclass
-class CommonTitles:
+class Description:
     description: str
-    header: str
     ip: str
     name: str
     on: str
