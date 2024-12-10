@@ -44,7 +44,12 @@ def set_real_state(
     headers = {"Content-Type": "application/json"}
 
     command_status: bool | None = None
-    response = requests.post(url, headers=headers, json=payload)
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+    except requests.exceptions.ConnectTimeout:
+        ...
+        # Add a logic the device became unreached/
+        return None
 
     if response.ok:
         data = response.json()
