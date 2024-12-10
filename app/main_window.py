@@ -160,6 +160,7 @@ def main_window(devices) -> None:
 
         state_image = tk.PhotoImage(file=device.mark)
         state_label = ttk.Label(main, image=state_image)
+
         state_label.image = state_image
         state_label.grid(row=device.id, column=1, padx=5, pady=5, sticky="w")
 
@@ -177,6 +178,7 @@ def main_window(devices) -> None:
 
         var = tk.StringVar(value=device.standby)
         selected_values[device.id] = var
+
         on_button = ttk.Radiobutton(main, text="on", value="on", variable=var)
         on_button.grid(row=device.id, column=4, padx=5, pady=5, sticky="w")
         on_buttons[device.id] = on_button
