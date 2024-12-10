@@ -86,8 +86,6 @@ def launch_command(device: Device, selected_value: str) -> None:
     :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
     """
-    device_id: int = device.id
-    progress_bars[device_id].stop()
 
     device_ip = device.ip
     standby_modes = {"on": True, "off": False}
@@ -102,6 +100,8 @@ def launch_command(device: Device, selected_value: str) -> None:
         all_states = {"on": 0, "off": 1, "out": None}
         device.state = all_states[selected_value]
 
+    device_id: int = device.id
+    progress_bars[device_id].stop()
     change_state(device)
 
 
