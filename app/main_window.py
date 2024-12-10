@@ -2,7 +2,7 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import set_random_state, set_state_mark
+from actions import set_random_states, set_real_state, set_state_mark
 from configs import (read_config,
                      read_description,
                      Device)
@@ -68,23 +68,30 @@ def get_command(device: Device) -> None:
     selected_value: str | None = selected_values[device_id].get()
     if device.standby and device.standby != selected_value:
         progress_bars[device_id].start()
-        main.after(6220, lambda: send_command(device, selected_value))
+        main.after(6220, lambda: launch_command(device, selected_value))
 
 
-def send_command(device: Device, selected_value: str) -> None:
+def launch_command(device: Device, selected_value: str) -> None:
     """
+    Stop the progress bar.
     Send the given command to a device.
     Update a color circle mark according to a new device state.
-    Stop the progress bar.
     :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
     """
-    all_states = {"on": 0, "off": 1, "out": None}
     device_id: int = device.id
     progress_bars[device_id].stop()
 
-    device.state = all_states[selected_value]
-    change_state(device)
+    device_ip = device.ip
+    standby_modes = {"on": True, "off": False}
+    standby_mode = standby_modes[selected_value]
+
+    success = set_real_state(device_ip, standby_mode)
+
+    if success:
+        all_states = {"on": 0, "off": 1, "out": None}
+        device.state = all_states[selected_value]
+        change_state(device)
 
 
 def change_state(device: Device) -> None:
@@ -162,7 +169,7 @@ def main_window(devices) -> None:
 
 
 device_initials = read_config()
-device_states = set_random_state(device_initials)
+device_states = set_random_states(device_initials)
 program_titles = read_description()
 device_tooltips = set_tooltip(device_states, program_titles)
 # device_marks = set_mark(device_tooltips)

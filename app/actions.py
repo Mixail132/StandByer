@@ -27,14 +27,14 @@ def check_states(devices: list[Device]) -> list[Device]:
     return states
 
 
-def check_state(
+def set_real_state(
         device_ip: str,
-        standby_mode: bool = True,
+        standby_mode: bool,
 ) -> bool | None:
     """
-    Set the devices' standby mode.
-    :param device_ip: the device's IP to be changed
-    :param standby_mode: True - to set standby
+    Change the device's standby mode.
+    :param device_ip: the device's IP to be changed.
+    :param standby_mode: True - to set standby mode.
     :return: the command result:
         True, False - the command succeed, the state has changed.
         None - the command is unsuccessful, the device is unreached.
@@ -53,7 +53,7 @@ def check_state(
     return command_status
 
 
-def set_random_state(devices: list[Device]) -> list[Device]:
+def set_random_states(devices: list[Device]) -> list[Device]:
     """
     Set the random states to the devices for initials.
     """
