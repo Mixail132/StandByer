@@ -109,8 +109,9 @@ def change_state(device: Device) -> None:
     """
     Change the color of the circle mark when sending
     a command to change the device's state.
-    Change a pop-up description text when sending
+    Change the pop-up description text when sending
     a command to change the device's state.
+    Change the radio buttons' state.
     """
     device = set_state_mark(device)
     device_id: int = device.id
@@ -123,6 +124,11 @@ def change_state(device: Device) -> None:
 
     set_tooltip([device], program_titles)
     tooltips[device_id].text = device.description
+
+    var = tk.StringVar(value=device.standby)
+    selected_values[device_id] = var
+    on_buttons[device_id].config(variable=var)
+    off_buttons[device_id].config(variable=var)
 
 
 def main_window(devices) -> None:
@@ -181,9 +187,10 @@ def main_window(devices) -> None:
 
     main.mainloop()
 
+
 program_mode: Debug = read_modes()
 device_initials: list[Device] = read_config()
-device_states:list[Device] = set_random_states(device_initials)
+device_states: list[Device] = set_random_states(device_initials)
 program_titles: Description = read_description()
 device_tooltips: list[Device] = set_tooltip(device_states, program_titles)
 # device_marks = set_mark(device_tooltips)
