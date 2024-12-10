@@ -122,7 +122,7 @@ def change_state(device: Device) -> None:
     state_labels[device_id].config(image=new_image)
     state_images[device_id] = new_image
 
-    set_tooltip([device], program_titles)
+    set_tooltip([device], program_headers)
     tooltips[device_id].text = device.description
 
     var = tk.StringVar(value=device.standby)
@@ -135,22 +135,22 @@ def main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
-    name_header = ttk.Label(main, text=program_titles.state)
+    name_header = ttk.Label(main, text=program_headers.state)
     name_header.grid(row=0, column=1, padx=5, pady=10, sticky="w")
 
-    type_header = ttk.Label(main, text=program_titles.type)
+    type_header = ttk.Label(main, text=program_headers.type)
     type_header.grid(row=0, column=2, padx=5, pady=10, sticky="w")
 
-    zone_header = ttk.Label(main, text=program_titles.zone)
+    zone_header = ttk.Label(main, text=program_headers.zone)
     zone_header.grid(row=0, column=3, padx=30, pady=10, sticky="w")
 
-    command_header = ttk.Label(main, text="Command")
+    command_header = ttk.Label(main, text=program_headers.command)
     command_header.grid(row=0, column=4, columnspan=2, padx=5, pady=10, sticky="w")
 
-    place_header = ttk.Label(main, text="Set")
+    place_header = ttk.Label(main, text=program_headers.set)
     place_header.grid(row=0, column=6, padx=40, pady=10, sticky="w")
 
-    progress_header = ttk.Label(main, text="Progress")
+    progress_header = ttk.Label(main, text=program_headers.progress)
     progress_header.grid(row=0, column=7, padx=5, pady=10, sticky="w")
 
     for device in devices:
@@ -211,7 +211,7 @@ def main_window(devices) -> None:
 program_mode: Debug = read_modes()
 device_initials: list[Device] = read_config()
 device_states: list[Device] = set_random_states(device_initials)
-program_titles: Description = read_description()
-device_tooltips: list[Device] = set_tooltip(device_states, program_titles)
+program_headers: Description = read_description()
+device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
 # device_marks = set_mark(device_tooltips)
 main_window(device_tooltips)
