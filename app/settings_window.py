@@ -77,7 +77,7 @@ def settings_window(root) -> None:
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda _settings=settings: save_settings(_settings),
+        command=lambda: save_settings(settings),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
