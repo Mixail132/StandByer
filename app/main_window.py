@@ -95,7 +95,7 @@ def launch_command(device: Device, selected_value: str) -> None:
 
     if not program_mode.debug:
         command_result = set_real_state(device_ip, standby_mode)
-        command_results = {"Unreached": -1, "Active": 0, "Standby": 1}
+        command_results = {"Active": 0, "Standby": 1, "Unreached": -1}
         device.state = command_results[command_result]
 
     elif program_mode.debug:

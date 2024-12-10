@@ -47,8 +47,6 @@ def set_real_state(
     try:
         response = requests.post(url, headers=headers, json=payload)
     except requests.exceptions.ConnectTimeout:
-        ...
-        # Add a logic the device became unreached/
         return command_result
 
     if response.ok:
