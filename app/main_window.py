@@ -143,7 +143,7 @@ def main_window(devices) -> None:
         ok_button = ttk.Button(
             main,
             text="ok",
-            command=lambda: get_command(device)
+            command=lambda unit=device: get_command(unit)
         )
         ok_button.grid(row=device.id, column=6, padx=40, pady=5, sticky="w")
 
