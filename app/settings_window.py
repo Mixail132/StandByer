@@ -27,7 +27,7 @@ def settings_window(root) -> None:
     """
     settings = tk.Toplevel(root)
     settings.title("Settings")
-    settings.geometry("680x320")
+    settings.geometry("680x300")
 
     name_header = ttk.Label(settings, text=description.name)
     name_header.grid(row=0, column=1, padx=5, pady=5, sticky="w")
@@ -47,7 +47,7 @@ def settings_window(root) -> None:
     for device in devices:
 
         id_label = ttk.Label(settings, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=5, pady=10, sticky="w")
+        id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
 
         name_label = ttk.Entry(settings, width=28)
         name_label.insert(0, device.name)

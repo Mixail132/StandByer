@@ -129,7 +129,7 @@ def main_window(devices) -> None:
     for device in devices:
 
         id_label = ttk.Label(main, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=5, pady=5, sticky="w")
+        id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
 
         state_image = tk.PhotoImage(file=device.mark)
         state_label = ttk.Label(main, image=state_image)
