@@ -29,20 +29,20 @@ def settings_window(root) -> None:
     settings.title("Settings")
     settings.geometry("680x320")
 
-    name_label = ttk.Label(settings, text=description.name)
-    name_label.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+    name_header = ttk.Label(settings, text=description.name)
+    name_header.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-    type_label = ttk.Label(settings, text=description.type)
-    type_label.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+    type_header = ttk.Label(settings, text=description.type)
+    type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
-    zone_label = ttk.Label(settings, text=description.zone)
-    zone_label.grid(row=0, column=3, padx=5, pady=5, sticky="w")
+    zone_header = ttk.Label(settings, text=description.zone)
+    zone_header.grid(row=0, column=3, padx=5, pady=5, sticky="w")
 
-    ip_label = ttk.Label(settings, text=description.ip)
-    ip_label.grid(row=0, column=4, padx=5, pady=5, sticky="w")
+    ip_header = ttk.Label(settings, text=description.ip)
+    ip_header.grid(row=0, column=4, padx=5, pady=5, sticky="w")
 
-    place_label = ttk.Label(settings, text=description.place)
-    place_label.grid(row=0, column=5, padx=5, pady=5, sticky="w")
+    place_header = ttk.Label(settings, text=description.place)
+    place_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
 
     for device in devices:
 
