@@ -60,6 +60,7 @@ def get_command(device: Device) -> None:
     Get the radiobutton state and a command from `OK` button.
     Start the progress bar.
     Set the progress bar moving time.
+    Wait until the progress bar ends and call the command function.
     Deny the commands if the device is unreached (standby is None)
     :param device: the device configuration object.
     """
@@ -73,8 +74,8 @@ def get_command(device: Device) -> None:
 def send_command(device: Device, selected_value: str) -> None:
     """
     Send the given command to a device.
-    Update a color circle mark according to a new state
-    of the device.
+    Update a color circle mark according to a new device state.
+    Stop the progress bar.
     :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
     """
