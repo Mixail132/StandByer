@@ -2,11 +2,18 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import set_random_states, set_real_state, set_state_mark
-from configs import (read_config,
-                     read_description,
-                     Device)
+from actions import (
+    set_random_states,
+    set_real_state,
+    set_state_mark)
 from tooltips import ToolTip, set_tooltip
+from configs import (
+    read_modes,
+    read_config,
+    read_description,
+    Debug,
+    Device,
+    Description)
 from settings_window import settings_window
 
 
@@ -86,12 +93,16 @@ def launch_command(device: Device, selected_value: str) -> None:
     standby_modes = {"on": True, "off": False}
     standby_mode = standby_modes[selected_value]
 
-    success = set_real_state(device_ip, standby_mode)
+    if program_mode.debug is False:
+        command_result = set_real_state(device_ip, standby_mode)
+        command_results = {"Unreached": -1, "Active": 0, "Standby": 1}
+        device.state = command_results[command_result]
 
-    if success:
+    elif program_mode.debug is True:
         all_states = {"on": 0, "off": 1, "out": None}
         device.state = all_states[selected_value]
-        change_state(device)
+
+    change_state(device)
 
 
 def change_state(device: Device) -> None:
@@ -167,10 +178,10 @@ def main_window(devices) -> None:
 
     main.mainloop()
 
-
-device_initials = read_config()
-device_states = set_random_states(device_initials)
-program_titles = read_description()
-device_tooltips = set_tooltip(device_states, program_titles)
+program_mode: Debug = read_modes()
+device_initials: list[Device] = read_config()
+device_states:list[Device] = set_random_states(device_initials)
+program_titles: Description = read_description()
+device_tooltips: list[Device] = set_tooltip(device_states, program_titles)
 # device_marks = set_mark(device_tooltips)
 main_window(device_tooltips)

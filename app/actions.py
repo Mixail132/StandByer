@@ -30,7 +30,7 @@ def check_states(devices: list[Device]) -> list[Device]:
 def set_real_state(
         device_ip: str,
         standby_mode: bool,
-) -> bool | None:
+) -> str:
     """
     Change the device's standby mode.
     :param device_ip: the device's IP to be changed.
@@ -43,19 +43,24 @@ def set_real_state(
     url = f"http://{device_ip}/am"
     headers = {"Content-Type": "application/json"}
 
-    command_status: bool | None = None
+    command_result: str = "Unreached"
     try:
         response = requests.post(url, headers=headers, json=payload)
     except requests.exceptions.ConnectTimeout:
         ...
         # Add a logic the device became unreached/
-        return None
+        return command_result
 
     if response.ok:
         data = response.json()
-        command_status = data["payload"]["action"]["values"][0]["data"]["boolValue"]
+        payload_result = data["payload"]["action"]["values"][0]["data"]["boolValue"]
 
-    return command_status
+        if payload_result is True:
+            command_result = "Standby"
+        elif payload_result is False:
+            command_result = "Active"
+
+    return command_result
 
 
 def set_random_states(devices: list[Device]) -> list[Device]:
@@ -76,7 +81,8 @@ def set_random_states(devices: list[Device]) -> list[Device]:
 
 def set_state_mark(device: Device) -> Device:
     """
-    Set the mark depending on the device state.
+    Set the color circle mark depending on the device state.
+    Set the device standby mode depending on the device state.
     """
     if device.state == 0:
         device.mark = "../img/red.png"
@@ -85,5 +91,9 @@ def set_state_mark(device: Device) -> Device:
     elif device.state == 1:
         device.mark = "../img/green.png"
         device.standby = "off"
+
+    elif device.state == -1:
+        device.mark = "../img/grey.png"
+        device.standby = None
 
     return device
