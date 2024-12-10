@@ -64,9 +64,9 @@ def get_command(device: Device) -> None:
     Deny the commands if the device is unreached (standby is None)
     :param device: the device configuration object.
     """
-    if device.standby:
-        device_id: int = device.id
-        selected_value: str | None = selected_values[device_id].get()
+    device_id: int = device.id
+    selected_value: str | None = selected_values[device_id].get()
+    if device.standby and device.standby != selected_value:
         progress_bars[device_id].start()
         main.after(6220, lambda: send_command(device, selected_value))
 
@@ -83,9 +83,8 @@ def send_command(device: Device, selected_value: str) -> None:
     device_id: int = device.id
     progress_bars[device_id].stop()
 
-    if device.standby != selected_value:
-        device.state = all_states[selected_value]
-        change_state(device)
+    device.state = all_states[selected_value]
+    change_state(device)
 
 
 def change_state(device: Device) -> None:
