@@ -14,7 +14,7 @@ from configs import (
     Debug,
     Device,
     Description)
-from settings_window import settings_window
+from settings import settings_window
 
 
 main = tk.Tk()
