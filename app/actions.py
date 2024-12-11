@@ -97,18 +97,3 @@ def set_state_mark(device: Device) -> Device:
         device.standby = None
 
     return device
-
-
-if __name__ == "__main__":
-    from configs import read_modes, read_config, read_description
-    from entities import Device, Mode, Description
-    from tooltips import set_tooltip
-    program_mode: Mode = read_modes()
-    device_initials: list[Device] = read_config()
-    device_states: list[Device] = set_random_states(device_initials)
-    program_headers: Description = read_description()
-    device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
-
-    updated_states: list[Device] = check_states(device_tooltips)
-    for item in updated_states:
-        set_state_mark(item)
