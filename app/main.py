@@ -5,13 +5,13 @@ from tkinter import ttk
 from actions import (
     set_random_states,
     set_real_state,
-    set_state_mark)
+    set_state_mark, check_states)
 from tooltips import ToolTip, set_tooltip
 from configs import (
     read_modes,
     read_config,
     read_description,
-    Debug,
+    Mode,
     Device,
     Description)
 from settings import settings_window
@@ -31,35 +31,16 @@ on_buttons = {}
 off_buttons = {}
 
 
-# def set_mark(devices: list[Device]) -> list[Device]:
-#     """
-#     Change the color of a circle mark.
-#     Change the device pop-up description.
-#     Change the 'on' radiobutton state.
-#     Change the 'off' radiobutton state.
-#
-#     """
-#     for device in devices:
-#
-#         device_id = device.id
-#
-#         if device_id in state_labels:
-#
-#             new_mark = device.mark
-#             new_image = tk.PhotoImage(file=new_mark)
-#
-#             state_labels[device_id].config(image=new_image)
-#             state_images[device_id] = new_image
-#
-#             tooltips[device_id].text = device.description
-#
-#             var = tk.StringVar(value=device.standby)
-#             selected_values[device_id] = var
-#
-#             on_buttons[device_id].config(variable=var)
-#             off_buttons[device_id].config(variable=var)
-#
-#     return devices
+def update_devices_states(devices) -> None:
+    """
+    Update the devices' state periodically.
+    """
+    devices = check_states(devices)
+    for device in devices:
+        change_state(device)
+
+    survey = program_mode.survey
+    main.after(survey, lambda: update_devices_states(devices))
 
 
 def get_command(device: Device) -> None:
@@ -205,13 +186,18 @@ def main_window(devices) -> None:
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
+    delay = program_mode.delay
+    main.after(delay, lambda units=devices: update_devices_states(units))
     main.mainloop()
 
 
-program_mode: Debug = read_modes()
-device_initials: list[Device] = read_config()
-device_states: list[Device] = set_random_states(device_initials)
+initial_devices: list[Device] = read_config()
+program_mode: Mode = read_modes()
 program_headers: Description = read_description()
-device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
-# device_marks = set_mark(device_tooltips)
-main_window(device_tooltips)
+
+if program_mode.debug:
+    initial_devices: list[Device] = set_random_states(initial_devices)
+else:
+    initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+
+main_window(initial_devices)
