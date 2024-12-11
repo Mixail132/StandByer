@@ -17,11 +17,13 @@ def check_states(devices: list[Device]) -> list[Device]:
         headers = {"Content-Type": "application/json"}
 
         device.state = -1
-        response = requests.post(url, headers=headers, json=payload)
-
-        if response.ok:
-            data = response.json()
-            device.state = data["payload"]["action"]["values"][0]["data"]
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=3)
+            if response.ok:
+                data = response.json()
+                device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
+        except requests.exceptions.ConnectTimeout:
+            ...
         states.append(device)
 
     return states
@@ -95,3 +97,18 @@ def set_state_mark(device: Device) -> Device:
         device.standby = None
 
     return device
+
+
+if __name__ == "__main__":
+    from configs import read_modes, read_config, read_description
+    from entities import Device, Debug, Description
+    from tooltips import set_tooltip
+    program_mode: Debug = read_modes()
+    device_initials: list[Device] = read_config()
+    device_states: list[Device] = set_random_states(device_initials)
+    program_headers: Description = read_description()
+    device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
+
+    updated_states: list[Device] = check_states(device_tooltips)
+    for item in updated_states:
+        set_state_mark(item)
