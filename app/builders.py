@@ -3,7 +3,7 @@
 import subprocess
 from pathlib import Path
 
-from app.dirs import DIR_APP, DIR_STATIC, DIR_TEMP
+from app.dirs import DIR_APP, DIR_IMG, DIR_TEMP
 
 
 def glue_scripts(
@@ -57,7 +57,7 @@ def build_exe_file(output_script: Path) -> None:
             "--onefile",
             "--windowed",
             "--icon",
-            DIR_STATIC / "ico.ico",
+            DIR_IMG / "ico.ico",
             "--name",
             "CheckServer",
             f"{output_script}",
