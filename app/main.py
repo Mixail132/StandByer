@@ -88,7 +88,7 @@ def launch_command(device: Device, selected_value: str) -> None:
     """
 
     device_ip = device.ip
-    standby_modes = {"on": True, "off": False}
+    standby_modes = {"on": False, "off": True}
     standby_mode = standby_modes[selected_value]
 
     if not program_mode.debug:
