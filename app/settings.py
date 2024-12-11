@@ -3,12 +3,12 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from entities import Description
-from entities import Device
+from app.entities import Description
+from app.entities import Device
 
-from configs import read_description
-from configs import read_config
-from configs import save_config
+from app.configs import read_description
+from app.configs import read_config
+from app.configs import save_config
 
 
 devices: list[Device] = read_config()

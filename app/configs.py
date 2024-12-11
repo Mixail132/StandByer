@@ -1,4 +1,4 @@
-from entities import Mode, Device, Description
+from app.entities import Mode, Device, Description
 from environs import Env
 
 env: Env = Env()
