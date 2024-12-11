@@ -186,13 +186,13 @@ def main_window(devices) -> None:
     main.mainloop()
 
 
-initialized_devices: list[Device] = read_config()
+initial_devices: list[Device] = read_config()
 program_mode: Mode = read_modes()
 program_headers: Description = read_description()
 
 if program_mode.debug:
-    stated_devices: list[Device] = set_random_states(initialized_devices)
+    initial_devices: list[Device] = set_random_states(initial_devices)
 else:
-    stated_devices: list[Device] = set_tooltip(initialized_devices, program_headers)
+    initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
 
-main_window(stated_devices)
+main_window(initial_devices)
