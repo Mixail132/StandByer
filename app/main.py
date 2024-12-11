@@ -2,18 +2,9 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from app.actions import (
-                        set_random_states,
-                        set_real_state,
-                        set_state_mark, check_states)
+from app.actions import set_random_states, set_real_state, set_state_mark, check_states
 from app.tooltips import ToolTip, set_tooltip
-from app.configs import (
-                        read_modes,
-                        read_config,
-                        read_description,
-                        Mode,
-                        Device,
-                        Description)
+from app.configs import read_modes, read_config, read_description, Mode, Device, Description
 from app.settings import settings_window
 
 
