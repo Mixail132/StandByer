@@ -45,7 +45,7 @@ def set_real_state(
 
     command_result: str = "Unreached"
     try:
-        response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload, timeout=3)
     except requests.exceptions.ConnectTimeout:
         return command_result
 
