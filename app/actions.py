@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import ConnectTimeout, ConnectionError
 import random
 
 from app.entities import Device
@@ -23,7 +24,7 @@ def check_states(devices: list[Device]) -> list[Device]:
                 data = response.json()
                 device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
 
-        except requests.exceptions.ConnectTimeout:
+        except (ConnectTimeout, ConnectionError):
             device.state = -1
 
         states.append(device)
