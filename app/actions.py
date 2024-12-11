@@ -16,14 +16,15 @@ def check_states(devices: list[Device]) -> list[Device]:
         url = f"http://{device.ip}/am"
         headers = {"Content-Type": "application/json"}
 
-        device.state = -1
         try:
             response = requests.post(url, headers=headers, json=payload, timeout=3)
             if response.ok:
                 data = response.json()
                 device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
+
         except requests.exceptions.ConnectTimeout:
-            ...
+            device.state = -1
+
         states.append(device)
 
     return states
