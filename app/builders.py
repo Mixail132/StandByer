@@ -57,7 +57,7 @@ def build_exe_file(output_script: Path) -> None:
             "--icon",
             DIR_IMG / "ico.ico",
             "--name",
-            "devswitcher",
+            "switcher",
             f"{output_script}",
             "--distpath",
             DIR_APP,
