@@ -1,6 +1,7 @@
 .env
 .venv
 .idea
+.temp
 
 __pycache__
 
@@ -9,5 +10,7 @@ venv
 try.py
 try2.py
 try3.py
+commons.py
+
 TODO.md
 
