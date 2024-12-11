@@ -1,15 +1,15 @@
-from entities import Debug, Device, Description
+from entities import Mode, Device, Description
 from environs import Env
 
 env: Env = Env()
 env.read_env()
 
 
-def read_modes() -> Debug:
+def read_modes() -> Mode:
     """
     Read the program modes from the '.env' file.
     """
-    debug = Debug(
+    debug = Mode(
         debug=env.bool("DEBUG")
     )
     return debug

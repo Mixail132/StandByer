@@ -101,9 +101,9 @@ def set_state_mark(device: Device) -> Device:
 
 if __name__ == "__main__":
     from configs import read_modes, read_config, read_description
-    from entities import Device, Debug, Description
+    from entities import Device, Mode, Description
     from tooltips import set_tooltip
-    program_mode: Debug = read_modes()
+    program_mode: Mode = read_modes()
     device_initials: list[Device] = read_config()
     device_states: list[Device] = set_random_states(device_initials)
     program_headers: Description = read_description()

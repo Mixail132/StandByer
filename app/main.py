@@ -11,7 +11,7 @@ from configs import (
     read_modes,
     read_config,
     read_description,
-    Debug,
+    Mode,
     Device,
     Description)
 from settings import settings_window
@@ -31,12 +31,12 @@ on_buttons = {}
 off_buttons = {}
 
 
-def update_devices_states(devices_):
-    devs = check_states(devices_)
-    for device in devs:
+def update_devices_states(devices):
+    devices_ = check_states(devices)
+    for device in devices_:
         change_state(device)
 
-    main.after(60000, lambda units=devs: update_devices_states(units))
+    main.after(60000, lambda units=devices_: update_devices_states(units))
 
 
 def get_command(device: Device) -> None:
@@ -186,9 +186,13 @@ def main_window(devices) -> None:
     main.mainloop()
 
 
-program_mode: Debug = read_modes()
-device_initials: list[Device] = read_config()
-device_states: list[Device] = set_random_states(device_initials)
+initialized_devices: list[Device] = read_config()
+program_mode: Mode = read_modes()
 program_headers: Description = read_description()
-device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
-main_window(device_tooltips)
+
+if program_mode.debug:
+    stated_devices: list[Device] = set_random_states(initialized_devices)
+else:
+    stated_devices: list[Device] = set_tooltip(initialized_devices, program_headers)
+
+main_window(stated_devices)

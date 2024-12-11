@@ -32,5 +32,5 @@ class Description:
     zone: str
 
 @dataclass
-class Debug:
+class Mode:
     debug: bool
