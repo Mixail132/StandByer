@@ -31,13 +31,16 @@ on_buttons = {}
 off_buttons = {}
 
 
-def update_devices_states(devices):
+def update_devices_states(devices) -> None:
+    """
+    Update the devices' state periodically.
+    """
     devices = check_states(devices)
     for device in devices:
         change_state(device)
 
     survey = program_mode.survey
-    main.after(survey, lambda units=devices: update_devices_states(units))
+    main.after(survey, lambda: update_devices_states(devices))
 
 
 def get_command(device: Device) -> None:
