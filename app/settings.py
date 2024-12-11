@@ -3,16 +3,9 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from app.entities import Description
-from app.entities import Device
-
-from app.configs import read_description
-from app.configs import read_config
 from app.configs import save_config
+from app.configs import initial_devices, program_headers
 
-
-devices: list[Device] = read_config()
-description: Description = read_description()
 
 device_ips = {}
 device_names = {}
@@ -23,28 +16,28 @@ device_zones = {}
 
 def settings_window(root) -> None:
     """
-    Create the settings window with it's widgets.
+    Create the settings window with its widgets.
     """
     settings = tk.Toplevel(root)
     settings.title("Settings")
     settings.geometry("680x300")
 
-    name_header = ttk.Label(settings, text=description.name)
+    name_header = ttk.Label(settings, text=program_headers.name)
     name_header.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-    type_header = ttk.Label(settings, text=description.type)
+    type_header = ttk.Label(settings, text=program_headers.type)
     type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
-    zone_header = ttk.Label(settings, text=description.zone)
+    zone_header = ttk.Label(settings, text=program_headers.zone)
     zone_header.grid(row=0, column=3, padx=5, pady=5, sticky="w")
 
-    ip_header = ttk.Label(settings, text=description.ip)
+    ip_header = ttk.Label(settings, text=program_headers.ip)
     ip_header.grid(row=0, column=4, padx=5, pady=5, sticky="w")
 
-    place_header = ttk.Label(settings, text=description.place)
+    place_header = ttk.Label(settings, text=program_headers.place)
     place_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
 
-    for device in devices:
+    for device in initial_devices:
 
         id_label = ttk.Label(settings, text=device.id)
         id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
@@ -90,7 +83,7 @@ def save_settings(settings: tk.Toplevel) -> None:
     Redefines the Device objects attribute with given values.
     Call the function to save the settings to the ".env" file.
     """
-    for device in devices:
+    for device in initial_devices:
 
         device.name = device_names[device.id].get()
         device.type = device_types[device.id].get()
@@ -98,13 +91,13 @@ def save_settings(settings: tk.Toplevel) -> None:
         device.ip = device_ips[device.id].get()
         device.place = device_places[device.id].get()
 
-    for device in devices:
+    for device in initial_devices:
         ip_is_valid = validate_ip(device.ip)
         if not ip_is_valid:
             messagebox.showerror("Error", "Bad IP address!")
             break
     else:
-        save_config(devices)
+        save_config(initial_devices)
         settings.destroy()
 
 

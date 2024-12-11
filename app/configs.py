@@ -105,3 +105,8 @@ def save_config(devices: list[Device]) -> None:
     file.write(output_text)
 
     file.close()
+
+
+initial_devices: list[Device] = read_config()
+program_mode: Mode = read_modes()
+program_headers: Description = read_description()
