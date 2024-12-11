@@ -3,6 +3,7 @@ import random
 
 from entities import Device
 from payloads import get_payload
+from dirs import DIR_IMG
 
 
 def check_states(devices: list[Device]) -> list[Device]:
@@ -86,15 +87,15 @@ def set_state_mark(device: Device) -> Device:
     Set the device standby mode depending on the device state.
     """
     if device.state == 0:
-        device.mark = "../img/red.png"
+        device.mark = DIR_IMG / "red.png"
         device.standby = "on"
 
     elif device.state == 1:
-        device.mark = "../img/green.png"
+        device.mark = DIR_IMG / "green.png"
         device.standby = "off"
 
     elif device.state == -1:
-        device.mark = "../img/grey.png"
+        device.mark = DIR_IMG / "grey.png"
         device.standby = None
 
     return device
