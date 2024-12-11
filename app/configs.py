@@ -10,7 +10,9 @@ def read_modes() -> Mode:
     Read the program modes from the '.env' file.
     """
     debug = Mode(
-        debug=env.bool("DEBUG")
+        debug=env.bool("DEBUG"),
+        delay=env.int("DELAY"),
+        survey=env.int("SURVEY"),
     )
     return debug
 

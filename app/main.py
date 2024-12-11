@@ -32,11 +32,12 @@ off_buttons = {}
 
 
 def update_devices_states(devices):
-    devices_ = check_states(devices)
-    for device in devices_:
+    devices = check_states(devices)
+    for device in devices:
         change_state(device)
 
-    main.after(60000, lambda units=devices_: update_devices_states(units))
+    survey = program_mode.survey
+    main.after(survey, lambda units=devices: update_devices_states(units))
 
 
 def get_command(device: Device) -> None:
@@ -182,7 +183,8 @@ def main_window(devices) -> None:
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
-    main.after(60000, lambda units=devices: update_devices_states(units))
+    delay = program_mode.delay
+    main.after(delay, lambda units=devices: update_devices_states(units))
     main.mainloop()
 
 

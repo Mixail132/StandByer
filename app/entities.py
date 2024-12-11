@@ -31,6 +31,9 @@ class Description:
     type: str
     zone: str
 
+
 @dataclass
 class Mode:
     debug: bool
+    delay: int
+    survey: int
