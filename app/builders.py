@@ -15,8 +15,6 @@ def glue_scripts(
         for script in input_scripts:
             with open(script, "r", encoding="utf-8") as lines:
                 for line in lines:
-                    if line.startswith('"""'):
-                        continue
                     if "app." in line:
                         continue
                     if "FILE_VARS.is_file():" in line:
@@ -76,10 +74,11 @@ if __name__ == "__main__":
 
     files = [
         DIR_APP / "dirs.py",
-        DIR_APP / "vars.py",
-        DIR_APP / "telegram.py",
-        DIR_APP / "viber.py",
-        DIR_APP / "audit.py",
+        DIR_APP / "entities.py",
+        DIR_APP / "tooltips.py",
+        DIR_APP / "configs.py",
+        DIR_APP / "actions.py",
+        DIR_APP / "settings.py",
         DIR_APP / "main.py",
     ]
 
