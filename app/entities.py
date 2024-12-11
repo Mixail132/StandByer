@@ -30,3 +30,7 @@ class Description:
     state: str
     type: str
     zone: str
+
+@dataclass
+class Debug:
+    debug: bool

@@ -2,11 +2,18 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import set_random_state, set_state_mark
-from configs import (read_config,
-                     read_description,
-                     Device)
+from actions import (
+    set_random_states,
+    set_real_state,
+    set_state_mark)
 from tooltips import ToolTip, set_tooltip
+from configs import (
+    read_modes,
+    read_config,
+    read_description,
+    Debug,
+    Device,
+    Description)
 from settings import settings_window
 
 
@@ -68,22 +75,33 @@ def get_command(device: Device) -> None:
     selected_value: str | None = selected_values[device_id].get()
     if device.standby and device.standby != selected_value:
         progress_bars[device_id].start()
-        main.after(6220, lambda: send_command(device, selected_value))
+        main.after(6220, lambda: launch_command(device, selected_value))
 
 
-def send_command(device: Device, selected_value: str) -> None:
+def launch_command(device: Device, selected_value: str) -> None:
     """
+    Stop the progress bar.
     Send the given command to a device.
     Update a color circle mark according to a new device state.
-    Stop the progress bar.
     :param device: the device configuration object.
     :param selected_value: the value to be set in the command.
     """
-    all_states = {"on": 0, "off": 1, "out": None}
+
+    device_ip = device.ip
+    standby_modes = {"on": False, "off": True}
+    standby_mode = standby_modes[selected_value]
+
+    if not program_mode.debug:
+        command_result = set_real_state(device_ip, standby_mode)
+        command_results = {"Active": 0, "Standby": 1, "Unreached": -1}
+        device.state = command_results[command_result]
+
+    elif program_mode.debug:
+        all_states = {"on": 0, "off": 1, "out": None}
+        device.state = all_states[selected_value]
+
     device_id: int = device.id
     progress_bars[device_id].stop()
-
-    device.state = all_states[selected_value]
     change_state(device)
 
 
@@ -91,17 +109,26 @@ def change_state(device: Device) -> None:
     """
     Change the color of the circle mark when sending
     a command to change the device's state.
-    Change a pop-up description text when sending
+    Change the pop-up description text when sending
     a command to change the device's state.
+    Change the radio buttons' state.
     """
-    set_state_mark(device)
+    device = set_state_mark(device)
     device_id: int = device.id
+
     new_mark = device.mark
     new_image = tk.PhotoImage(file=new_mark)
+
     state_labels[device_id].config(image=new_image)
     state_images[device_id] = new_image
+
     set_tooltip([device], program_headers)
     tooltips[device_id].text = device.description
+
+    var = tk.StringVar(value=device.standby)
+    selected_values[device_id] = var
+    on_buttons[device_id].config(variable=var)
+    off_buttons[device_id].config(variable=var)
 
 
 def main_window(devices) -> None:
@@ -133,6 +160,7 @@ def main_window(devices) -> None:
 
         state_image = tk.PhotoImage(file=device.mark)
         state_label = ttk.Label(main, image=state_image)
+
         state_label.image = state_image
         state_label.grid(row=device.id, column=1, padx=5, pady=5, sticky="w")
 
@@ -150,6 +178,7 @@ def main_window(devices) -> None:
 
         var = tk.StringVar(value=device.standby)
         selected_values[device.id] = var
+
         on_button = ttk.Radiobutton(main, text="on", value="on", variable=var)
         on_button.grid(row=device.id, column=4, padx=5, pady=5, sticky="w")
         on_buttons[device.id] = on_button
@@ -179,9 +208,10 @@ def main_window(devices) -> None:
     main.mainloop()
 
 
-device_initials = read_config()
-device_states = set_random_state(device_initials)
-program_headers = read_description()
-device_tooltips = set_tooltip(device_states, program_headers)
+program_mode: Debug = read_modes()
+device_initials: list[Device] = read_config()
+device_states: list[Device] = set_random_states(device_initials)
+program_headers: Description = read_description()
+device_tooltips: list[Device] = set_tooltip(device_states, program_headers)
 # device_marks = set_mark(device_tooltips)
 main_window(device_tooltips)

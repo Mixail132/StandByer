@@ -27,14 +27,14 @@ def check_states(devices: list[Device]) -> list[Device]:
     return states
 
 
-def check_state(
+def set_real_state(
         device_ip: str,
-        standby_mode: bool = True,
-) -> bool | None:
+        standby_mode: bool,
+) -> str:
     """
-    Set the devices' standby mode.
-    :param device_ip: the device's IP to be changed
-    :param standby_mode: True - to set standby
+    Change the device's standby mode.
+    :param device_ip: the device's IP to be changed.
+    :param standby_mode: True - to set standby mode.
     :return: the command result:
         True, False - the command succeed, the state has changed.
         None - the command is unsuccessful, the device is unreached.
@@ -43,17 +43,25 @@ def check_state(
     url = f"http://{device_ip}/am"
     headers = {"Content-Type": "application/json"}
 
-    command_status: bool | None = None
-    response = requests.post(url, headers=headers, json=payload)
+    command_result: str = "Unreached"
+    try:
+        response = requests.post(url, headers=headers, json=payload, timeout=3)
+    except requests.exceptions.ConnectTimeout:
+        return command_result
 
     if response.ok:
         data = response.json()
-        command_status = data["payload"]["action"]["values"][0]["data"]["boolValue"]
+        payload_result = data["payload"]["action"]["values"][0]["data"]["boolValue"]
 
-    return command_status
+        if payload_result is True:
+            command_result = "Standby"
+        elif payload_result is False:
+            command_result = "Active"
+
+    return command_result
 
 
-def set_random_state(devices: list[Device]) -> list[Device]:
+def set_random_states(devices: list[Device]) -> list[Device]:
     """
     Set the random states to the devices for initials.
     """
@@ -71,7 +79,8 @@ def set_random_state(devices: list[Device]) -> list[Device]:
 
 def set_state_mark(device: Device) -> Device:
     """
-    Set the mark depending on the device state.
+    Set the color circle mark depending on the device state.
+    Set the device standby mode depending on the device state.
     """
     if device.state == 0:
         device.mark = "../img/red.png"
@@ -80,5 +89,9 @@ def set_state_mark(device: Device) -> Device:
     elif device.state == 1:
         device.mark = "../img/green.png"
         device.standby = "off"
+
+    elif device.state == -1:
+        device.mark = "../img/grey.png"
+        device.standby = None
 
     return device

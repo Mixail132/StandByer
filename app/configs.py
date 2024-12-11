@@ -1,13 +1,24 @@
-from entities import Device, Description
+from entities import Debug, Device, Description
 from environs import Env
+
+env: Env = Env()
+env.read_env()
+
+
+def read_modes() -> Debug:
+    """
+    Read the program modes from the '.env' file.
+    """
+    debug = Debug(
+        debug=env.bool("DEBUG")
+    )
+    return debug
 
 
 def read_config() -> list[Device]:
     """
     Read the device configurations from the '.env' file.
     """
-    env: Env = Env()
-    env.read_env(".env")
     devices = []
 
     for num in range(1, 6):
@@ -28,8 +39,6 @@ def read_description() -> Description:
     """
     Read the program descriptions from the '.env' file.
     """
-    env: Env = Env()
-    env.read_env(".env")
     descriptions = Description(
         command=env.str("COMMAND"),
         ip=env.str("IP"),
