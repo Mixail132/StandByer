@@ -1,9 +1,9 @@
 import requests
 import random
 
-from entities import Device
-from payloads import get_payload
-from dirs import DIR_IMG
+from app.entities import Device
+from app.payloads import get_payload
+from app.dirs import DIR_IMG
 
 
 def check_states(devices: list[Device]) -> list[Device]:
