@@ -60,7 +60,7 @@ def read_description() -> Description:
     return descriptions
 
 
-def save_config(devices: list[Device]) -> None:
+def save_devices_config(devices: list[Device]) -> None:
     """
     Save the given device parameters to the '.env' file.
     """
