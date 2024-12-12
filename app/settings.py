@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from app.configs import save_config
+from app.configs import save_devices_config
 from app.configs import initial_devices, program_headers
 
 
@@ -14,7 +14,7 @@ device_places = {}
 device_zones = {}
 
 
-def settings_window(root) -> None:
+def create_settings_window(root) -> None:
     """
     Create the settings window with its widgets.
     """
@@ -70,14 +70,14 @@ def settings_window(root) -> None:
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda: save_settings(settings),
+        command=lambda: save_devices_settings(settings),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
 
 
-def save_settings(settings: tk.Toplevel) -> None:
+def save_devices_settings(settings: tk.Toplevel) -> None:
     """
     Get the settings from the form,
     Redefines the Device objects attribute with given values.
@@ -92,16 +92,16 @@ def save_settings(settings: tk.Toplevel) -> None:
         device.place = device_places[device.id].get()
 
     for device in initial_devices:
-        ip_is_valid = validate_ip(device.ip)
+        ip_is_valid = validate_given_ip(device.ip)
         if not ip_is_valid:
             messagebox.showerror("Error", "Bad IP address!")
             break
     else:
-        save_config(initial_devices)
+        save_devices_config(initial_devices)
         settings.destroy()
 
 
-def validate_ip(host: str) -> bool:
+def validate_given_ip(host: str) -> bool:
     """
     Check whether the given ip address is valid.
     """
