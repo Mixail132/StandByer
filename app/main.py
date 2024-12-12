@@ -174,7 +174,7 @@ def create_main_window(devices) -> None:
     settings_button = ttk.Button(
         main,
         text="Settings",
-        command=lambda: create_settings_window(main)
+        command=lambda: create_settings_window(main, devices)
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
