@@ -188,7 +188,7 @@ def create_main_window(devices) -> None:
 
 if program_mode.debug:
     initial_devices: list[Device] = set_random_states(initial_devices)
-else:
-    initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+
+initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
 
 create_main_window(initial_devices)
