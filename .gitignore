@@ -1,13 +1,17 @@
 .env
 .venv
 .idea
+.temp
 
 __pycache__
 
 venv
+out
 
 try.py
 try2.py
 try3.py
-TODO.md
+commons.py
 
+TODO.md
+switcher.exe

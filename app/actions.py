@@ -1,8 +1,10 @@
 import requests
+from requests.exceptions import ConnectTimeout, ConnectionError
 import random
 
-from entities import Device
-from payloads import get_payload
+from app.entities import Device
+from app.payloads import get_payload
+from app.dirs import DIR_IMG
 
 
 def check_states(devices: list[Device]) -> list[Device]:
@@ -22,7 +24,7 @@ def check_states(devices: list[Device]) -> list[Device]:
                 data = response.json()
                 device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
 
-        except requests.exceptions.ConnectTimeout:
+        except (ConnectTimeout, ConnectionError):
             device.state = -1
 
         states.append(device)
@@ -86,15 +88,15 @@ def set_state_mark(device: Device) -> Device:
     Set the device standby mode depending on the device state.
     """
     if device.state == 0:
-        device.mark = "../img/red.png"
+        device.mark = DIR_IMG / "red.png"
         device.standby = "on"
 
     elif device.state == 1:
-        device.mark = "../img/green.png"
+        device.mark = DIR_IMG / "green.png"
         device.standby = "off"
 
     elif device.state == -1:
-        device.mark = "../img/grey.png"
+        device.mark = DIR_IMG / "grey.png"
         device.standby = None
 
     return device

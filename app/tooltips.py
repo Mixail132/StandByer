@@ -1,7 +1,6 @@
 """Widgets' pop-up windows handling."""
 
-from entities import Device, Description
-from configs import read_description
+from app.entities import Device, Description
 import tkinter as tk
 
 

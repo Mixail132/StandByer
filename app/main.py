@@ -2,19 +2,11 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from actions import (
-    set_random_states,
-    set_real_state,
-    set_state_mark, check_states)
-from tooltips import ToolTip, set_tooltip
-from configs import (
-    read_modes,
-    read_config,
-    read_description,
-    Mode,
-    Device,
-    Description)
-from settings import settings_window
+from app.actions import set_random_states, set_real_state, set_state_mark, check_states
+from app.tooltips import ToolTip, set_tooltip
+from app.configs import Device
+from app.configs import initial_devices, program_mode, program_headers
+from app.settings import settings_window
 
 
 main = tk.Tk()
@@ -190,10 +182,6 @@ def main_window(devices) -> None:
     main.after(delay, lambda units=devices: update_devices_states(units))
     main.mainloop()
 
-
-initial_devices: list[Device] = read_config()
-program_mode: Mode = read_modes()
-program_headers: Description = read_description()
 
 if program_mode.debug:
     initial_devices: list[Device] = set_random_states(initial_devices)
