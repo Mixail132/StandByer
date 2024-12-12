@@ -82,7 +82,7 @@ def build_exe_file(output_script: Path) -> None:
             "--onefile",
             "--windowed",
             "--icon",
-            DIR_IMG / "ico.ico",
+            DIR_IMG / "note.ico",
             "--name",
             "switcher",
             f"{output_script}",
