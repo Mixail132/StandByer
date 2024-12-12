@@ -32,7 +32,8 @@ def update_devices_states(devices) -> None:
         change_device_state(device)
 
     survey = program_mode.survey
-    main.after(survey, lambda: update_devices_states(devices))
+    if not program_mode.debug:
+        main.after(survey, lambda: update_devices_states(devices))
 
 
 def get_button_command(device: Device) -> None:
@@ -179,7 +180,9 @@ def create_main_window(devices) -> None:
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
     delay = program_mode.delay
-    main.after(delay, lambda units=devices: update_devices_states(units))
+    if not program_mode.debug:
+        main.after(delay, lambda units=devices: update_devices_states(units))
+
     main.mainloop()
 
 
