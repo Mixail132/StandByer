@@ -1,4 +1,5 @@
 import ipaddress
+import subprocess
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -73,7 +74,7 @@ def create_settings_window(root, devices) -> None:
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda: save_devices_settings(settings, devices),
+        command=lambda: save_devices_settings(root, settings, devices),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
@@ -81,6 +82,7 @@ def create_settings_window(root, devices) -> None:
 
 
 def save_devices_settings(
+        root: tk.Tk,
         settings: tk.Toplevel,
         devices: list[Device]
 ) -> None:
@@ -105,6 +107,8 @@ def save_devices_settings(
     else:
         save_devices_config(devices)
         settings.destroy()
+        messagebox.showwarning("Warning!", "Restart the program to update changing.")
+        root.destroy()
 
 
 def validate_given_ip(host: str) -> bool:
