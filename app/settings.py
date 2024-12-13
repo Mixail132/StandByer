@@ -82,7 +82,7 @@ def create_settings_window(root, devices) -> None:
 
 def save_devices_settings(
         settings: tk.Toplevel,
-        devices: list[Device],
+        devices: list[Device]
 ) -> None:
     """
     Get the settings from the form,
