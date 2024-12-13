@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from app.configs import save_devices_config
-from app.configs import initial_devices, program_headers
+from app.configs import program_headers
 from app.entities import Device
 from app.dirs import DIR_IMG
 
@@ -80,7 +80,10 @@ def create_settings_window(root, devices) -> None:
     settings.mainloop()
 
 
-def save_devices_settings(settings: tk.Toplevel, devices: list[Device]) -> None:
+def save_devices_settings(
+        settings: tk.Toplevel,
+        devices: list[Device],
+) -> None:
     """
     Get the settings from the form,
     Redefines the Device objects attribute with given values.
