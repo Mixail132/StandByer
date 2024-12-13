@@ -19,6 +19,8 @@ progress_bars = {}
 selected_values = {}
 state_images = {}
 state_labels = {}
+type_labels = {}
+zone_labels = {}
 tooltips = {}
 on_buttons = {}
 off_buttons = {}
@@ -97,6 +99,9 @@ def change_device_state(device: Device) -> None:
     state_labels[device_id].config(image=new_image)
     state_images[device_id] = new_image
 
+    type_labels[device_id].config(text=device.type)
+    zone_labels[device_id].config(text=device.zone)
+
     set_tooltip([device], program_headers)
     tooltips[device_id].text = device.description
 
@@ -143,12 +148,14 @@ def create_main_window(devices) -> None:
         state_images[device.id] = state_image
 
         type_label = ttk.Label(main, text=device.type)
+        type_labels[device.id] = type_label
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
         tooltip = ToolTip(type_label, device.description)
         tooltips[device.id] = tooltip
 
         zone_label = ttk.Label(main, text=device.zone)
+        zone_labels[device.id] = zone_label
         zone_label.grid(row=device.id, column=3, padx=30, pady=5, sticky="w")
 
         var = tk.StringVar(value=device.standby)
