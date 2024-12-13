@@ -22,7 +22,7 @@ def glue_scripts_needed(
                     if "app." in line:
                         continue
 
-                    if "device.mark = DIR_IMG / " in line:
+                    if "DIR_IMG / " in line:
                         line = line.replace("DIR_IMG / ", "")
 
                     out.write(line)
@@ -58,6 +58,7 @@ def copy_files_needed() -> None:
         DIR_IMG / "green.png",
         DIR_IMG / "grey.png",
         DIR_IMG / "red.png",
+        DIR_IMG / "note.ico",
     ]
     for file in copied_files:
         out_file = DIR_OUT / file.name

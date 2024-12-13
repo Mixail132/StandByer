@@ -7,10 +7,11 @@ from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
 from app.settings import settings_window
-
+from app.dirs import DIR_IMG
 
 main = tk.Tk()
 main.title("Device switcher")
+main.iconbitmap(DIR_IMG / "note.ico")
 main.geometry("670x280")
 
 
