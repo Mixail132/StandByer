@@ -24,7 +24,7 @@ on_buttons = {}
 off_buttons = {}
 
 
-def update_devices_states(devices) -> None:
+def update_devices_states(devices: list[Device]) -> None:
     """
     Update the devices' state periodically.
     """

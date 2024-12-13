@@ -16,7 +16,11 @@ device_places = {}
 device_zones = {}
 
 
-def create_settings_window(root, devices, callback) -> None:
+def create_settings_window(
+        root: tk.Tk,
+        devices: list[Device],
+        callback: callable
+) -> None:
     """
     Create the settings window with its widgets.
     """
@@ -83,7 +87,7 @@ def create_settings_window(root, devices, callback) -> None:
 def save_devices_settings(
         settings: tk.Toplevel,
         devices: list[Device],
-        callback
+        callback: callable
 ) -> None:
     """
     Get the settings from the form,
@@ -109,12 +113,12 @@ def save_devices_settings(
         callback(devices)
 
 
-def validate_given_ip(host: str) -> bool:
+def validate_given_ip(ip_address: str) -> bool:
     """
     Check whether the given ip address is valid.
     """
     try:
-        is_valid = ipaddress.ip_address(host)
+        is_valid = ipaddress.ip_address(ip_address)
         ip_is_valid = bool(is_valid)
 
     except ValueError:
