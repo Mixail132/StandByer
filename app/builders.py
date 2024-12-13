@@ -61,16 +61,10 @@ def copy_files_needed() -> None:
     ]
     for file in copied_files:
         out_file = DIR_OUT / file.name
-        if not out_file.exists():
-            subprocess.run(
-                [
-                    "copy",
-                    file,
-                    DIR_OUT,
-                ],
-                check=True,
-                shell=True
-            )
+        if out_file.exists():
+            subprocess.run(["rm", out_file], check=True)
+        else:
+            subprocess.run(["copy", file, DIR_OUT], check=True, shell=True)
 
 
 def build_exe_file(output_script: Path) -> None:
