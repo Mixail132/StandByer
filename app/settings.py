@@ -5,6 +5,7 @@ from tkinter import messagebox
 
 from app.configs import save_config
 from app.configs import initial_devices, program_headers
+from app.dirs import DIR_IMG
 
 
 device_ips = {}
@@ -20,6 +21,7 @@ def settings_window(root) -> None:
     """
     settings = tk.Toplevel(root)
     settings.title("Settings")
+    settings.iconbitmap(DIR_IMG / "note.ico")
     settings.geometry("680x300")
 
     name_header = ttk.Label(settings, text=program_headers.name)
