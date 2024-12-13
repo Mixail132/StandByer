@@ -1,5 +1,4 @@
 import ipaddress
-import subprocess
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -17,7 +16,7 @@ device_places = {}
 device_zones = {}
 
 
-def create_settings_window(root, devices) -> None:
+def create_settings_window(root, devices, callback) -> None:
     """
     Create the settings window with its widgets.
     """
@@ -74,7 +73,7 @@ def create_settings_window(root, devices) -> None:
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda: save_devices_settings(root, settings, devices),
+        command=lambda: save_devices_settings(settings, devices, callback),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
@@ -82,9 +81,9 @@ def create_settings_window(root, devices) -> None:
 
 
 def save_devices_settings(
-        root: tk.Tk,
         settings: tk.Toplevel,
-        devices: list[Device]
+        devices: list[Device],
+        callback
 ) -> None:
     """
     Get the settings from the form,
@@ -107,8 +106,7 @@ def save_devices_settings(
     else:
         save_devices_config(devices)
         settings.destroy()
-        messagebox.showwarning("Warning!", "Restart the program to update changing.")
-        root.destroy()
+        callback(devices)
 
 
 def validate_given_ip(host: str) -> bool:

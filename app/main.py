@@ -32,8 +32,8 @@ def update_devices_states(devices) -> None:
     for device in devices:
         change_device_state(device)
 
-    survey = program_mode.survey
     if not program_mode.debug:
+        survey = program_mode.survey
         main.after(survey, lambda: update_devices_states(devices))
 
 
@@ -176,7 +176,7 @@ def create_main_window(devices) -> None:
     settings_button = ttk.Button(
         main,
         text="Settings",
-        command=lambda: create_settings_window(main, devices)
+        command=lambda: create_settings_window(main, devices, update_devices_states)
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
