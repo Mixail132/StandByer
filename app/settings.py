@@ -1,10 +1,12 @@
 import ipaddress
+import subprocess
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from app.configs import save_config
-from app.configs import initial_devices, program_headers
+from app.configs import save_devices_config
+from app.configs import program_headers
+from app.entities import Device
 from app.dirs import DIR_IMG
 
 
@@ -15,7 +17,7 @@ device_places = {}
 device_zones = {}
 
 
-def settings_window(root) -> None:
+def create_settings_window(root, devices) -> None:
     """
     Create the settings window with its widgets.
     """
@@ -39,7 +41,7 @@ def settings_window(root) -> None:
     place_header = ttk.Label(settings, text=program_headers.place)
     place_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
 
-    for device in initial_devices:
+    for device in devices:
 
         id_label = ttk.Label(settings, text=device.id)
         id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
@@ -72,20 +74,24 @@ def settings_window(root) -> None:
     apply_button = ttk.Button(
         settings,
         text="Save",
-        command=lambda: save_settings(settings),
+        command=lambda: save_devices_settings(root, settings, devices),
     )
     apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
 
 
-def save_settings(settings: tk.Toplevel) -> None:
+def save_devices_settings(
+        root: tk.Tk,
+        settings: tk.Toplevel,
+        devices: list[Device]
+) -> None:
     """
     Get the settings from the form,
     Redefines the Device objects attribute with given values.
     Call the function to save the settings to the ".env" file.
     """
-    for device in initial_devices:
+    for device in devices:
 
         device.name = device_names[device.id].get()
         device.type = device_types[device.id].get()
@@ -93,17 +99,19 @@ def save_settings(settings: tk.Toplevel) -> None:
         device.ip = device_ips[device.id].get()
         device.place = device_places[device.id].get()
 
-    for device in initial_devices:
-        ip_is_valid = validate_ip(device.ip)
+    for device in devices:
+        ip_is_valid = validate_given_ip(device.ip)
         if not ip_is_valid:
             messagebox.showerror("Error", "Bad IP address!")
             break
     else:
-        save_config(initial_devices)
+        save_devices_config(devices)
         settings.destroy()
+        messagebox.showwarning("Warning!", "Restart the program to update changing.")
+        root.destroy()
 
 
-def validate_ip(host: str) -> bool:
+def validate_given_ip(host: str) -> bool:
     """
     Check whether the given ip address is valid.
     """

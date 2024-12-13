@@ -6,7 +6,7 @@ from app.actions import set_random_states, set_real_state, set_state_mark, check
 from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
-from app.settings import settings_window
+from app.settings import create_settings_window
 from app.dirs import DIR_IMG
 
 main = tk.Tk()
@@ -30,13 +30,14 @@ def update_devices_states(devices) -> None:
     """
     devices = check_states(devices)
     for device in devices:
-        change_state(device)
+        change_device_state(device)
 
     survey = program_mode.survey
-    main.after(survey, lambda: update_devices_states(devices))
+    if not program_mode.debug:
+        main.after(survey, lambda: update_devices_states(devices))
 
 
-def get_command(device: Device) -> None:
+def get_button_command(device: Device) -> None:
     """
     Get the radiobutton state and a command from `OK` button.
     Start the progress bar.
@@ -49,10 +50,10 @@ def get_command(device: Device) -> None:
     selected_value: str | None = selected_values[device_id].get()
     if device.standby and device.standby != selected_value:
         progress_bars[device_id].start()
-        main.after(6220, lambda: launch_command(device, selected_value))
+        main.after(6220, lambda: launch_button_command(device, selected_value))
 
 
-def launch_command(device: Device, selected_value: str) -> None:
+def launch_button_command(device: Device, selected_value: str) -> None:
     """
     Stop the progress bar.
     Send the given command to a device.
@@ -76,10 +77,10 @@ def launch_command(device: Device, selected_value: str) -> None:
 
     device_id: int = device.id
     progress_bars[device_id].stop()
-    change_state(device)
+    change_device_state(device)
 
 
-def change_state(device: Device) -> None:
+def change_device_state(device: Device) -> None:
     """
     Change the color of the circle mark when sending
     a command to change the device's state.
@@ -105,7 +106,7 @@ def change_state(device: Device) -> None:
     off_buttons[device_id].config(variable=var)
 
 
-def main_window(devices) -> None:
+def create_main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
@@ -164,7 +165,7 @@ def main_window(devices) -> None:
         ok_button = ttk.Button(
             main,
             text="ok",
-            command=lambda unit=device: get_command(unit)
+            command=lambda unit=device: get_button_command(unit)
         )
         ok_button.grid(row=device.id, column=6, padx=40, pady=5, sticky="w")
 
@@ -175,18 +176,20 @@ def main_window(devices) -> None:
     settings_button = ttk.Button(
         main,
         text="Settings",
-        command=lambda: settings_window(main)
+        command=lambda: create_settings_window(main, devices)
     )
     settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
 
     delay = program_mode.delay
-    main.after(delay, lambda units=devices: update_devices_states(units))
+    if not program_mode.debug:
+        main.after(delay, lambda units=devices: update_devices_states(units))
+
     main.mainloop()
 
 
 if program_mode.debug:
     initial_devices: list[Device] = set_random_states(initial_devices)
-else:
-    initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
 
-main_window(initial_devices)
+initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+
+create_main_window(initial_devices)
