@@ -19,7 +19,7 @@ def check_states(devices: list[Device]) -> list[Device]:
         headers = {"Content-Type": "application/json"}
 
         try:
-            response = requests.post(url, headers=headers, json=payload, timeout=3)
+            response = requests.post(url, headers=headers, json=payload, timeout=2)
             if response.ok:
                 data = response.json()
                 device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
@@ -50,8 +50,8 @@ def set_real_state(
 
     command_result: str = "Unreached"
     try:
-        response = requests.post(url, headers=headers, json=payload, timeout=3)
-    except requests.exceptions.ConnectTimeout:
+        response = requests.post(url, headers=headers, json=payload, timeout=2)
+    except (ConnectTimeout, ConnectionError):
         return command_result
 
     if response.ok:
