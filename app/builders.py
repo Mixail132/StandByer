@@ -108,6 +108,7 @@ if __name__ == "__main__":
         DIR_APP / "configs.py",
         DIR_APP / "actions.py",
         DIR_APP / "settings.py",
+        DIR_APP / "timings.py",
         DIR_APP / "main.py",
     ]
 
