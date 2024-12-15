@@ -23,7 +23,7 @@ def read_config() -> list[Device]:
     """
     devices = []
 
-    for num in range(1, 6):
+    for num in range(1, 7):
         device = Device(
             id=num,
             ip=env.str(f"A{num}_IP"),

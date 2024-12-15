@@ -186,14 +186,14 @@ def create_main_window(devices) -> None:
         text="Auto",
         command=lambda: create_timings_window(main, devices)
     )
-    auto_button.grid(row=6, column=6, padx=10, pady=25, sticky="w")
+    auto_button.grid(row=7, column=6, padx=10, pady=25, sticky="w")
 
     settings_button = ttk.Button(
         main,
         text="Settings",
         command=lambda: create_settings_window(main, devices, update_devices_states)
     )
-    settings_button.grid(row=6, column=7, padx=35, pady=25, sticky="w")
+    settings_button.grid(row=7, column=7, padx=35, pady=25, sticky="w")
 
     delay = program_mode.delay
     if not program_mode.debug:
