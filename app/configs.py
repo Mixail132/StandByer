@@ -67,7 +67,7 @@ def save_devices_config(devices: list[Device]) -> None:
     Save the given device parameters to the '.env' file.
     """
     var_file = ".env"
-    file = open(var_file, "r")
+    file = open(var_file, "r", encoding="UTF-8")
     lines = file.readlines()
     output_lines = []
     for line in lines:
@@ -111,7 +111,7 @@ def save_devices_config(devices: list[Device]) -> None:
 
     file.close()
 
-    file = open(var_file, "w")
+    file = open(var_file, "w", encoding="UTF-8")
     file.write(output_text)
 
     file.close()
