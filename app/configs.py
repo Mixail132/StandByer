@@ -28,6 +28,8 @@ def read_config() -> list[Device]:
             id=num,
             ip=env.str(f"A{num}_IP"),
             name=env.str(f"A{num}_NAME"),
+            on=env.str(f"A{num}_ON"),
+            off=env.str(f"A{num}_OFF"),
             place=env.str(f"A{num}_PLACE"),
             type=env.str(f"A{num}_TYPE"),
             zone=env.str(f"A{num}_ZONE"),
@@ -79,6 +81,8 @@ def save_devices_config(devices: list[Device]) -> None:
             device_zone = f"A{device.id}_ZONE"
             device_ip = f"A{device.id}_IP"
             device_type = f"A{device.id}_TYPE"
+            device_on = f"A{device.id}_ON"
+            device_off = f"A{device.id}_OFF"
 
             if line.startswith(device_name):
                 output_line = f"{device_name}={device.name}\n"
@@ -94,6 +98,12 @@ def save_devices_config(devices: list[Device]) -> None:
                 continue
             elif line.startswith(device_type):
                 output_line = f"{device_type}={device.type}\n"
+                continue
+            elif line.startswith(device_on):
+                output_line = f"{device_on}={device.on}\n"
+                continue
+            elif line.startswith(device_off):
+                output_line = f"{device_off}={device.off}\n"
                 continue
 
         output_lines.append(output_line)
