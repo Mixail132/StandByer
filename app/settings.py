@@ -27,7 +27,7 @@ def create_settings_window(
     settings = tk.Toplevel(root)
     settings.title("Settings")
     settings.iconbitmap(DIR_IMG / "note.ico")
-    settings.geometry("680x300")
+    settings.geometry("680x340")
 
     name_header = ttk.Label(settings, text=program_headers.name)
     name_header.grid(row=0, column=1, padx=5, pady=5, sticky="w")
