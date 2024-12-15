@@ -1,6 +1,7 @@
 """ Actions for building the output 'exe' file. """
 
 import subprocess
+import shutil
 from pathlib import Path
 
 from app.dirs import DIR_APP, DIR_IMG, DIR_TEMP, DIR_OUT
@@ -50,8 +51,10 @@ def format_result_script(
 def copy_files_needed() -> None:
     """Create an output folder and puts the necessary files into it."""
 
-    if not DIR_OUT.exists():
-        DIR_OUT.mkdir(exist_ok=True, mode=0o777)
+    if DIR_OUT.exists():
+        shutil.rmtree(DIR_OUT)
+
+    DIR_OUT.mkdir(exist_ok=True, mode=0o777)
 
     copied_files = [
         DIR_APP / ".env",
@@ -61,17 +64,16 @@ def copy_files_needed() -> None:
         DIR_IMG / "note.ico",
     ]
     for file in copied_files:
-        out_file = DIR_OUT / file.name
-        if not out_file.exists():
-            subprocess.run(
-                [
-                    "copy",
-                    file,
-                    DIR_OUT,
-                ],
-                check=True,
-                shell=True
-            )
+        # out_file = DIR_OUT / file.name
+        subprocess.run(
+            [
+                "copy",
+                file,
+                DIR_OUT,
+            ],
+            check=True,
+            shell=True
+        )
 
 
 def build_exe_file(output_script: Path) -> None:
