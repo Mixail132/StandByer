@@ -11,13 +11,16 @@ dropdown_on_menus = {}
 dropdown_off_menus = {}
 
 
-def create_time_list():
+def create_time_list() -> list:
     """
     Create a list of drop down menu items.
     """
-    hours = ["--"]
+    hours = ["-- :--"]
     for hour in range(24):
-        hours.append(f"{hour}:00")
+        if len(str(hour)) == 2:
+            hours.append(f"{hour}:00")
+        else:
+            hours.append(f"0{hour}:00")
     return hours
 
 
@@ -97,7 +100,7 @@ def save_devices_timings(
         devices: list[Device],
 ) -> None:
     """
-    Get the timings from the drop down menus,
+    Get the timings from the drop-down menus,
     Call the function to save the timings to the ".env" file.
     Close the timings window.
     """
