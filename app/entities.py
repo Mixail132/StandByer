@@ -3,6 +3,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Device:
+    on: str
+    off: str
+    timing: bool = False
     description: str = ""
     id: int | None = None
     ip: str = ""
