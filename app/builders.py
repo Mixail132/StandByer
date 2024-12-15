@@ -64,7 +64,6 @@ def copy_files_needed() -> None:
         DIR_IMG / "note.ico",
     ]
     for file in copied_files:
-        # out_file = DIR_OUT / file.name
         subprocess.run(
             [
                 "copy",
