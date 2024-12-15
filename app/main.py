@@ -7,6 +7,7 @@ from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
 from app.settings import create_settings_window
+from app.timings import create_timings_window
 from app.dirs import DIR_IMG
 
 main = tk.Tk()
@@ -179,6 +180,13 @@ def create_main_window(devices) -> None:
         progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
         progress_bar.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
         progress_bars[device.id] = progress_bar
+
+    auto_button = ttk.Button(
+        main,
+        text="Auto",
+        command=lambda: create_timings_window(main, devices)
+    )
+    auto_button.grid(row=6, column=6, padx=10, pady=25, sticky="w")
 
     settings_button = ttk.Button(
         main,
