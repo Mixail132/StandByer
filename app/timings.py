@@ -34,7 +34,7 @@ def create_timings_window(
     timings = tk.Toplevel(root)
     timings.title("Timings")
     timings.iconbitmap(DIR_IMG / "note.ico")
-    timings.geometry("450x300")
+    timings.geometry("450x340")
 
     type_header = ttk.Label(timings, text=program_headers.type)
     type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")

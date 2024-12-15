@@ -13,7 +13,7 @@ from app.dirs import DIR_IMG
 main = tk.Tk()
 main.title("Device switcher")
 main.iconbitmap(DIR_IMG / "note.ico")
-main.geometry("670x280")
+main.geometry("670x320")
 
 
 progress_bars = {}
