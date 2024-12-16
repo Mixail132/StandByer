@@ -102,16 +102,17 @@ def set_state_mark(device: Device) -> Device:
     return device
 
 
-def check_devices_timings(devices: list[Device]):
+def set_clock_mark(device: Device) -> Device:
     """
-    Check whether a device' schedule is set.
+    Set a device's schedule color clock mark.
     Keep it in special variable.
     """
-    for device in devices:
-        if device.on == "-- :--" and device.off == "-- :--":
-            device.timing = True
-            device.clock = None
-        else:
-            device.timing = False
-            device.clock = DIR_IMG / "clock.png"
-    return devices
+
+    if device.on == "-- :--" and device.off == "-- :--":
+        device.timing = False
+        device.clock = DIR_IMG / "noclock.png"
+    else:
+        device.timing = True
+        device.clock = DIR_IMG / "clock.png"
+
+    return device
