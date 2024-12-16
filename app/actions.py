@@ -7,7 +7,7 @@ from app.payloads import get_payload
 from app.dirs import DIR_IMG
 
 
-def check_states(devices: list[Device]) -> list[Device]:
+def check_devices_states(devices: list[Device]) -> list[Device]:
     """
     Check the devices' current state.
     """
@@ -100,3 +100,16 @@ def set_state_mark(device: Device) -> Device:
         device.standby = None
 
     return device
+
+
+def check_devices_timings(devices: list[Device]):
+    """
+    Check whether a device' schedule is set.
+    Keep it in special variable.
+    """
+    for device in devices:
+        if device.on == "-- :--" or device.off == "-- :--":
+            device.timing = True
+        else:
+            device.timing = False
+    return devices

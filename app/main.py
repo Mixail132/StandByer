@@ -2,7 +2,13 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from app.actions import set_random_states, set_real_state, set_state_mark, check_states
+from app.actions import (
+    set_random_states,
+    set_real_state,
+    set_state_mark,
+    check_devices_states,
+    check_devices_timings,
+)
 from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
@@ -31,7 +37,7 @@ def update_devices_states(devices: list[Device]) -> None:
     """
     Update the devices' state periodically.
     """
-    devices = check_states(devices)
+    devices = check_devices_states(devices)
     for device in devices:
         change_device_state(device)
 
@@ -206,5 +212,6 @@ if program_mode.debug:
     initial_devices: list[Device] = set_random_states(initial_devices)
 
 initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+initial_devices: list[Device] = check_devices_timings(initial_devices)
 
 create_main_window(initial_devices)
