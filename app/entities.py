@@ -20,6 +20,7 @@ class Device:
 
 @dataclass
 class Description:
+    auto: str
     command: str
     description: str
     ip: str
