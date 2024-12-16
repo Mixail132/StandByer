@@ -179,11 +179,12 @@ def create_main_window(devices) -> None:
         off_button.grid(row=device.id, column=5, padx=7, pady=5, sticky="w")
         off_buttons[device.id] = off_button
 
-        auto_image = tk.PhotoImage(file=device.mark)
-        auto_label = ttk.Label(main, image=state_image)
+        if device.clock:
+            auto_image = tk.PhotoImage(file=device.clock)
+            auto_label = ttk.Label(main, image=auto_image)
 
-        auto_label.image = auto_image
-        auto_label.grid(row=device.id, column=6, padx=5, pady=5, sticky="w")
+            auto_label.image = auto_image
+            auto_label.grid(row=device.id, column=6, padx=5, pady=5, sticky="w")
 
         ok_button = ttk.Button(
             main,

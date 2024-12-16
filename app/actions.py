@@ -108,8 +108,10 @@ def check_devices_timings(devices: list[Device]):
     Keep it in special variable.
     """
     for device in devices:
-        if device.on == "-- :--" or device.off == "-- :--":
+        if device.on == "-- :--" and device.off == "-- :--":
             device.timing = True
+            device.clock = None
         else:
             device.timing = False
+            device.clock = DIR_IMG / "clock.png"
     return devices

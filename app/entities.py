@@ -6,6 +6,7 @@ class Device:
     on: str
     off: str
     timing: bool = False
+    clock: str | None = None
     description: str = ""
     id: int | None = None
     ip: str = ""
