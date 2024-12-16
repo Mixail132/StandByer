@@ -6,7 +6,7 @@ class Device:
     on: str
     off: str
     timing: bool = False
-    clock: str | None = None
+    clock: str = "../img/noclock.png"
     description: str = ""
     id: int | None = None
     ip: str = ""
