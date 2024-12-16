@@ -25,8 +25,9 @@ def create_time_list() -> list:
 
 
 def create_timings_window(
-        root: tk.Toplevel,
+        root: tk.Tk,
         devices: list[Device],
+        callback: callable,
 ) -> None:
     """
     Create the timings window with its widgets.
@@ -88,7 +89,7 @@ def create_timings_window(
     save_button = ttk.Button(
         timings,
         text="Save",
-        command=lambda: save_devices_timings(timings, devices),
+        command=lambda: save_devices_timings(timings, devices, callback),
     )
     save_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
@@ -98,6 +99,7 @@ def create_timings_window(
 def save_devices_timings(
         timings: tk.Toplevel,
         devices: list[Device],
+        callback: callable,
 ) -> None:
     """
     Get the timings from the drop-down menus,
@@ -111,3 +113,4 @@ def save_devices_timings(
 
     save_devices_config(devices)
     timings.destroy()
+    callback(devices)
