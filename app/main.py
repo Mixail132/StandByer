@@ -134,11 +134,14 @@ def create_main_window(devices) -> None:
     command_header = ttk.Label(main, text=program_headers.command)
     command_header.grid(row=0, column=4, columnspan=2, padx=5, pady=10, sticky="w")
 
-    place_header = ttk.Label(main, text=program_headers.set)
-    place_header.grid(row=0, column=6, padx=40, pady=10, sticky="w")
+    auto_header = ttk.Label(main, text=program_headers.auto)
+    auto_header.grid(row=0, column=6, padx=5, pady=10, sticky="w")
+
+    set_header = ttk.Label(main, text=program_headers.set)
+    set_header.grid(row=0, column=7, padx=6, pady=10, sticky="w")
 
     progress_header = ttk.Label(main, text=program_headers.progress)
-    progress_header.grid(row=0, column=7, padx=5, pady=10, sticky="w")
+    progress_header.grid(row=0, column=8, padx=5, pady=10, sticky="w")
 
     for device in devices:
 
@@ -173,18 +176,24 @@ def create_main_window(devices) -> None:
         on_buttons[device.id] = on_button
 
         off_button = ttk.Radiobutton(main, text="off", value="off", variable=var)
-        off_button.grid(row=device.id, column=5, padx=5, pady=5, sticky="w")
+        off_button.grid(row=device.id, column=5, padx=7, pady=5, sticky="w")
         off_buttons[device.id] = off_button
+
+        auto_image = tk.PhotoImage(file=device.mark)
+        auto_label = ttk.Label(main, image=state_image)
+
+        auto_label.image = auto_image
+        auto_label.grid(row=device.id, column=6, padx=5, pady=5, sticky="w")
 
         ok_button = ttk.Button(
             main,
             text="ok",
             command=lambda unit=device: get_button_command(unit)
         )
-        ok_button.grid(row=device.id, column=6, padx=40, pady=5, sticky="w")
+        ok_button.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
 
         progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
-        progress_bar.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
+        progress_bar.grid(row=device.id, column=8, padx=5, pady=5, sticky="w")
         progress_bars[device.id] = progress_bar
 
     auto_button = ttk.Button(
@@ -192,14 +201,14 @@ def create_main_window(devices) -> None:
         text="Auto",
         command=lambda: create_timings_window(main, devices)
     )
-    auto_button.grid(row=7, column=6, padx=10, pady=25, sticky="w")
+    auto_button.grid(row=7, column=5, columnspan=2, padx=5, pady=25, sticky="w")
 
     settings_button = ttk.Button(
         main,
         text="Settings",
         command=lambda: create_settings_window(main, devices, update_devices_states)
     )
-    settings_button.grid(row=7, column=7, padx=35, pady=25, sticky="w")
+    settings_button.grid(row=7, column=7, padx=10, pady=25, sticky="w")
 
     delay = program_mode.delay
     if not program_mode.debug:
