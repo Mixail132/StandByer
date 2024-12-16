@@ -2,13 +2,9 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from app.actions import (
-    set_random_states,
-    set_real_state,
-    set_state_mark,
-    check_devices_states,
-    set_clock_mark,
-)
+from app.actions import set_random_states, set_real_state
+from app.actions import set_state_mark, set_clock_mark
+from app.actions import check_devices_states
 from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
