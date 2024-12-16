@@ -62,6 +62,8 @@ def copy_files_needed() -> None:
         DIR_IMG / "grey.png",
         DIR_IMG / "red.png",
         DIR_IMG / "note.ico",
+        DIR_IMG / "clock.png",
+        DIR_IMG / "noclock.png",
     ]
     for file in copied_files:
         subprocess.run(
