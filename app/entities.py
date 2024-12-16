@@ -6,6 +6,7 @@ class Device:
     on: str
     off: str
     timing: bool = False
+    clock: str = "../img/noclock.png"
     description: str = ""
     id: int | None = None
     ip: str = ""
@@ -20,6 +21,7 @@ class Device:
 
 @dataclass
 class Description:
+    auto: str
     command: str
     description: str
     ip: str

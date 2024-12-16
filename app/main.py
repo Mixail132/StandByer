@@ -2,7 +2,9 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from app.actions import set_random_states, set_real_state, set_state_mark, check_states
+from app.actions import set_random_states, set_real_state
+from app.actions import set_state_mark, set_clock_mark
+from app.actions import check_devices_states
 from app.tooltips import ToolTip, set_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
@@ -18,6 +20,8 @@ main.geometry("670x320")
 
 progress_bars = {}
 selected_values = {}
+clock_labels = {}
+clock_images = {}
 state_images = {}
 state_labels = {}
 type_labels = {}
@@ -27,11 +31,23 @@ on_buttons = {}
 off_buttons = {}
 
 
+def update_devices_timings(devices: list[Device]) -> None:
+    """
+    Update the devices' clock marks if the schedule is set.
+    """
+    for device in devices:
+        set_clock_mark(device)
+        change_device_state(device)
+
+    after_id = main.after(1000, lambda: update_devices_timings(devices))
+    main.after_cancel(after_id)
+
+
 def update_devices_states(devices: list[Device]) -> None:
     """
     Update the devices' state periodically.
     """
-    devices = check_states(devices)
+    devices = check_devices_states(devices)
     for device in devices:
         change_device_state(device)
 
@@ -92,13 +108,21 @@ def change_device_state(device: Device) -> None:
     Change the radio buttons' state.
     """
     device = set_state_mark(device)
+    device = set_clock_mark(device)
+
     device_id: int = device.id
 
-    new_mark = device.mark
-    new_image = tk.PhotoImage(file=new_mark)
+    new_state_mark = device.mark
+    new_state_image = tk.PhotoImage(file=new_state_mark)
 
-    state_labels[device_id].config(image=new_image)
-    state_images[device_id] = new_image
+    state_labels[device_id].config(image=new_state_image)
+    state_images[device_id] = new_state_image
+
+    new_clock_mark = device.clock
+    new_clock_image = tk.PhotoImage(file=new_clock_mark)
+
+    clock_labels[device_id].config(image=new_clock_image)
+    clock_images[device_id] = new_clock_image
 
     type_labels[device_id].config(text=device.type)
     zone_labels[device_id].config(text=device.zone)
@@ -108,6 +132,7 @@ def change_device_state(device: Device) -> None:
 
     var = tk.StringVar(value=device.standby)
     selected_values[device_id] = var
+
     on_buttons[device_id].config(variable=var)
     off_buttons[device_id].config(variable=var)
 
@@ -128,11 +153,14 @@ def create_main_window(devices) -> None:
     command_header = ttk.Label(main, text=program_headers.command)
     command_header.grid(row=0, column=4, columnspan=2, padx=5, pady=10, sticky="w")
 
-    place_header = ttk.Label(main, text=program_headers.set)
-    place_header.grid(row=0, column=6, padx=40, pady=10, sticky="w")
+    auto_header = ttk.Label(main, text=program_headers.auto)
+    auto_header.grid(row=0, column=6, padx=5, pady=10, sticky="w")
+
+    set_header = ttk.Label(main, text=program_headers.set)
+    set_header.grid(row=0, column=7, padx=6, pady=10, sticky="w")
 
     progress_header = ttk.Label(main, text=program_headers.progress)
-    progress_header.grid(row=0, column=7, padx=5, pady=10, sticky="w")
+    progress_header.grid(row=0, column=8, padx=5, pady=10, sticky="w")
 
     for device in devices:
 
@@ -167,33 +195,41 @@ def create_main_window(devices) -> None:
         on_buttons[device.id] = on_button
 
         off_button = ttk.Radiobutton(main, text="off", value="off", variable=var)
-        off_button.grid(row=device.id, column=5, padx=5, pady=5, sticky="w")
+        off_button.grid(row=device.id, column=5, padx=7, pady=5, sticky="w")
         off_buttons[device.id] = off_button
+
+        clock_image = tk.PhotoImage(file=device.clock)
+        clock_label = ttk.Label(main, image=clock_image)
+        clock_label.image = clock_image
+        clock_label.grid(row=device.id, column=6, padx=5, pady=5, sticky="w")
+
+        clock_labels[device.id] = clock_label
+        clock_images[device.id] = clock_image
 
         ok_button = ttk.Button(
             main,
             text="ok",
             command=lambda unit=device: get_button_command(unit)
         )
-        ok_button.grid(row=device.id, column=6, padx=40, pady=5, sticky="w")
+        ok_button.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
 
         progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
-        progress_bar.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
+        progress_bar.grid(row=device.id, column=8, padx=5, pady=5, sticky="w")
         progress_bars[device.id] = progress_bar
 
     auto_button = ttk.Button(
         main,
         text="Auto",
-        command=lambda: create_timings_window(main, devices)
+        command=lambda: create_timings_window(main, devices, update_devices_timings)
     )
-    auto_button.grid(row=7, column=6, padx=10, pady=25, sticky="w")
+    auto_button.grid(row=7, column=5, columnspan=2, padx=5, pady=25, sticky="w")
 
     settings_button = ttk.Button(
         main,
         text="Settings",
         command=lambda: create_settings_window(main, devices, update_devices_states)
     )
-    settings_button.grid(row=7, column=7, padx=35, pady=25, sticky="w")
+    settings_button.grid(row=7, column=7, padx=10, pady=25, sticky="w")
 
     delay = program_mode.delay
     if not program_mode.debug:
@@ -206,5 +242,9 @@ if program_mode.debug:
     initial_devices: list[Device] = set_random_states(initial_devices)
 
 initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+
+for item in initial_devices:
+    set_clock_mark(item)
+
 
 create_main_window(initial_devices)

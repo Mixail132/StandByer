@@ -7,7 +7,7 @@ from app.payloads import get_payload
 from app.dirs import DIR_IMG
 
 
-def check_states(devices: list[Device]) -> list[Device]:
+def check_devices_states(devices: list[Device]) -> list[Device]:
     """
     Check the devices' current state.
     """
@@ -98,5 +98,21 @@ def set_state_mark(device: Device) -> Device:
     elif device.state == -1:
         device.mark = DIR_IMG / "grey.png"
         device.standby = None
+
+    return device
+
+
+def set_clock_mark(device: Device) -> Device:
+    """
+    Set a device's schedule color clock mark.
+    Keep it in special variable.
+    """
+
+    if device.on == "-- :--" and device.off == "-- :--":
+        device.timing = False
+        device.clock = DIR_IMG / "noclock.png"
+    else:
+        device.timing = True
+        device.clock = DIR_IMG / "clock.png"
 
     return device

@@ -5,7 +5,7 @@ env: Env = Env()
 env.read_env()
 
 
-def read_modes() -> Mode:
+def read_program_modes() -> Mode:
     """
     Read the program modes from the '.env' file.
     """
@@ -17,7 +17,7 @@ def read_modes() -> Mode:
     return debug
 
 
-def read_config() -> list[Device]:
+def read_devices_config() -> list[Device]:
     """
     Read the device configurations from the '.env' file.
     """
@@ -44,6 +44,7 @@ def read_description() -> Description:
     Read the program descriptions from the '.env' file.
     """
     descriptions = Description(
+        auto=env.str("AUTO"),
         command=env.str("COMMAND"),
         ip=env.str("IP"),
         description=env.str("DESCRIPTION"),
@@ -117,6 +118,6 @@ def save_devices_config(devices: list[Device]) -> None:
     file.close()
 
 
-initial_devices: list[Device] = read_config()
-program_mode: Mode = read_modes()
+initial_devices: list[Device] = read_devices_config()
+program_mode: Mode = read_program_modes()
 program_headers: Description = read_description()
