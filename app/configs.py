@@ -44,6 +44,7 @@ def read_description() -> Description:
     Read the program descriptions from the '.env' file.
     """
     descriptions = Description(
+        auto=env.str("AUTO"),
         command=env.str("COMMAND"),
         ip=env.str("IP"),
         description=env.str("DESCRIPTION"),
