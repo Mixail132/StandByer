@@ -29,19 +29,43 @@ def create_settings_window(
     settings.iconbitmap(DIR_IMG / "note.ico")
     settings.geometry("680x340")
 
-    name_header = ttk.Label(settings, text=program_headers.name)
-    name_header.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+    name_header = ttk.Label(
+        settings,
+        text=program_headers.name,
+        width=26,
+        anchor="center")
+    name_header.grid(row=0, column=1, pady=5, sticky="w")
 
-    type_header = ttk.Label(settings, text=program_headers.type)
-    type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+    type_header = ttk.Label(
+        settings,
+        text=program_headers.type,
+        width=15,
+        anchor="center"
+    )
+    type_header.grid(row=0, column=2, pady=5, sticky="w")
 
-    zone_header = ttk.Label(settings, text=program_headers.zone)
-    zone_header.grid(row=0, column=3, padx=5, pady=5, sticky="w")
+    zone_header = ttk.Label(
+        settings,
+        text=program_headers.zone,
+        width=20,
+        anchor="center"
+    )
+    zone_header.grid(row=0, column=3, pady=5, sticky="w")
 
-    ip_header = ttk.Label(settings, text=program_headers.ip)
-    ip_header.grid(row=0, column=4, padx=5, pady=5, sticky="w")
+    ip_header = ttk.Label(
+        settings,
+        text=program_headers.ip,
+        width=13,
+        anchor="center"
+    )
+    ip_header.grid(row=0, column=4, pady=5, sticky="w")
 
-    place_header = ttk.Label(settings, text=program_headers.place)
+    place_header = ttk.Label(
+        settings,
+        text=program_headers.place,
+        width=14,
+        anchor="center"
+    )
     place_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
 
     for device in devices:
@@ -64,7 +88,7 @@ def create_settings_window(
         zone_label.grid(row=device.id, column=3, padx=5, pady=10, sticky="w")
         device_zones[device.id] = zone_label
 
-        ip_label = ttk.Entry(settings, width=15)
+        ip_label = ttk.Entry(settings, width=13)
         ip_label.insert(0, device.ip)
         ip_label.grid(row=device.id, column=4, padx=5, pady=10, sticky="w")
         device_ips[device.id] = ip_label
@@ -74,12 +98,12 @@ def create_settings_window(
         place_label.grid(row=device.id, column=5, padx=5, pady=10, sticky="w")
         device_places[device.id] = place_label
 
-    apply_button = ttk.Button(
+    save_button = ttk.Button(
         settings,
         text="Save",
         command=lambda: save_devices_settings(settings, devices, callback),
     )
-    apply_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
+    save_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
 
     settings.mainloop()
 

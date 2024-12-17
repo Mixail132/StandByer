@@ -37,10 +37,20 @@ def create_timings_window(
     timings.iconbitmap(DIR_IMG / "note.ico")
     timings.geometry("428x305")
 
-    type_header = ttk.Label(timings, text=program_headers.type, width=12, anchor="center")
+    type_header = ttk.Label(
+        timings,
+        text=program_headers.type,
+        width=12,
+        anchor="center"
+    )
     type_header.grid(row=0, column=2, pady=10, sticky="w")
 
-    zone_header = ttk.Label(timings, text=program_headers.zone, width=20, anchor="center")
+    zone_header = ttk.Label(
+        timings,
+        text=program_headers.zone,
+        width=20,
+        anchor="center"
+    )
     zone_header.grid(row=0, column=3, pady=10, sticky="w")
 
     on_header = ttk.Label(timings, text="On", width=10, anchor="center")

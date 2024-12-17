@@ -145,25 +145,55 @@ def create_main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
-    name_header = ttk.Label(main, text=program_headers.state, anchor="center")
-    name_header.grid(row=0, column=1, pady=10, sticky="w")
+    state_header = ttk.Label(main, text=program_headers.state)
+    state_header.grid(row=0, column=1, pady=10, sticky="w")
 
-    type_header = ttk.Label(main, text=program_headers.type, width=12, anchor="center")
+    type_header = ttk.Label(
+        main,
+        text=program_headers.type,
+        width=12,
+        anchor="center"
+    )
     type_header.grid(row=0, column=2, pady=10, sticky="w")
 
-    zone_header = ttk.Label(main, text=program_headers.zone, width=20, anchor="center")
+    zone_header = ttk.Label(
+        main,
+        text=program_headers.zone,
+        width=20,
+        anchor="center"
+    )
     zone_header.grid(row=0, column=3, pady=10, sticky="w")
 
-    command_header = ttk.Label(main, text=program_headers.command, width=16, anchor="center")
+    command_header = ttk.Label(
+        main,
+        text=program_headers.command,
+        width=16,
+        anchor="center"
+    )
     command_header.grid(row=0, column=4, columnspan=2, pady=10, sticky="w")
 
-    auto_header = ttk.Label(main, text=program_headers.auto, width=7, anchor="center")
+    auto_header = ttk.Label(
+        main,
+        text=program_headers.auto,
+        width=7,
+        anchor="center"
+    )
     auto_header.grid(row=0, column=6, pady=10, sticky="w")
 
-    set_header = ttk.Label(main, text=program_headers.set, width=13, anchor="center")
+    set_header = ttk.Label(
+        main,
+        text=program_headers.set,
+        width=13,
+        anchor="center"
+    )
     set_header.grid(row=0, column=7, pady=10, sticky="w")
 
-    progress_header = ttk.Label(main, text=program_headers.progress, width=20, anchor="center")
+    progress_header = ttk.Label(
+        main,
+        text=program_headers.progress,
+        width=20,
+        anchor="center"
+    )
     progress_header.grid(row=0, column=8, pady=10, sticky="w")
 
     for device in devices:
