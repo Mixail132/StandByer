@@ -66,22 +66,34 @@ def update_devices_states(devices: list[Device]) -> None:
 def get_button_command(device: Device) -> None:
     """
     Get the radiobutton state and a command from `OK` button.
-    Start the progress bar.
     Set the progress bar moving time.
+    Start the progress bar.
+    Stop the progress bar.
     Wait until the progress bar ends and call the command function.
     Deny the commands if the device is unreached (standby is None)
     :param device: the device configuration object.
     """
     device_id: int = device.id
-    selected_value: str | None = selected_values[device_id].get()
-    if device.standby and device.standby != selected_value:
-        progress_bars[device_id].start()
-        main.after(6220, lambda: launch_button_command(device, selected_value))
+    current_value = progress_bars[device_id]["value"]
+
+    if current_value < 100:
+        progress_bars[device_id]["value"] = current_value + 1
+        main.after(50, lambda: get_button_command(device))
+
+    else:
+        progress_bars[device_id]["value"] = 0
+        selected_value: str | None = selected_values[device_id].get()
+
+        if device.standby and device.standby != selected_value:
+
+            progress_bars[device_id].start()
+            progress_bars[device_id].stop()
+
+            launch_button_command(device, selected_value)
 
 
 def launch_button_command(device: Device, selected_value: str) -> None:
     """
-    Stop the progress bar.
     Send the given command to a device.
     Update a color circle mark according to a new device state.
     :param device: the device configuration object.
@@ -89,6 +101,11 @@ def launch_button_command(device: Device, selected_value: str) -> None:
     """
 
     device_ip = device.ip
+    device_id: int = device.id
+
+    progress_bars[device_id]["value"] = 0
+    progress_bars[device_id].stop()
+
     standby_modes = {"on": False, "off": True}
     standby_mode = standby_modes[selected_value]
 
@@ -101,8 +118,6 @@ def launch_button_command(device: Device, selected_value: str) -> None:
         all_states = {"on": 0, "off": 1, "out": None}
         device.state = all_states[selected_value]
 
-    device_id: int = device.id
-    progress_bars[device_id].stop()
     change_device_state(device)
 
 
@@ -237,6 +252,7 @@ def create_main_window(devices) -> None:
 
         clock_image = tk.PhotoImage(file=device.clock)
         clock_label = ttk.Label(main, image=clock_image)
+
         clock_label.image = clock_image
         clock_label.grid(row=device.id, column=6, padx=10, pady=5, sticky="w")
 
@@ -250,7 +266,12 @@ def create_main_window(devices) -> None:
         )
         ok_button.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
 
-        progress_bar = ttk.Progressbar(main, orient="horizontal", length="106")
+        progress_bar = ttk.Progressbar(
+            main,
+            orient="horizontal",
+            length=100,
+            maximum=100,
+        )
         progress_bar.grid(row=device.id, column=8, padx=5, pady=5, sticky="w")
         progress_bars[device.id] = progress_bar
 
@@ -309,4 +330,3 @@ def start_the_program(devices):
 
 
 start_the_program(initial_devices)
-
