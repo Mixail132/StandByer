@@ -56,10 +56,10 @@ def create_timings_window(
         id_label = ttk.Label(timings, text=device.id)
         id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
 
-        type_label = ttk.Label(timings, text=device.type)
+        type_label = ttk.Label(timings, text=device.type, width=12)
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
-        zone_label = ttk.Label(timings, text=device.zone)
+        zone_label = ttk.Label(timings, text=device.zone, width=20)
         zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
 
         dropdown_on_value = tk.StringVar()

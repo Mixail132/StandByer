@@ -15,7 +15,7 @@ from app.dirs import DIR_IMG
 main = tk.Tk()
 main.title("Device switcher")
 main.iconbitmap(DIR_IMG / "note.ico")
-main.geometry("670x320")
+main.geometry("703x320")
 
 
 progress_bars = {}
@@ -180,14 +180,14 @@ def create_main_window(devices) -> None:
         state_labels[device.id] = state_label
         state_images[device.id] = state_image
 
-        type_label = ttk.Label(main, text=device.type)
+        type_label = ttk.Label(main, text=device.type, width=12)
         type_labels[device.id] = type_label
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
         tooltip = ToolTip(type_label, device.description)
         tooltips[device.id] = tooltip
 
-        zone_label = ttk.Label(main, text=device.zone)
+        zone_label = ttk.Label(main, text=device.zone, width=20)
         zone_labels[device.id] = zone_label
         zone_label.grid(row=device.id, column=3, padx=30, pady=5, sticky="w")
 
