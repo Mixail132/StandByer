@@ -35,31 +35,41 @@ def create_timings_window(
     timings = tk.Toplevel(root)
     timings.title("Timings")
     timings.iconbitmap(DIR_IMG / "note.ico")
-    timings.geometry("450x340")
+    timings.geometry("428x305")
 
-    type_header = ttk.Label(timings, text=program_headers.type)
-    type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+    type_header = ttk.Label(
+        timings,
+        text=program_headers.type,
+        width=12,
+        anchor="center"
+    )
+    type_header.grid(row=0, column=2, pady=10, sticky="w")
 
-    zone_header = ttk.Label(timings, text=program_headers.zone)
-    zone_header.grid(row=0, column=3, padx=5, pady=5, sticky="w")
+    zone_header = ttk.Label(
+        timings,
+        text=program_headers.zone,
+        width=20,
+        anchor="center"
+    )
+    zone_header.grid(row=0, column=3, pady=10, sticky="w")
 
-    on_header = ttk.Label(timings, text="On time")
-    on_header.grid(row=0, column=4, padx=5, pady=5, sticky="w")
+    on_header = ttk.Label(timings, text="On", width=10, anchor="center")
+    on_header.grid(row=0, column=4, pady=10, sticky="w")
 
-    off_header = ttk.Label(timings, text="Off time")
-    off_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
+    off_header = ttk.Label(timings, text="Off", width=10, anchor="center")
+    off_header.grid(row=0, column=5, pady=10, sticky="w")
 
     options = create_time_list()
 
     for device in devices:
 
         id_label = ttk.Label(timings, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
+        id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
 
-        type_label = ttk.Label(timings, text=device.type)
+        type_label = ttk.Label(timings, text=device.type, width=12)
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
-        zone_label = ttk.Label(timings, text=device.zone)
+        zone_label = ttk.Label(timings, text=device.zone, width=20)
         zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
 
         dropdown_on_value = tk.StringVar()
@@ -91,7 +101,7 @@ def create_timings_window(
         text="Save",
         command=lambda: save_devices_timings(timings, devices, callback),
     )
-    save_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
+    save_button.grid(row=7, column=5, padx=2, pady=25, sticky="w")
 
     timings.mainloop()
 

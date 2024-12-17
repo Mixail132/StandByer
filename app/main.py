@@ -15,7 +15,7 @@ from app.dirs import DIR_IMG
 main = tk.Tk()
 main.title("Device switcher")
 main.iconbitmap(DIR_IMG / "note.ico")
-main.geometry("670x320")
+main.geometry("655x320")
 
 
 progress_bars = {}
@@ -145,26 +145,56 @@ def create_main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
-    name_header = ttk.Label(main, text=program_headers.state)
-    name_header.grid(row=0, column=1, padx=5, pady=10, sticky="w")
+    state_header = ttk.Label(main, text=program_headers.state)
+    state_header.grid(row=0, column=1, pady=10, sticky="w")
 
-    type_header = ttk.Label(main, text=program_headers.type)
-    type_header.grid(row=0, column=2, padx=5, pady=10, sticky="w")
+    type_header = ttk.Label(
+        main,
+        text=program_headers.type,
+        width=12,
+        anchor="center"
+    )
+    type_header.grid(row=0, column=2, pady=10, sticky="w")
 
-    zone_header = ttk.Label(main, text=program_headers.zone)
-    zone_header.grid(row=0, column=3, padx=30, pady=10, sticky="w")
+    zone_header = ttk.Label(
+        main,
+        text=program_headers.zone,
+        width=20,
+        anchor="center"
+    )
+    zone_header.grid(row=0, column=3, pady=10, sticky="w")
 
-    command_header = ttk.Label(main, text=program_headers.command)
-    command_header.grid(row=0, column=4, columnspan=2, padx=5, pady=10, sticky="w")
+    command_header = ttk.Label(
+        main,
+        text=program_headers.command,
+        width=16,
+        anchor="center"
+    )
+    command_header.grid(row=0, column=4, columnspan=2, pady=10, sticky="w")
 
-    auto_header = ttk.Label(main, text=program_headers.auto)
-    auto_header.grid(row=0, column=6, padx=5, pady=10, sticky="w")
+    auto_header = ttk.Label(
+        main,
+        text=program_headers.auto,
+        width=7,
+        anchor="center"
+    )
+    auto_header.grid(row=0, column=6, pady=10, sticky="w")
 
-    set_header = ttk.Label(main, text=program_headers.set)
-    set_header.grid(row=0, column=7, padx=6, pady=10, sticky="w")
+    set_header = ttk.Label(
+        main,
+        text=program_headers.set,
+        width=13,
+        anchor="center"
+    )
+    set_header.grid(row=0, column=7, pady=10, sticky="w")
 
-    progress_header = ttk.Label(main, text=program_headers.progress)
-    progress_header.grid(row=0, column=8, padx=5, pady=10, sticky="w")
+    progress_header = ttk.Label(
+        main,
+        text=program_headers.progress,
+        width=20,
+        anchor="center"
+    )
+    progress_header.grid(row=0, column=8, pady=10, sticky="w")
 
     for device in devices:
 
@@ -180,16 +210,16 @@ def create_main_window(devices) -> None:
         state_labels[device.id] = state_label
         state_images[device.id] = state_image
 
-        type_label = ttk.Label(main, text=device.type)
+        type_label = ttk.Label(main, text=device.type, width=12)
         type_labels[device.id] = type_label
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
         tooltip = ToolTip(type_label, device.description)
         tooltips[device.id] = tooltip
 
-        zone_label = ttk.Label(main, text=device.zone)
+        zone_label = ttk.Label(main, text=device.zone, width=20)
         zone_labels[device.id] = zone_label
-        zone_label.grid(row=device.id, column=3, padx=30, pady=5, sticky="w")
+        zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
 
         var = tk.StringVar(value=device.standby)
         selected_values[device.id] = var
@@ -205,7 +235,7 @@ def create_main_window(devices) -> None:
         clock_image = tk.PhotoImage(file=device.clock)
         clock_label = ttk.Label(main, image=clock_image)
         clock_label.image = clock_image
-        clock_label.grid(row=device.id, column=6, padx=5, pady=5, sticky="w")
+        clock_label.grid(row=device.id, column=6, padx=10, pady=5, sticky="w")
 
         clock_labels[device.id] = clock_label
         clock_images[device.id] = clock_image
