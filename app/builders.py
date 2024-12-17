@@ -106,7 +106,7 @@ if __name__ == "__main__":
     files = [
         DIR_APP / "dirs.py",
         DIR_APP / "entities.py",
-        DIR_APP / "descriptions.py",
+        DIR_APP / "tooltips.py",
         DIR_APP / "payloads.py",
         DIR_APP / "configs.py",
         DIR_APP / "actions.py",
