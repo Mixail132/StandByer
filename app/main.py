@@ -1,5 +1,5 @@
+import schedule
 import tkinter as tk
-
 from tkinter import ttk
 
 from app.actions import set_random_states, set_real_state
@@ -278,3 +278,4 @@ for item in initial_devices:
 
 
 create_main_window(initial_devices)
+
