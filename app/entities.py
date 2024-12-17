@@ -10,6 +10,7 @@ class Device:
     timing: bool = False
     clock: Path = DIR_IMG / "noclock.png"
     description: str = ""
+    schedule: str = ""
     id: int | None = None
     ip: str = ""
     mark: Path = DIR_IMG / "grey.png"

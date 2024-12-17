@@ -9,10 +9,11 @@ class ToolTip:
     Handles a pop-up window to a widget.
     """
 
-    def __init__(self, widget, text):
+    def __init__(self, widget, text, condition=True):
         """
         Initializes the pop-up window settings.
         """
+        self.condition = condition
         self.widget = widget
         self.text = text
         self.tooltip_window = None
@@ -21,6 +22,8 @@ class ToolTip:
 
     def show_tooltip(self, event):
         """Shows the pop-up window."""
+        if not self.condition:
+            return
         x, y, _, _ = self.widget.bbox("insert")
         padding = 15
         x += self.widget.winfo_rootx() + padding
@@ -47,11 +50,11 @@ class ToolTip:
             self.tooltip_window = None
 
 
-def set_tooltip(
+def set_info_tooltip(
         devices: list[Device],
         titles: Description
 ) -> list[Device]:
-    """Combines the pop-up text."""
+    """Combines the pop-up info text."""
 
     states = {0: titles.on, 1: titles.standby, -1: titles.out}
     for device in devices:
@@ -63,6 +66,20 @@ def set_tooltip(
         •  {titles.ip}:  {device.ip}
         •  {titles.place}:  {device.place}
         •  {titles.state}:  {states[device.state]}
+        """
+
+    return devices
+
+
+def set_timing_tooltip(
+        devices: list[Device],
+) -> list[Device]:
+    """Combines the pop-up timing text."""
+
+    for device in devices:
+        device.schedule = f"""
+        •  ON  :  {device.on}
+        •  OFF :  {device.off}
         """
 
     return devices
