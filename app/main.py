@@ -145,9 +145,6 @@ def create_main_window(devices) -> None:
     """
     Create the main window and it's widgets.
     """
-    id_header = ttk.Label(main, text="ID", width=5, anchor="center")
-    id_header.grid(row=0, column=0, pady=10, sticky="w")
-
     name_header = ttk.Label(main, text=program_headers.state, anchor="center")
     name_header.grid(row=0, column=1, pady=10, sticky="w")
 
