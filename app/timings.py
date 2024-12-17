@@ -123,4 +123,5 @@ def save_devices_timings(
 
     save_devices_config(devices)
     timings.destroy()
+
     callback(devices)

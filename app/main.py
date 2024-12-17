@@ -1,4 +1,5 @@
 import schedule
+import time
 import tkinter as tk
 from tkinter import ttk
 
@@ -35,9 +36,11 @@ def update_devices_timings(devices: list[Device]) -> None:
     """
     Update the devices' clock marks if the schedule is set.
     """
+    schedule.clear()
     for device in devices:
         set_clock_mark(device)
         change_device_state(device)
+        set_device_schedule(device)
 
     after_id = main.after(1000, lambda: update_devices_timings(devices))
     main.after_cancel(after_id)
@@ -271,11 +274,33 @@ def create_main_window(devices) -> None:
     main.mainloop()
 
 
-initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
+def set_device_schedule(device):
+    """
+    Set a device schedule to send a command
+    in a certain time of the day automatically.
+    """
+    on_time = device.on
+    if on_time != "-- :--":
+        schedule.every().day.at(on_time).do(
+            lambda: launch_button_command(device, "on")
+        )
+
+    off_time = device.off
+    if off_time != '-- :--':
+        schedule.every().day.at(off_time).do(
+            lambda: launch_button_command(device, "off")
+        )
+
 
 for item in initial_devices:
     set_clock_mark(item)
+    set_device_schedule(item)
 
 
+initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
 create_main_window(initial_devices)
 
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
