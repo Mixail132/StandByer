@@ -6,7 +6,7 @@ from tkinter import ttk
 from app.actions import set_random_states, set_real_state
 from app.actions import set_state_mark, set_clock_mark
 from app.actions import check_devices_states
-from app.tooltips import ToolTip, set_tooltip
+from app.tooltips import ToolTip, set_info_tooltip, set_timing_tooltip
 from app.configs import Device
 from app.configs import initial_devices, program_mode, program_headers
 from app.settings import create_settings_window
@@ -19,17 +19,18 @@ main.iconbitmap(DIR_IMG / "note.ico")
 main.geometry("655x320")
 
 
-progress_bars = {}
-selected_values = {}
-clock_labels = {}
 clock_images = {}
+clock_labels = {}
+descriptions = {}
+on_buttons = {}
+off_buttons = {}
+progress_bars = {}
+schedules = {}
+selected_values = {}
 state_images = {}
 state_labels = {}
 type_labels = {}
 zone_labels = {}
-tooltips = {}
-on_buttons = {}
-off_buttons = {}
 
 
 def update_devices_timings(devices: list[Device]) -> None:
@@ -149,8 +150,11 @@ def change_device_state(device: Device) -> None:
     type_labels[device_id].config(text=device.type)
     zone_labels[device_id].config(text=device.zone)
 
-    set_tooltip([device], program_headers)
-    tooltips[device_id].text = device.description
+    set_info_tooltip([device], program_headers)
+    descriptions[device_id].text = device.description
+
+    set_timing_tooltip([device])
+    schedules[device_id].text = device.schedule
 
     var = tk.StringVar(value=device.standby)
     selected_values[device_id] = var
@@ -233,7 +237,7 @@ def create_main_window(devices) -> None:
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
 
         tooltip = ToolTip(type_label, device.description)
-        tooltips[device.id] = tooltip
+        descriptions[device.id] = tooltip
 
         zone_label = ttk.Label(main, text=device.zone, width=20)
         zone_labels[device.id] = zone_label
@@ -258,6 +262,9 @@ def create_main_window(devices) -> None:
 
         clock_labels[device.id] = clock_label
         clock_images[device.id] = clock_image
+
+        sked = ToolTip(clock_label, device.schedule)
+        schedules[device.id] = sked
 
         ok_button = ttk.Button(
             main,
@@ -321,7 +328,8 @@ def start_the_program(devices):
         set_clock_mark(item)
         set_device_schedule(item)
 
-    set_tooltip(devices, program_headers)
+    set_info_tooltip(devices, program_headers)
+    set_timing_tooltip(devices)
     create_main_window(devices)
 
     while True:
