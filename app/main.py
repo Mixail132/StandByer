@@ -292,15 +292,21 @@ def set_device_schedule(device):
         )
 
 
-for item in initial_devices:
-    set_clock_mark(item)
-    set_device_schedule(item)
+def start_the_program(devices):
+    """
+    Start the main logic of all the program.
+    """
+    for item in devices:
+        set_clock_mark(item)
+        set_device_schedule(item)
+
+    set_tooltip(devices, program_headers)
+    create_main_window(devices)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
-initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
-create_main_window(initial_devices)
+start_the_program(initial_devices)
 
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
