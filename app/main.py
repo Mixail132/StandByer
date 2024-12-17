@@ -15,7 +15,7 @@ from app.dirs import DIR_IMG
 main = tk.Tk()
 main.title("Device switcher")
 main.iconbitmap(DIR_IMG / "note.ico")
-main.geometry("703x320")
+main.geometry("655x320")
 
 
 progress_bars = {}
@@ -189,7 +189,7 @@ def create_main_window(devices) -> None:
 
         zone_label = ttk.Label(main, text=device.zone, width=20)
         zone_labels[device.id] = zone_label
-        zone_label.grid(row=device.id, column=3, padx=30, pady=5, sticky="w")
+        zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
 
         var = tk.StringVar(value=device.standby)
         selected_values[device.id] = var

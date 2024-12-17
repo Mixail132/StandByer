@@ -35,26 +35,26 @@ def create_timings_window(
     timings = tk.Toplevel(root)
     timings.title("Timings")
     timings.iconbitmap(DIR_IMG / "note.ico")
-    timings.geometry("450x340")
+    timings.geometry("425x320")
 
     type_header = ttk.Label(timings, text=program_headers.type)
-    type_header.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+    type_header.grid(row=0, column=2, padx=5, pady=10, sticky="w")
 
     zone_header = ttk.Label(timings, text=program_headers.zone)
-    zone_header.grid(row=0, column=3, padx=5, pady=5, sticky="w")
+    zone_header.grid(row=0, column=3, padx=30, pady=10, sticky="w")
 
     on_header = ttk.Label(timings, text="On time")
-    on_header.grid(row=0, column=4, padx=5, pady=5, sticky="w")
+    on_header.grid(row=0, column=4, padx=5, pady=10, sticky="w")
 
     off_header = ttk.Label(timings, text="Off time")
-    off_header.grid(row=0, column=5, padx=5, pady=5, sticky="w")
+    off_header.grid(row=0, column=5, padx=5, pady=10, sticky="w")
 
     options = create_time_list()
 
     for device in devices:
 
         id_label = ttk.Label(timings, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=10, pady=10, sticky="w")
+        id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
 
         type_label = ttk.Label(timings, text=device.type, width=12)
         type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
