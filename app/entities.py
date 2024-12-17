@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from app.dirs import DIR_IMG
+from pathlib import Path
 
 
 @dataclass
@@ -6,11 +8,11 @@ class Device:
     on: str
     off: str
     timing: bool = False
-    clock: str = "../img/noclock.png"
+    clock: Path = DIR_IMG / "noclock.png"
     description: str = ""
     id: int | None = None
     ip: str = ""
-    mark: str = "../img/grey.png"
+    mark: Path = DIR_IMG / "grey.png"
     name: str = ""
     place: str = ""
     standby: str | None = None
