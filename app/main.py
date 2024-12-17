@@ -47,13 +47,17 @@ def update_devices_states(devices: list[Device]) -> None:
     """
     Update the devices' state periodically.
     """
-    devices = check_devices_states(devices)
+    if not program_mode.debug:
+        devices = check_devices_states(devices)
+
+    else:
+        devices = set_random_states(devices)
+
     for device in devices:
         change_device_state(device)
 
-    if not program_mode.debug:
-        survey = program_mode.survey
-        main.after(survey, lambda: update_devices_states(devices))
+    survey = program_mode.survey
+    main.after(survey, lambda: update_devices_states(devices))
 
 
 def get_button_command(device: Device) -> None:
@@ -232,14 +236,10 @@ def create_main_window(devices) -> None:
     settings_button.grid(row=7, column=7, padx=10, pady=25, sticky="w")
 
     delay = program_mode.delay
-    if not program_mode.debug:
-        main.after(delay, lambda units=devices: update_devices_states(units))
+    main.after(delay, lambda units=devices: update_devices_states(units))
 
     main.mainloop()
 
-
-if program_mode.debug:
-    initial_devices: list[Device] = set_random_states(initial_devices)
 
 initial_devices: list[Device] = set_tooltip(initial_devices, program_headers)
 
