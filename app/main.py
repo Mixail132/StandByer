@@ -155,6 +155,7 @@ def change_device_state(device: Device) -> None:
 
     set_timing_tooltip([device])
     schedules[device_id].text = device.schedule
+    schedules[device_id].condition = device.timing
 
     var = tk.StringVar(value=device.standby)
     selected_values[device_id] = var
@@ -263,7 +264,7 @@ def create_main_window(devices) -> None:
         clock_labels[device.id] = clock_label
         clock_images[device.id] = clock_image
 
-        sked = ToolTip(clock_label, device.schedule)
+        sked = ToolTip(clock_label, device.schedule, device.timing)
         schedules[device.id] = sked
 
         ok_button = ttk.Button(

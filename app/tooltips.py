@@ -9,10 +9,11 @@ class ToolTip:
     Handles a pop-up window to a widget.
     """
 
-    def __init__(self, widget, text):
+    def __init__(self, widget, text, condition=True):
         """
         Initializes the pop-up window settings.
         """
+        self.condition = condition
         self.widget = widget
         self.text = text
         self.tooltip_window = None
@@ -21,6 +22,8 @@ class ToolTip:
 
     def show_tooltip(self, event):
         """Shows the pop-up window."""
+        if not self.condition:
+            return
         x, y, _, _ = self.widget.bbox("insert")
         padding = 15
         x += self.widget.winfo_rootx() + padding
