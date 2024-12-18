@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from app.configs import program_headers, save_devices_config
 from app.entities import Device
 from app.dirs import DIR_IMG
@@ -121,6 +122,23 @@ def create_timings_window(
     else:
         timings.focus_force()
 
+def check_devices_timings(device: Device) -> bool:
+    """
+    Check whether the timings are correct.
+    """
+    time_on = device.on
+    time_off = device.off
+    error_text = None
+    if time_on == time_off:
+        error_text = "Error! The ON time is equal the OFF time!"
+    if time_on and not time_off:
+        error_text = "Error! The ON is set but the OFF is not set!"
+    if error_text:
+        messagebox.showerror("Error", error_text, parent=timings)
+        return False
+
+    return True
+
 
 def save_devices_timings(
         _timings: tk.Toplevel,
@@ -137,10 +155,14 @@ def save_devices_timings(
         device.on = dropdown_on_values[device.id].get()
         device.off = dropdown_off_values[device.id].get()
 
-    save_devices_config(devices)
-    _timings.destroy()
+        timings_are_correct = check_devices_timings(device)
+        if not timings_are_correct:
+            break
+    else:
+        save_devices_config(devices)
+        _timings.destroy()
 
-    callback(devices)
+        callback(devices)
 
 
 timings = None
