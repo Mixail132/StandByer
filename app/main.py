@@ -89,10 +89,10 @@ def get_button_command(device: Device) -> None:
             progress_bars[device_id].start()
             progress_bars[device_id].stop()
 
-            launch_button_command(device, selected_value)
+            launch_standby_command(device, selected_value)
 
 
-def launch_button_command(device: Device, selected_value: str) -> None:
+def launch_standby_command(device: Device, selected_value: str) -> None:
     """
     Send the given command to a device.
     Update a color circle mark according to a new device state.
@@ -307,12 +307,12 @@ def set_device_schedule(device) -> None:
     on_time = device.on
     if on_time != "-- :--":
         schedule.every().day.at(on_time).do(
-            lambda dev=device: launch_button_command(dev, "on")
+            lambda: launch_standby_command(device, "on")
         )
     off_time = device.off
     if off_time != '-- :--':
         schedule.every().day.at(off_time).do(
-            lambda: launch_button_command(device, "off")
+            lambda: launch_standby_command(device, "off")
         )
 
 
