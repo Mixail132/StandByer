@@ -32,82 +32,87 @@ def create_timings_window(
     """
     Create the timings window with its widgets.
     """
-    timings = tk.Toplevel(root)
-    timings.title("Timings")
-    timings.iconbitmap(DIR_IMG / "note.ico")
-    timings.geometry("428x305")
+    global timings
+    if timings is None or not timings.winfo_exists():
+        timings = tk.Toplevel(root)
+        timings.title("Timings")
+        timings.iconbitmap(DIR_IMG / "note.ico")
+        timings.geometry("428x305")
 
-    type_header = ttk.Label(
-        timings,
-        text=program_headers.type,
-        width=12,
-        anchor="center"
-    )
-    type_header.grid(row=0, column=2, pady=10, sticky="w")
-
-    zone_header = ttk.Label(
-        timings,
-        text=program_headers.zone,
-        width=20,
-        anchor="center"
-    )
-    zone_header.grid(row=0, column=3, pady=10, sticky="w")
-
-    on_header = ttk.Label(timings, text="On", width=10, anchor="center")
-    on_header.grid(row=0, column=4, pady=10, sticky="w")
-
-    off_header = ttk.Label(timings, text="Off", width=10, anchor="center")
-    off_header.grid(row=0, column=5, pady=10, sticky="w")
-
-    options = create_time_list()
-
-    for device in devices:
-
-        id_label = ttk.Label(timings, text=device.id)
-        id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
-
-        type_label = ttk.Label(timings, text=device.type, width=12)
-        type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
-
-        zone_label = ttk.Label(timings, text=device.zone, width=20)
-        zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
-
-        dropdown_on_value = tk.StringVar()
-        dropdown_on_values[device.id] = dropdown_on_value
-        current_on_choice: int = options.index(device.on)
-        dropdown_on_menu = ttk.OptionMenu(
+        type_header = ttk.Label(
             timings,
-            dropdown_on_value,
-            options[current_on_choice],
-            *options,
+            text=program_headers.type,
+            width=12,
+            anchor="center"
         )
-        dropdown_on_menu.grid(row=device.id, column=4, padx=10, pady=5, sticky="w")
-        dropdown_on_menus[device.id] = dropdown_on_menu
+        type_header.grid(row=0, column=2, pady=10, sticky="w")
 
-        dropdown_off_value = tk.StringVar()
-        dropdown_off_values[device.id] = dropdown_off_value
-        current_off_choice: int = options.index(device.off)
-        dropdown_off_menu = ttk.OptionMenu(
+        zone_header = ttk.Label(
             timings,
-            dropdown_off_value,
-            options[current_off_choice],
-            *options,
+            text=program_headers.zone,
+            width=20,
+            anchor="center"
         )
-        dropdown_off_menu.grid(row=device.id, column=5, padx=10, pady=5, sticky="w")
-        dropdown_off_menus[device.id] = dropdown_off_menu
+        zone_header.grid(row=0, column=3, pady=10, sticky="w")
 
-    save_button = ttk.Button(
-        timings,
-        text="Save",
-        command=lambda: save_devices_timings(timings, devices, callback),
-    )
-    save_button.grid(row=7, column=5, padx=2, pady=25, sticky="w")
+        on_header = ttk.Label(timings, text="On", width=10, anchor="center")
+        on_header.grid(row=0, column=4, pady=10, sticky="w")
 
-    timings.mainloop()
+        off_header = ttk.Label(timings, text="Off", width=10, anchor="center")
+        off_header.grid(row=0, column=5, pady=10, sticky="w")
+
+        options = create_time_list()
+
+        for device in devices:
+
+            id_label = ttk.Label(timings, text=device.id)
+            id_label.grid(row=device.id, column=0, padx=10, pady=5, sticky="w")
+
+            type_label = ttk.Label(timings, text=device.type, width=12)
+            type_label.grid(row=device.id, column=2, padx=5, pady=5, sticky="w")
+
+            zone_label = ttk.Label(timings, text=device.zone, width=20)
+            zone_label.grid(row=device.id, column=3, padx=5, pady=5, sticky="w")
+
+            dropdown_on_value = tk.StringVar()
+            dropdown_on_values[device.id] = dropdown_on_value
+            current_on_choice: int = options.index(device.on)
+            dropdown_on_menu = ttk.OptionMenu(
+                timings,
+                dropdown_on_value,
+                options[current_on_choice],
+                *options,
+            )
+            dropdown_on_menu.grid(row=device.id, column=4, padx=10, pady=5, sticky="w")
+            dropdown_on_menus[device.id] = dropdown_on_menu
+
+            dropdown_off_value = tk.StringVar()
+            dropdown_off_values[device.id] = dropdown_off_value
+            current_off_choice: int = options.index(device.off)
+            dropdown_off_menu = ttk.OptionMenu(
+                timings,
+                dropdown_off_value,
+                options[current_off_choice],
+                *options,
+            )
+            dropdown_off_menu.grid(row=device.id, column=5, padx=10, pady=5, sticky="w")
+            dropdown_off_menus[device.id] = dropdown_off_menu
+
+        save_button = ttk.Button(
+            timings,
+            text="Save",
+            command=lambda: save_devices_timings(timings, devices, callback),
+        )
+        save_button.grid(row=7, column=5, padx=2, pady=25, sticky="w")
+
+        timings.mainloop()
+
+    else:
+        timings.focus_force()
 
 
 def save_devices_timings(
-        timings: tk.Toplevel,
+        _timings: tk.Toplevel,
         devices: list[Device],
         callback: callable,
 ) -> None:
@@ -122,6 +127,9 @@ def save_devices_timings(
         device.off = dropdown_off_values[device.id].get()
 
     save_devices_config(devices)
-    timings.destroy()
+    _timings.destroy()
 
     callback(devices)
+
+
+timings = None
