@@ -134,7 +134,7 @@ def save_devices_settings(
     for device in devices:
         ip_is_valid = validate_given_ip(device.ip)
         if not ip_is_valid:
-            messagebox.showerror("Error", "Bad IP address!")
+            messagebox.showerror("Error", "Bad IP address!", parent=_settings)
             break
     else:
         save_devices_config(devices)
