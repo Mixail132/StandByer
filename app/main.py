@@ -1,5 +1,4 @@
 import schedule
-import time
 import tkinter as tk
 from tkinter import ttk
 
@@ -90,10 +89,10 @@ def get_button_command(device: Device) -> None:
             progress_bars[device_id].start()
             progress_bars[device_id].stop()
 
-            launch_button_command(device, selected_value)
+            launch_standby_command(device, selected_value)
 
 
-def launch_button_command(device: Device, selected_value: str) -> None:
+def launch_standby_command(device: Device, selected_value: str) -> None:
     """
     Send the given command to a device.
     Update a color circle mark according to a new device state.
@@ -102,10 +101,6 @@ def launch_button_command(device: Device, selected_value: str) -> None:
     """
 
     device_ip = device.ip
-    device_id: int = device.id
-
-    progress_bars[device_id]["value"] = 0
-    progress_bars[device_id].stop()
 
     standby_modes = {"on": False, "off": True}
     standby_mode = standby_modes[selected_value]
@@ -300,10 +295,11 @@ def create_main_window(devices) -> None:
     delay = program_mode.delay
     main.after(delay, lambda units=devices: update_devices_states(units))
 
+    main.after(1000, run_schedules)
     main.mainloop()
 
 
-def set_device_schedule(device):
+def set_device_schedule(device) -> None:
     """
     Set a device schedule to send a command
     in a certain time of the day automatically.
@@ -311,17 +307,16 @@ def set_device_schedule(device):
     on_time = device.on
     if on_time != "-- :--":
         schedule.every().day.at(on_time).do(
-            lambda: launch_button_command(device, "on")
+            lambda: launch_standby_command(device, "on")
         )
-
     off_time = device.off
     if off_time != '-- :--':
         schedule.every().day.at(off_time).do(
-            lambda: launch_button_command(device, "off")
+            lambda: launch_standby_command(device, "off")
         )
 
 
-def start_the_program(devices):
+def start_program(devices) -> None:
     """
     Start the main logic of all the program.
     """
@@ -333,9 +328,13 @@ def start_the_program(devices):
     set_timing_tooltip(devices)
     create_main_window(devices)
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+
+def run_schedules() -> None:
+    """
+    Run the given schedules in endless cycle.
+    """
+    schedule.run_pending()
+    main.after(1000, run_schedules)
 
 
-start_the_program(initial_devices)
+start_program(initial_devices)
