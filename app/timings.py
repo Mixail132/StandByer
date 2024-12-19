@@ -18,20 +18,9 @@ def create_time_list() -> list:
     Create a list of drop down menu items.
     """
     hours = ["-- :--"]
-    for hour in range(15, 24):
+    for hour in range(24):
         if len(str(hour)) == 2:
             hours.append(f"{hour}:00")
-            hours.append(f"{hour}:05")
-            hours.append(f"{hour}:10")
-            hours.append(f"{hour}:15")
-            hours.append(f"{hour}:20")
-            hours.append(f"{hour}:25")
-            hours.append(f"{hour}:30")
-            hours.append(f"{hour}:35")
-            hours.append(f"{hour}:40")
-            hours.append(f"{hour}:45")
-            hours.append(f"{hour}:50")
-            hours.append(f"{hour}:55")
         else:
             hours.append(f"0{hour}:00")
     return hours
