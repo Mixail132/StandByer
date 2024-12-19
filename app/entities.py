@@ -45,3 +45,11 @@ class Mode:
     debug: bool
     delay: int
     survey: int
+
+
+@dataclass
+class Mistakes:
+    ip_bad: str
+    time_off: str
+    time_small: str
+    time_equal: str

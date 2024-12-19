@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from app.configs import save_devices_config
-from app.configs import program_headers
+from app.configs import program_headers, program_mistakes
 from app.entities import Device
 from app.dirs import DIR_IMG
 
@@ -134,7 +134,7 @@ def save_devices_settings(
     for device in devices:
         ip_is_valid = validate_given_ip(device.ip)
         if not ip_is_valid:
-            messagebox.showerror("Error", "Bad IP address!", parent=_settings)
+            messagebox.showerror("Error", program_mistakes.ip_bad, parent=_settings)
             break
     else:
         save_devices_config(devices)

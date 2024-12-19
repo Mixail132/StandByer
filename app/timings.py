@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from datetime import datetime
-from app.configs import program_headers, save_devices_config
+from app.configs import save_devices_config
+from app.configs import program_headers, program_mistakes
 from app.entities import Device
 from app.dirs import DIR_IMG
 
@@ -127,18 +128,18 @@ def check_devices_timings(time_on: str, time_off: str) -> bool:
         error_text = None
 
     elif time_on and time_off == no_time:
-        error_text = "Error! Set the OFF time!"
+        error_text = program_mistakes.time_off
 
     if time_on != no_time and time_off != no_time:
 
         if time_on == time_off:
-            error_text = "Error! Bad time period!"
+            error_text = program_mistakes.time_equal
 
         elif time_on != time_off:
             period = find_time_difference(time_on, time_off)
 
             if period < 3:
-                error_text = "Error! Small time period!"
+                error_text = program_mistakes.time_small
 
     if error_text:
         messagebox.showerror("Error", error_text, parent=timings)

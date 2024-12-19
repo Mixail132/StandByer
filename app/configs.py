@@ -1,4 +1,4 @@
-from app.entities import Mode, Device, Description
+from app.entities import Mode, Device, Description, Mistakes
 from environs import Env
 
 env: Env = Env()
@@ -15,6 +15,18 @@ def read_program_modes() -> Mode:
         survey=env.int("SURVEY"),
     )
     return debug
+
+def read_mistake_messages() -> Mistakes:
+    """
+    Read the program mistake messages from the '.env' file.
+    """
+    mistake = Mistakes(
+        ip_bad=env.str("IP_BAD"),
+        time_equal=env.str("TIME_EQUAL"),
+        time_off=env.str("TIME_OFF"),
+        time_small=env.str("TIME_SMALL"),
+    )
+    return mistake
 
 
 def read_devices_config() -> list[Device]:
@@ -121,3 +133,4 @@ def save_devices_config(devices: list[Device]) -> None:
 initial_devices: list[Device] = read_devices_config()
 program_mode: Mode = read_program_modes()
 program_headers: Description = read_description()
+program_mistakes: Mistakes = read_mistake_messages()
