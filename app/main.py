@@ -21,6 +21,7 @@ main.geometry("655x320")
 clock_images = {}
 clock_labels = {}
 descriptions = {}
+ok_buttons = {}
 on_buttons = {}
 off_buttons = {}
 progress_bars = {}
@@ -126,6 +127,7 @@ def change_device_state(device: Device) -> None:
     Change the pop-up description text when sending
     a command to change the device's state.
     Change the radio buttons' state.
+    Change the OK buttons' state.
     """
     device = set_state_mark(device)
     device = set_clock_mark(device)
@@ -157,8 +159,16 @@ def change_device_state(device: Device) -> None:
     var = tk.StringVar(value=device.standby)
     selected_values[device_id] = var
 
-    on_buttons[device_id].config(variable=var)
-    off_buttons[device_id].config(variable=var)
+    on_buttons[device_id].config(variable=var, state=tk.NORMAL)
+    off_buttons[device_id].config(variable=var, state=tk.NORMAL)
+
+    if device.standby is None:
+        on_buttons[device_id].config(state=tk.DISABLED)
+        off_buttons[device_id].config(state=tk.DISABLED)
+
+    ok_buttons[device_id].config(state=tk.NORMAL)
+    if device.standby is None:
+        ok_buttons[device_id].config(state=tk.DISABLED)
 
 
 def create_main_window(devices) -> None:
@@ -270,6 +280,7 @@ def create_main_window(devices) -> None:
             command=lambda unit=device: get_button_command(unit)
         )
         ok_button.grid(row=device.id, column=7, padx=5, pady=5, sticky="w")
+        ok_buttons[device.id] = ok_button
 
         progress_bar = ttk.Progressbar(
             main,
