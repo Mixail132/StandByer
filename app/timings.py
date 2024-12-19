@@ -124,25 +124,34 @@ def create_timings_window(
         timings.focus_force()
 
 
-def check_devices_timings(device: Device) -> bool:
+def check_devices_timings(time_on:str, time_off:str) -> bool:
     """
     Check whether the timings are correct.
     """
-    time_on = device.on
-    time_off = device.off
+    no_time = "-- :--"
+    error_text = None
 
-    error_text = "Error! Bad time period!"
-
-    if time_on == time_off:
+    if time_on == time_off == no_time:
         error_text = None
 
-    elif time_on and not time_off:
+    elif time_off and time_on == no_time:
         error_text = None
 
-    elif find_time_difference(time_on, time_off) < 3:
-        error_text = None
+    elif time_on and time_off == no_time:
+        error_text = "Error! Set the OFF time!"
 
-    if not error_text:
+    if time_on != no_time and time_off != no_time:
+
+        if time_on == time_off:
+            error_text = "Error! Bad time period!"
+
+        elif time_on != time_off:
+            period = find_time_difference(time_on, time_off)
+
+            if period < 3:
+                error_text = "Error! Small time period!"
+
+    if error_text:
         messagebox.showerror("Error", error_text, parent=timings)
         return False
 
@@ -176,12 +185,14 @@ def save_devices_timings(
     """
     for device in devices:
 
-        device.on = dropdown_on_values[device.id].get()
-        device.off = dropdown_off_values[device.id].get()
+        device_on = dropdown_on_values[device.id].get()
+        device_off = dropdown_off_values[device.id].get()
 
-        timings_are_correct = check_devices_timings(device)
+        timings_are_correct = check_devices_timings(device_on, device_off)
         if not timings_are_correct:
             break
+        device.on = device_on
+        device.off = device_off
     else:
         save_devices_config(devices)
         _timings.destroy()
