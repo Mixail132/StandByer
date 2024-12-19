@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from datetime import datetime, timedelta
 from app.configs import program_headers, save_devices_config
 from app.entities import Device
 from app.dirs import DIR_IMG
@@ -122,6 +123,7 @@ def create_timings_window(
     else:
         timings.focus_force()
 
+
 def check_devices_timings(device: Device) -> bool:
     """
     Check whether the timings are correct.
@@ -129,15 +131,42 @@ def check_devices_timings(device: Device) -> bool:
     time_on = device.on
     time_off = device.off
     error_text = None
+
     if time_on == time_off:
-        error_text = "Error! The ON time is equal the OFF time!"
+        error_text = "Error! The ON time is equal to the OFF time!"
     if time_on and not time_off:
         error_text = "Error! The ON is set but the OFF is not set!"
+    if find_time_difference(time_on, time_off) < 3:
+        error_text = "Error! The ON time is near to the OFF time!"
+
     if error_text:
         messagebox.showerror("Error", error_text, parent=timings)
         return False
 
     return True
+
+
+def find_time_difference(time_1: str, time_2: str) -> int:
+    """
+    Find the minimum time difference.
+    """
+    time_1 = datetime.strptime(time_1, "%H:%M")
+    time_2 = datetime.strptime(time_2, "%H:%M")
+    diff_1 = time_1 - time_2
+    diff_2 = time_2 - time_1
+    diff_1 = timedelta(
+        hours=diff_1.seconds // 3600,
+        minutes=(diff_1.seconds // 60) % 60,
+    )
+    diff_2 = timedelta(
+        hours=diff_2.seconds // 3600,
+        minutes=(diff_2.seconds // 60) % 60,
+    )
+
+    min_diff = min(diff_2, diff_1)
+    hours_diff = int(min_diff.total_seconds() // 3600)
+
+    return hours_diff
 
 
 def save_devices_timings(
