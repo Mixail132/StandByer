@@ -124,7 +124,7 @@ def create_timings_window(
         timings.focus_force()
 
 
-def check_devices_timings(time_on:str, time_off:str) -> bool:
+def check_devices_timings(time_on: str, time_off: str) -> bool:
     """
     Check whether the timings are correct.
     """
