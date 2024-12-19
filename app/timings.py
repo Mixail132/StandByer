@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from app.configs import program_headers, save_devices_config
+from tkinter import messagebox
+from datetime import datetime
+from app.configs import save_devices_config
+from app.configs import program_headers, program_mistakes
 from app.entities import Device
 from app.dirs import DIR_IMG
 
@@ -16,20 +19,9 @@ def create_time_list() -> list:
     Create a list of drop down menu items.
     """
     hours = ["-- :--"]
-    for hour in range(15, 24):
+    for hour in range(24):
         if len(str(hour)) == 2:
             hours.append(f"{hour}:00")
-            hours.append(f"{hour}:05")
-            hours.append(f"{hour}:10")
-            hours.append(f"{hour}:15")
-            hours.append(f"{hour}:20")
-            hours.append(f"{hour}:25")
-            hours.append(f"{hour}:30")
-            hours.append(f"{hour}:35")
-            hours.append(f"{hour}:40")
-            hours.append(f"{hour}:45")
-            hours.append(f"{hour}:50")
-            hours.append(f"{hour}:55")
         else:
             hours.append(f"0{hour}:00")
     return hours
@@ -122,6 +114,55 @@ def create_timings_window(
         timings.focus_force()
 
 
+def check_devices_timings(time_on: str, time_off: str) -> bool:
+    """
+    Check whether the timings are correct.
+    """
+    no_time = "-- :--"
+    error_text = None
+
+    if time_on == time_off == no_time:
+        error_text = None
+
+    elif time_off and time_on == no_time:
+        error_text = None
+
+    elif time_on and time_off == no_time:
+        error_text = program_mistakes.time_off
+
+    if time_on != no_time and time_off != no_time:
+
+        if time_on == time_off:
+            error_text = program_mistakes.time_equal
+
+        elif time_on != time_off:
+            period = find_time_difference(time_on, time_off)
+
+            if period < 3:
+                error_text = program_mistakes.time_small
+
+    if error_text:
+        messagebox.showerror("Error", error_text, parent=timings)
+        return False
+
+    return True
+
+
+def find_time_difference(time_1: str, time_2: str) -> int:
+    """
+    Find the minimum time difference.
+    """
+    time1 = datetime.strptime(time_1, "%H:%M")
+    time2 = datetime.strptime(time_2, "%H:%M")
+
+    seconds_diff = abs((time1 - time2).total_seconds())
+    hours_diff = seconds_diff // 3600
+
+    diff = int(hours_diff)
+
+    return diff if diff < 12 else 24 - diff
+
+
 def save_devices_timings(
         _timings: tk.Toplevel,
         devices: list[Device],
@@ -134,13 +175,19 @@ def save_devices_timings(
     """
     for device in devices:
 
-        device.on = dropdown_on_values[device.id].get()
-        device.off = dropdown_off_values[device.id].get()
+        device_on = dropdown_on_values[device.id].get()
+        device_off = dropdown_off_values[device.id].get()
 
-    save_devices_config(devices)
-    _timings.destroy()
+        timings_are_correct = check_devices_timings(device_on, device_off)
+        if not timings_are_correct:
+            break
+        device.on = device_on
+        device.off = device_off
+    else:
+        save_devices_config(devices)
+        _timings.destroy()
 
-    callback(devices)
+        callback(devices)
 
 
 timings = None
