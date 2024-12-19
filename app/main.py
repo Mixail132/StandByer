@@ -71,6 +71,7 @@ def get_button_command(device: Device) -> None:
     Stop the progress bar.
     Wait until the progress bar ends and call the command function.
     Deny the commands if the device is unreached (standby is None)
+    Deny running the progress bar if the device is unreached.
     :param device: the device configuration object.
     """
     device_id: int = device.id
