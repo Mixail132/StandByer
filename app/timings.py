@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from datetime import datetime, timedelta
+from datetime import datetime
 from app.configs import program_headers, save_devices_config
 from app.entities import Device
 from app.dirs import DIR_IMG
