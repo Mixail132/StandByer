@@ -74,17 +74,18 @@ def get_button_command(device: Device) -> None:
     :param device: the device configuration object.
     """
     device_id: int = device.id
-    current_value = progress_bars[device_id]["value"]
+    selected_value: str | None = selected_values[device_id].get()
 
-    if current_value < 100:
-        progress_bars[device_id]["value"] = current_value + 1
-        main.after(50, lambda: get_button_command(device))
+    if device.standby and device.standby != selected_value:
 
-    else:
-        progress_bars[device_id]["value"] = 0
-        selected_value: str | None = selected_values[device_id].get()
+        current_value = progress_bars[device_id]["value"]
 
-        if device.standby and device.standby != selected_value:
+        if current_value < 100:
+            progress_bars[device_id]["value"] = current_value + 1
+            main.after(50, lambda: get_button_command(device))
+
+        else:
+            progress_bars[device_id]["value"] = 0
 
             progress_bars[device_id].start()
             progress_bars[device_id].stop()
