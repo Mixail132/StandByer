@@ -91,7 +91,7 @@ def create_settings_window(
             zone_label.grid(row=device.id, column=3, padx=5, pady=10, sticky="w")
             device_zones[device.id] = zone_label
 
-            ip_label = ttk.Entry(settings, width=13)
+            ip_label = ttk.Entry(settings, width=14)
             ip_label.insert(0, device.ip)
             ip_label.grid(row=device.id, column=4, padx=5, pady=10, sticky="w")
             device_ips[device.id] = ip_label
