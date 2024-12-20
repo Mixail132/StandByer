@@ -15,7 +15,7 @@ from app.dirs import DIR_IMG
 main = tk.Tk()
 main.title("Device switcher")
 main.iconbitmap(DIR_IMG / "note.ico")
-main.geometry("655x320")
+main.geometry("640x320")
 
 
 clock_images = {}
@@ -292,7 +292,7 @@ def create_main_window(devices) -> None:
         text="Settings",
         command=lambda: create_settings_window(main, devices, update_devices_states)
     )
-    settings_button.grid(row=7, column=8, padx=10, pady=25, sticky="w")
+    settings_button.grid(row=7, column=8, padx=6, pady=25, sticky="w")
 
     delay = program_mode.delay
     main.after(delay, lambda units=devices: update_devices_states(units))

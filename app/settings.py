@@ -30,7 +30,7 @@ def create_settings_window(
         settings = tk.Toplevel(root)
         settings.title("Settings")
         settings.iconbitmap(DIR_IMG / "note.ico")
-        settings.geometry("680x340")
+        settings.geometry("675x340")
 
         name_header = ttk.Label(
             settings,
@@ -106,14 +106,14 @@ def create_settings_window(
             text="Cancel",
             command=lambda: settings.destroy()
         )
-        cancel_button.grid(row=7, column=4, padx=0, pady=25, sticky="w")
+        cancel_button.grid(row=7, column=4, padx=(18, 0), pady=25, sticky="w")
 
         save_button = ttk.Button(
             settings,
             text="Save",
             command=lambda: save_devices_settings(settings, devices, callback),
         )
-        save_button.grid(row=7, column=5, padx=0, pady=25, sticky="w")
+        save_button.grid(row=7, column=5, padx=5, pady=25, sticky="w")
 
         settings.mainloop()
     else:
