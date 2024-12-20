@@ -101,12 +101,18 @@ def create_timings_window(
             dropdown_off_menu.grid(row=device.id, column=5, padx=10, pady=5, sticky="w")
             dropdown_off_menus[device.id] = dropdown_off_menu
 
+        cancel_button = ttk.Button(
+            timings, text="Cancel",
+            command=lambda: timings.destroy()
+        )
+        cancel_button.grid(row=7, column=4, padx=1, pady=25, sticky="w")
+
         save_button = ttk.Button(
             timings,
             text="Save",
             command=lambda: save_devices_timings(timings, devices, callback),
         )
-        save_button.grid(row=7, column=5, padx=2, pady=25, sticky="w")
+        save_button.grid(row=7, column=5, padx=8, pady=25, sticky="w")
 
         timings.mainloop()
 
