@@ -101,12 +101,19 @@ def create_settings_window(
             place_label.grid(row=device.id, column=5, padx=5, pady=10, sticky="w")
             device_places[device.id] = place_label
 
+        cancel_button = ttk.Button(
+            settings,
+            text="Cancel",
+            command=lambda: settings.destroy()
+        )
+        cancel_button.grid(row=7, column=4, padx=0, pady=25, sticky="w")
+
         save_button = ttk.Button(
             settings,
             text="Save",
             command=lambda: save_devices_settings(settings, devices, callback),
         )
-        save_button.grid(row=7, column=5, padx=10, pady=25, sticky="w")
+        save_button.grid(row=7, column=5, padx=0, pady=25, sticky="w")
 
         settings.mainloop()
     else:
