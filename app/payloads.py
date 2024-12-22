@@ -1,3 +1,7 @@
+"""
+A payload to include in the HTTP request to the device
+to change or read the device's state.
+"""
 
 def get_payload(
         standby_mode: bool | None = None,

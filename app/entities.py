@@ -1,3 +1,7 @@
+"""
+The project main entities.
+"""
+
 from dataclasses import dataclass
 from app.dirs import DIR_IMG
 from pathlib import Path

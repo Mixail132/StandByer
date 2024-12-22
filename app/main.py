@@ -1,3 +1,8 @@
+"""
+The main window creating.
+The project main logic.
+"""
+
 import schedule
 import tkinter as tk
 from tkinter import ttk

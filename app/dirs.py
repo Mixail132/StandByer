@@ -1,4 +1,6 @@
-""" Making the relative paths to the project files."""
+"""
+A set of relative paths to the project files and folders.
+"""
 
 from pathlib import Path
 

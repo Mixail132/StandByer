@@ -1,5 +1,10 @@
-from app.entities import Mode, Device, Description, Mistakes
+"""
+A set of functions to read and save the devices' configuration.
+The configured objects for import.
+"""
+
 from environs import Env
+from app.entities import Mode, Device, Description, Mistakes
 
 env: Env = Env()
 env.read_env()
@@ -80,7 +85,7 @@ def save_devices_config(devices: list[Device]) -> None:
     Save the given device parameters to the '.env' file.
     """
     var_file = ".env"
-    file = open(var_file, "r", encoding="UTF-8")
+    file = open(".env", "r", encoding="UTF-8")
     lines = file.readlines()
     output_lines = []
     for line in lines:
@@ -99,25 +104,18 @@ def save_devices_config(devices: list[Device]) -> None:
 
             if line.startswith(device_name):
                 output_line = f"{device_name}={device.name}\n"
-                continue
             elif line.startswith(device_place):
                 output_line = f"{device_place}={device.place}\n"
-                continue
             elif line.startswith(device_zone):
                 output_line = f"{device_zone}={device.zone}\n"
-                continue
             elif line.startswith(device_ip):
                 output_line = f"{device_ip}={device.ip}\n"
-                continue
             elif line.startswith(device_type):
                 output_line = f"{device_type}={device.type}\n"
-                continue
             elif line.startswith(device_on):
                 output_line = f"{device_on}={device.on}\n"
-                continue
             elif line.startswith(device_off):
                 output_line = f"{device_off}={device.off}\n"
-                continue
 
         output_lines.append(output_line)
     output_text = "".join(output_lines)

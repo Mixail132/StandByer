@@ -1,3 +1,8 @@
+"""
+Actual request payloads for the devices
+for which the project is developed.
+"""
+
 set_standby_on_request_payload = {
     "clientId": "x8-panel",
     "payload": {

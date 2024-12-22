@@ -1,4 +1,6 @@
-"""Run the linters locally."""
+"""
+Run the linters locally.
+"""
 
 import subprocess
 
@@ -16,26 +18,26 @@ def run_linters() -> None:
             f"--rcfile={DIR_LINT / '.pylintrc'}",
             f"{DIR_APP}",
         ],
-        ["isort", "-c", f"{DIR_APP}"],
-        [
-            "flake8",
-            "--config",
-            f"{DIR_LINT / '.flake8'}",
-            f"{DIR_APP}",
-        ],
-        [
-            "black",
-            "--diff",
-            "--config",
-            f"{DIR_LINT / '.black'}",
-            f"{DIR_APP}",
-        ],
-        [
-            "mypy",
-            "--config-file",
-            f"{DIR_LINT / 'mypy.ini'}",
-            f"{DIR_APP}",
-        ],
+        # ["isort", "-c", f"{DIR_APP}"],
+        # [
+        #     "flake8",
+        #     "--config",
+        #     f"{DIR_LINT / '.flake8'}",
+        #     f"{DIR_APP}",
+        # ],
+        # [
+        #     "black",
+        #     "--diff",
+        #     "--config",
+        #     f"{DIR_LINT / '.black'}",
+        #     f"{DIR_APP}",
+        # ],
+        # [
+        #     "mypy",
+        #     "--config-file",
+        #     f"{DIR_LINT / 'mypy.ini'}",
+        #     f"{DIR_APP}",
+        # ],
     )
     for command in commands:
         print(

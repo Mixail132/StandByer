@@ -1,4 +1,6 @@
-"""Widgets' pop-up windows handling."""
+"""
+Widgets' pop-up windows creating.
+"""
 
 from app.entities import Device, Description
 import tkinter as tk
