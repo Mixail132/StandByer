@@ -93,36 +93,32 @@ def save_devices_config(devices: list[Device]) -> None:
 
             for device in devices:
 
-                device_name = f"A{device.id}_NAME"
-                device_place = f"A{device.id}_PLACE"
-                device_zone = f"A{device.id}_ZONE"
-                device_ip = f"A{device.id}_IP"
-                device_type = f"A{device.id}_TYPE"
-                device_on = f"A{device.id}_ON"
-                device_off = f"A{device.id}_OFF"
+                if line.startswith(f"A{device.id}_NAME"):
+                    output_line = f"A{device.id}_NAME={device.name}\n"
 
-                if line.startswith(device_name):
-                    output_line = f"{device_name}={device.name}\n"
-                elif line.startswith(device_place):
-                    output_line = f"{device_place}={device.place}\n"
-                elif line.startswith(device_zone):
-                    output_line = f"{device_zone}={device.zone}\n"
-                elif line.startswith(device_ip):
-                    output_line = f"{device_ip}={device.ip}\n"
-                elif line.startswith(device_type):
-                    output_line = f"{device_type}={device.type}\n"
-                elif line.startswith(device_on):
-                    output_line = f"{device_on}={device.on}\n"
-                elif line.startswith(device_off):
-                    output_line = f"{device_off}={device.off}\n"
+                elif line.startswith(f"A{device.id}_PLACE"):
+                    output_line = f"A{device.id}_PLACE={device.place}\n"
+
+                elif line.startswith(f"A{device.id}_ZONE"):
+                    output_line = f"A{device.id}_ZONE={device.zone}\n"
+
+                elif line.startswith(f"A{device.id}_IP"):
+                    output_line = f"A{device.id}_IP={device.ip}\n"
+
+                elif line.startswith(f"A{device.id}_TYPE"):
+                    output_line = f"A{device.id}_TYPE={device.type}\n"
+
+                elif line.startswith(f"A{device.id}_ON"):
+                    output_line = f"A{device.id}_ON={device.on}\n"
+
+                elif line.startswith(f"A{device.id}_OFF"):
+                    output_line = f"A{device.id}_OFF={device.off}\n"
 
             output_lines.append(output_line)
         output_text = "".join(output_lines)
 
     with open(var_file, "w", encoding="UTF-8") as file:
         file.write(output_text)
-
-    # file.close()
 
 
 initial_devices: list[Device] = read_devices_config()
