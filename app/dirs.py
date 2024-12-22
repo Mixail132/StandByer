@@ -11,4 +11,3 @@ DIR_IMG = DIR_ROOT / "img"
 DIR_LINT = DIR_ROOT / ".github" / "settings"
 DIR_OUT = DIR_ROOT / "out"
 DIR_TEMP = DIR_ROOT / ".temp"
-

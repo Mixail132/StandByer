@@ -85,42 +85,39 @@ def save_devices_config(devices: list[Device]) -> None:
     Save the given device parameters to the '.env' file.
     """
     var_file = ".env"
-    file = open(".env", "r", encoding="UTF-8")
-    lines = file.readlines()
-    output_lines = []
-    for line in lines:
+    with open(var_file, "r", encoding="UTF-8") as lines:
+        output_lines = []
+        for line in lines:
 
-        output_line = line
+            output_line = line
 
-        for device in devices:
+            for device in devices:
 
-            device_name = f"A{device.id}_NAME"
-            device_place = f"A{device.id}_PLACE"
-            device_zone = f"A{device.id}_ZONE"
-            device_ip = f"A{device.id}_IP"
-            device_type = f"A{device.id}_TYPE"
-            device_on = f"A{device.id}_ON"
-            device_off = f"A{device.id}_OFF"
+                device_name = f"A{device.id}_NAME"
+                device_place = f"A{device.id}_PLACE"
+                device_zone = f"A{device.id}_ZONE"
+                device_ip = f"A{device.id}_IP"
+                device_type = f"A{device.id}_TYPE"
+                device_on = f"A{device.id}_ON"
+                device_off = f"A{device.id}_OFF"
 
-            if line.startswith(device_name):
-                output_line = f"{device_name}={device.name}\n"
-            elif line.startswith(device_place):
-                output_line = f"{device_place}={device.place}\n"
-            elif line.startswith(device_zone):
-                output_line = f"{device_zone}={device.zone}\n"
-            elif line.startswith(device_ip):
-                output_line = f"{device_ip}={device.ip}\n"
-            elif line.startswith(device_type):
-                output_line = f"{device_type}={device.type}\n"
-            elif line.startswith(device_on):
-                output_line = f"{device_on}={device.on}\n"
-            elif line.startswith(device_off):
-                output_line = f"{device_off}={device.off}\n"
+                if line.startswith(device_name):
+                    output_line = f"{device_name}={device.name}\n"
+                elif line.startswith(device_place):
+                    output_line = f"{device_place}={device.place}\n"
+                elif line.startswith(device_zone):
+                    output_line = f"{device_zone}={device.zone}\n"
+                elif line.startswith(device_ip):
+                    output_line = f"{device_ip}={device.ip}\n"
+                elif line.startswith(device_type):
+                    output_line = f"{device_type}={device.type}\n"
+                elif line.startswith(device_on):
+                    output_line = f"{device_on}={device.on}\n"
+                elif line.startswith(device_off):
+                    output_line = f"{device_off}={device.off}\n"
 
-        output_lines.append(output_line)
-    output_text = "".join(output_lines)
-
-    file.close()
+            output_lines.append(output_line)
+        output_text = "".join(output_lines)
 
     file = open(var_file, "w", encoding="UTF-8")
     file.write(output_text)
