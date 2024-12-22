@@ -119,10 +119,10 @@ def save_devices_config(devices: list[Device]) -> None:
             output_lines.append(output_line)
         output_text = "".join(output_lines)
 
-    file = open(var_file, "w", encoding="UTF-8")
-    file.write(output_text)
+    with open(var_file, "w", encoding="UTF-8") as file:
+        file.write(output_text)
 
-    file.close()
+    # file.close()
 
 
 initial_devices: list[Device] = read_devices_config()
