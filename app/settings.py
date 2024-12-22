@@ -168,4 +168,4 @@ def validate_given_ip(ip_address: str) -> bool:
     return ip_is_valid
 
 
-settings = None
+settings: tk.Toplevel | None = None

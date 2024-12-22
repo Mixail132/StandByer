@@ -200,4 +200,4 @@ def save_devices_timings(
         callback(devices)
 
 
-timings = None
+timings: tk.Toplevel | None = None
