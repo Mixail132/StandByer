@@ -140,7 +140,7 @@ def check_devices_timings(time_on: str, time_off: str) -> bool:
     elif time_on and time_off == no_time:
         error_text = program_mistakes.time_off
 
-    if time_on != no_time and time_off != no_time:
+    if no_time not in (time_on, time_off):
 
         if time_on == time_off:
             error_text = program_mistakes.time_equal
