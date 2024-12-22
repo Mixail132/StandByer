@@ -3,9 +3,9 @@ The main window creating.
 The project main logic.
 """
 
-import schedule
 import tkinter as tk
 from tkinter import ttk
+import schedule
 
 from app.actions import set_random_states, set_real_state
 from app.actions import set_state_mark, set_clock_mark

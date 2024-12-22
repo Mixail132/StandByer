@@ -56,5 +56,3 @@ get_state_request_payload = {
         }
     }
 }
-
-
