@@ -4,7 +4,8 @@ The configured objects for import.
 """
 
 from environs import Env
-from app.entities import Mode, Device, Description, Mistakes
+
+from app.entities import Description, Device, Mistakes, Mode
 
 env: Env = Env()
 env.read_env()

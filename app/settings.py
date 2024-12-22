@@ -4,14 +4,11 @@ The 'settings' window logic.
 
 import ipaddress
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
-from app.configs import save_devices_config
-from app.configs import program_headers, program_mistakes
-from app.entities import Device
+from app.configs import program_headers, program_mistakes, save_devices_config
 from app.dirs import DIR_IMG
-
+from app.entities import Device
 
 device_ips = {}
 device_names = {}

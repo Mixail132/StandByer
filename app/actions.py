@@ -4,13 +4,14 @@ set the devices states and set their state marks.
 """
 
 import random
-import requests
-from requests.exceptions import ConnectTimeout
-from requests.exceptions import ConnectionError as RequestConnectionError
 
+import requests
+from requests.exceptions import ConnectionError as RequestConnectionError
+from requests.exceptions import ConnectTimeout
+
+from app.dirs import DIR_IMG
 from app.entities import Device
 from app.payloads import get_payload
-from app.dirs import DIR_IMG
 
 
 def check_devices_states(devices: list[Device]) -> list[Device]:

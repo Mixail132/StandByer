@@ -1,10 +1,10 @@
 """ Actions for building the output 'exe' file. """
 
-import subprocess
 import shutil
+import subprocess
 from pathlib import Path
 
-from app.dirs import DIR_APP, DIR_IMG, DIR_TEMP, DIR_OUT
+from app.dirs import DIR_APP, DIR_IMG, DIR_OUT, DIR_TEMP
 
 
 def glue_scripts_needed(

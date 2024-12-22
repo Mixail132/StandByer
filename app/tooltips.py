@@ -3,7 +3,8 @@ Widgets' pop-up windows creating.
 """
 
 import tkinter as tk
-from app.entities import Device, Description
+
+from app.entities import Description, Device
 
 
 class ToolTip:

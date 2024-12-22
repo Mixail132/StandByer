@@ -13,12 +13,12 @@ def run_linters() -> None:
     with certain parameters.
     """
     commands = (
-        [
-            "pylint",
-            f"--rcfile={DIR_LINT / '.pylintrc'}",
-            f"{DIR_APP}",
-        ],
-        # ["isort", "-c", f"{DIR_APP}"],
+        # [
+        #     "pylint",
+        #     f"--rcfile={DIR_LINT / '.pylintrc'}",
+        #     f"{DIR_APP}",
+        # ],
+        ["isort", "-c", f"{DIR_APP}"],
         # [
         #     "flake8",
         #     "--config",

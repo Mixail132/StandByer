@@ -4,6 +4,7 @@ The project main entities.
 
 from dataclasses import dataclass
 from pathlib import Path
+
 from app.dirs import DIR_IMG
 
 

@@ -5,17 +5,16 @@ The project main logic.
 
 import tkinter as tk
 from tkinter import ttk
+
 import schedule
 
-from app.actions import set_random_states, set_real_state
-from app.actions import set_state_mark, set_clock_mark
-from app.actions import check_devices_states
-from app.tooltips import ToolTip, set_info_tooltip, set_timing_tooltip
-from app.configs import Device
-from app.configs import initial_devices, program_mode, program_headers
+from app.actions import check_devices_states, set_clock_mark
+from app.actions import set_random_states, set_real_state, set_state_mark
+from app.configs import Device, initial_devices, program_headers, program_mode
+from app.dirs import DIR_IMG
 from app.settings import create_settings_window
 from app.timings import create_timings_window
-from app.dirs import DIR_IMG
+from app.tooltips import ToolTip, set_info_tooltip, set_timing_tooltip
 
 main = tk.Tk()
 main.title("Device switcher")
