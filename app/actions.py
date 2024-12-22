@@ -1,6 +1,12 @@
-import requests
-from requests.exceptions import ConnectTimeout, ConnectionError
+"""
+This module provides actions to check the devices' states,
+set the devices states and set their state marks.
+"""
+
 import random
+import requests
+from requests.exceptions import ConnectTimeout
+from requests.exceptions import ConnectionError as RequestConnectionError
 
 from app.entities import Device
 from app.payloads import get_payload
@@ -24,7 +30,7 @@ def check_devices_states(devices: list[Device]) -> list[Device]:
                 data = response.json()
                 device.state = data["payload"]["action"]["values"][0]["data"]['intValue']
 
-        except (ConnectTimeout, ConnectionError):
+        except (ConnectTimeout, RequestConnectionError):
             device.state = -1
 
         states.append(device)
@@ -51,7 +57,7 @@ def set_real_state(
     command_result: str = "Unreached"
     try:
         response = requests.post(url, headers=headers, json=payload, timeout=2)
-    except (ConnectTimeout, ConnectionError):
+    except (ConnectTimeout, RequestConnectionError):
         return command_result
 
     if response.ok:
