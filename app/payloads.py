@@ -7,7 +7,9 @@ def get_payload(
         standby_mode: bool | None = None,
         action: str = "READ",
 ) -> dict:
-
+    """
+    Create a payload for HTTP request to the device.
+    """
     client_id: str = "x8-panel"
     endpoint: str = "/Device/Audio/Presets/Live/Generals/Standby/Value"
     values: list = [{"id": endpoint, "single": True}]

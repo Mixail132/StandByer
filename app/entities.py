@@ -9,6 +9,9 @@ from pathlib import Path
 
 @dataclass
 class Device:
+    """
+    The device's configurations.
+    """
     on: str
     off: str
     timing: bool = False
@@ -28,6 +31,9 @@ class Device:
 
 @dataclass
 class Description:
+    """
+    The program description labels.
+    """
     auto: str
     command: str
     description: str
@@ -46,6 +52,9 @@ class Description:
 
 @dataclass
 class Mode:
+    """
+    The program running modes.
+    """
     debug: bool
     delay: int
     survey: int
@@ -53,6 +62,9 @@ class Mode:
 
 @dataclass
 class Mistakes:
+    """
+    The program error messages.
+    """
     ip_bad: str
     time_off: str
     time_small: str
